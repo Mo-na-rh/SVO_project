@@ -60,6 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\PlaneObject.cs" />
     <Compile Include="Classes\PlaneParkingsBlock.cs" />
     <Compile Include="Classes\PlaneParkingObject.cs" />
     <Compile Include="Classes\ScheduleRowObject.cs" />

@@ -39,7 +39,11 @@ namespace DegreePrjWinForm
 
         private void checkButton_Click(object sender, EventArgs e)
         {
-            var pathresfile = @"D:\chetv_va\ВУЗ\Диплом 2021\Данные для работы\Results.txt";
+            var pathResFile = @"D:\chetv_va\ВУЗ\Диплом 2021\Данные для работы\Results.txt";
+
+            var scheduleRowObjects = new List<ScheduleRowObject>();
+            var planeParkingObjects = new List<PlaneParkingObject>();
+            var planeObjects = new List<PlaneObject>();
 
             // If you use EPPlus in a noncommercial context
             // according to the Polyform Noncommercial license:
@@ -49,31 +53,63 @@ namespace DegreePrjWinForm
             using (var package = new ExcelPackage(fi))
             {
                 var workbook = package.Workbook;
-                var worksheet = workbook.Worksheets.First();
-                var scheduleRowObjects = worksheet.Tables.First().ConvertTableToObjects<ScheduleRowObject>().ToList();
-                foreach (var data in scheduleRowObjects)
-                {
-                    Console.WriteLine(data.FlightDate + ":" + data.AirCompanyName + ":" + data.ParkingSector);
-                }
-
+                var worksheet = workbook.Worksheets["Schedule"];
+                scheduleRowObjects = worksheet.Tables.First().ConvertTableToObjects<ScheduleRowObject>().ToList();
                 package.Save();
-
-                var fi1 = new FileInfo(pathresfile);
-                using (TextWriter tw = new StreamWriter(fi1.Open(FileMode.Truncate)))
-                {
-                    var i = 0;
-                    foreach (var row in scheduleRowObjects)
-                    {
-                        tw.WriteLine(
-                            $"num: {i} / FlightDate: {row.FlightDate} / FlightScheduleTime: {row.FlightScheduleTime} / CodeAirCompany: {row.CodeAirCompany} / FlightNumber: {row.FlightNumber} / Type: {row.Type} / TypePlane: {row.TypePlane} / ParkingPlane: {row.ParkingPlane} / ParkingSector: {row.ParkingSector} / AirCompanyName: {row.AirCompanyName}");
-                        i++;
-                    }
-                }
-
-                package.Save();
-
-                MessageBox.Show("File succesfully written!");
+              
             }
+
+            using (var package = new ExcelPackage(fi))
+            {
+                var workbook = package.Workbook;
+                var worksheet = workbook.Worksheets["PlaneParkings"];
+                planeParkingObjects = worksheet.Tables.First().ConvertTablePPToObjects<PlaneParkingObject>().ToList();
+                package.Save();
+            }
+
+            using (var package = new ExcelPackage(fi))
+            {
+                var workbook = package.Workbook;
+                var worksheet = workbook.Worksheets["Planes"];
+                planeObjects = worksheet.Tables.First().ConvertTablePToObjects<PlaneObject>().ToList();
+                package.Save();
+            }
+
+            var fi1 = new FileInfo(pathResFile);
+            using (TextWriter tw = new StreamWriter(fi1.Open(FileMode.Truncate)))
+            {
+                tw.WriteLine(" Flights");
+                tw.WriteLine(" ============================================================================================");
+                var i = 0;
+                foreach (var row in scheduleRowObjects)
+                {
+                    tw.WriteLine(
+                        $"num: {i} / FlightDate: {DateTime.Parse(row.FlightDate).Date} / FlightScheduleTime: {DateTime.Parse(row.FlightScheduleTime).ToString("hh:mm")} / CodeAirCompany: {row.CodeAirCompany} / FlightNumber: {row.FlightNumber} / Type: {row.Type} / TypePlane: {row.TypePlane} / ParkingPlane: {row.ParkingPlane} / ParkingSector: {row.ParkingSector} / AirCompanyName: {row.AirCompanyName}");
+                    i++;
+                }
+                tw.WriteLine(" ============================================================================================");
+                tw.WriteLine(" Plane parkings");
+                tw.WriteLine(" ============================================================================================");
+                foreach (var row in planeParkingObjects)
+                {
+                    tw.WriteLine($"num: {row.Id} / Number: {row.Number} ");
+                }
+
+                tw.WriteLine(" ============================================================================================");
+                tw.WriteLine(" Planes");
+                tw.WriteLine(" ============================================================================================");
+                foreach (var row in planeObjects)
+                {
+                    tw.WriteLine($"num: {row.Id} / IATA: {row.IATA} / ICAO: {row.ICAO} / Rus: {row.RUS} / Name: {row.Name} ");
+                }
+            }
+
+            MessageBox.Show("Files succesfully written!");
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
 
 

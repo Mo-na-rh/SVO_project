@@ -38,7 +38,7 @@ namespace DegreePrjWinForm.Classes
 
 
         /// <summary>
-        /// Тип ВС.
+        /// Тип ВС IATA.
         /// </summary>
         public string TypePlane { get; set; }
 
