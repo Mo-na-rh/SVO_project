@@ -14,6 +14,11 @@ namespace DegreePrjWinForm.Classes
         public int Id { get; set; }
 
         /// <summary>
+        /// Заполнен ли блок.
+        /// </summary>
+        public bool IsFilled { get; set; }
+
+        /// <summary>
         /// Места стоянки входящие в блок.
         /// </summary>
         public List<PlaneParkingObject> PlaneParkings { get; set; }

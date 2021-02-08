@@ -43,7 +43,8 @@ namespace DegreePrjWinForm
 
             var scheduleRowObjects = new List<ScheduleRowObject>();
             var planeParkingObjects = new List<PlaneParkingObject>();
-            var planeObjects = new List<PlaneObject>();
+            var aircraftObjects = new List<PlaneObject>();
+            var planeParkingsBlocksObjects = new List<PlaneParkingsBlock>();
 
             // If you use EPPlus in a noncommercial context
             // according to the Polyform Noncommercial license:
@@ -67,11 +68,18 @@ namespace DegreePrjWinForm
                 package.Save();
             }
 
+            // Заполняются блоки по 3 парковочных места в одном
+            FillParkingBlocks(planeParkingsBlocksObjects, planeParkingObjects);
+
+            CheckParkingBlocks(planeParkingsBlocksObjects, scheduleRowObjects);
+
+            var pb = planeParkingsBlocksObjects.Where(t => !t.IsFilled);
+
             using (var package = new ExcelPackage(fi))
             {
                 var workbook = package.Workbook;
                 var worksheet = workbook.Worksheets["Planes"];
-                planeObjects = worksheet.Tables.First().ConvertTablePToObjects<PlaneObject>().ToList();
+                aircraftObjects = worksheet.Tables.First().ConvertTablePToObjects<PlaneObject>().ToList();
                 package.Save();
             }
 
@@ -80,11 +88,11 @@ namespace DegreePrjWinForm
             {
                 tw.WriteLine(" Flights");
                 tw.WriteLine(" ============================================================================================");
-                var i = 0;
+               var i = 0;
                 foreach (var row in scheduleRowObjects)
                 {
                     tw.WriteLine(
-                        $"num: {i} / FlightDate: {DateTime.Parse(row.FlightDate).Date} / FlightScheduleTime: {DateTime.Parse(row.FlightScheduleTime).ToString("hh:mm")} / CodeAirCompany: {row.CodeAirCompany} / FlightNumber: {row.FlightNumber} / Type: {row.Type} / TypePlane: {row.TypePlane} / ParkingPlane: {row.ParkingPlane} / ParkingSector: {row.ParkingSector} / AirCompanyName: {row.AirCompanyName}");
+                        $"num: {i} / FlightDate: {DateTime.Parse(row.FlightDate).ToShortDateString()} / FlightScheduleTime: {DateTime.Parse(row.FlightScheduleTime).ToShortTimeString()} / CodeAirCompany: {row.CodeAirCompany} / FlightNumber: {row.FlightNumber} / Type: {row.Type} / TypePlane: {row.TypePlane} / ParkingPlane: {row.ParkingPlane} / ParkingSector: {row.ParkingSector} / AirCompanyName: {row.AirCompanyName}");
                     i++;
                 }
                 tw.WriteLine(" ============================================================================================");
@@ -98,13 +106,40 @@ namespace DegreePrjWinForm
                 tw.WriteLine(" ============================================================================================");
                 tw.WriteLine(" Planes");
                 tw.WriteLine(" ============================================================================================");
-                foreach (var row in planeObjects)
+                foreach (var row in aircraftObjects)
                 {
                     tw.WriteLine($"num: {row.Id} / IATA: {row.IATA} / ICAO: {row.ICAO} / Rus: {row.RUS} / Name: {row.Name} ");
+                }
+
+                tw.WriteLine(" ============================================================================================");
+                tw.WriteLine(" Empty parkings");
+                tw.WriteLine(" ============================================================================================");
+                foreach (var row in pb)
+                {
+                    tw.WriteLine($"id block: {row.Id}");
+                    foreach (var parking in row.PlaneParkings)
+                    {
+                        tw.WriteLine($" num: {parking.Id} / Number: {parking.Number} ");
+                    }
                 }
             }
 
             MessageBox.Show("Files succesfully written!");
+        }
+
+        private void CheckParkingBlocks(List<PlaneParkingsBlock> planeParkingsBlocksObjects, List<ScheduleRowObject> scheduleRowObjects)
+        {
+            foreach (var ppb in planeParkingsBlocksObjects)
+            {
+                foreach (var row in scheduleRowObjects)
+                {
+                    if (ppb.PlaneParkings.FirstOrDefault(t => t.Number == row.ParkingPlane) != null)
+                    {
+                        ppb.IsFilled = true;
+                        break;
+                    }
+                }
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -112,14 +147,32 @@ namespace DegreePrjWinForm
             this.Close();
         }
 
+        private void FillParkingBlocks(List<PlaneParkingsBlock> planeParkingsBlocksObjects, List<PlaneParkingObject> planeParkingObjects)
+        {
+            var i = 1;
+            var block = new PlaneParkingsBlock();
+            block.Id = i;
+            block.PlaneParkings = new List<PlaneParkingObject>();
+            planeParkingsBlocksObjects.Add(block);
+            foreach (var parkingObject in planeParkingObjects)
+            {
+                if (i % 3 != 0)
+                {
+                    block.PlaneParkings.Add(parkingObject);
+                }
+                else
+                {
+                    block = new PlaneParkingsBlock();
+                    block.PlaneParkings = new List<PlaneParkingObject>();
+                    block.Id = i;
+                    block.PlaneParkings.Add(parkingObject);
+                    planeParkingsBlocksObjects.Add(block);
+                }
 
-        //    using (TextWriter tw = new StreamWriter(pathfile))
-        //    {
-        //        foreach (var item in Data.List)
-        //        {
-        //            tw.WriteLine(string.Format("Item: {0} - Cost: {1}", item.Name, item.Cost.ToString()));
-        //        }
-        //    }
-        //}
+                i++;
+            }
+        }
     }
+
+    
 }
