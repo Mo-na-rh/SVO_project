@@ -1,6 +1,6 @@
 ﻿namespace DegreePrjWinForm.Classes
 {
-    public class PlaneObject
+    public class AircraftObject
     {
         /// <summary>
         /// Идентификатор объекта.

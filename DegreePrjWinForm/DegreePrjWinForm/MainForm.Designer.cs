@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.buttonSelectShedule = new System.Windows.Forms.Button();
-            this.textBoxPath = new System.Windows.Forms.TextBox();
+            this.textBoxWorkPath = new System.Windows.Forms.TextBox();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.checkButton = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
@@ -46,13 +46,13 @@
             this.buttonSelectShedule.UseVisualStyleBackColor = true;
             this.buttonSelectShedule.Click += new System.EventHandler(this.buttonSelectShedule_Click);
             // 
-            // textBoxPath
+            // textBoxWorkPath
             // 
-            this.textBoxPath.Location = new System.Drawing.Point(23, 22);
-            this.textBoxPath.Name = "textBoxPath";
-            this.textBoxPath.Size = new System.Drawing.Size(440, 20);
-            this.textBoxPath.TabIndex = 1;
-            this.textBoxPath.Text = "D:\\chetv_va\\ВУЗ\\Диплом 2021\\Данные для работы\\work.xlsx";
+            this.textBoxWorkPath.Location = new System.Drawing.Point(23, 22);
+            this.textBoxWorkPath.Name = "textBoxWorkPath";
+            this.textBoxWorkPath.Size = new System.Drawing.Size(440, 20);
+            this.textBoxWorkPath.TabIndex = 1;
+            this.textBoxWorkPath.Text = "D:\\chetv_va\\ВУЗ\\Диплом 2021\\Данные для работы\\work.xlsx";
             // 
             // openFileDialog
             // 
@@ -94,7 +94,7 @@
             this.Controls.Add(this.textBoxResFilePath);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.checkButton);
-            this.Controls.Add(this.textBoxPath);
+            this.Controls.Add(this.textBoxWorkPath);
             this.Controls.Add(this.buttonSelectShedule);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -107,7 +107,7 @@
         #endregion
 
         private System.Windows.Forms.Button buttonSelectShedule;
-        private System.Windows.Forms.TextBox textBoxPath;
+        private System.Windows.Forms.TextBox textBoxWorkPath;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.Button checkButton;
         private System.Windows.Forms.Button button1;
