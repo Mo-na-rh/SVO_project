@@ -64,15 +64,15 @@
             this.checkButton.Name = "checkButton";
             this.checkButton.Size = new System.Drawing.Size(75, 23);
             this.checkButton.TabIndex = 2;
-            this.checkButton.Text = "check";
+            this.checkButton.Text = "Compute";
             this.checkButton.UseVisualStyleBackColor = true;
             this.checkButton.Click += new System.EventHandler(this.checkButton_Click);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(240, 217);
+            this.button1.Location = new System.Drawing.Point(407, 127);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(56, 50);
+            this.button1.Size = new System.Drawing.Size(56, 27);
             this.button1.TabIndex = 3;
             this.button1.Text = "Exit";
             this.button1.UseVisualStyleBackColor = true;
@@ -90,7 +90,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(484, 450);
+            this.ClientSize = new System.Drawing.Size(484, 170);
             this.Controls.Add(this.textBoxResFilePath);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.checkButton);

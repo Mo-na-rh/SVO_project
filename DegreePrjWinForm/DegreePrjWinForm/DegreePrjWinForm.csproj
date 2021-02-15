@@ -98,7 +98,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="SWR-CodeSign-2021-2022.pfx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
