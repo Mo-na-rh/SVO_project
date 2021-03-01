@@ -52,7 +52,7 @@
             this.textBoxWorkPath.Name = "textBoxWorkPath";
             this.textBoxWorkPath.Size = new System.Drawing.Size(440, 20);
             this.textBoxWorkPath.TabIndex = 1;
-            this.textBoxWorkPath.Text = "D:\\chetv_va\\ВУЗ\\Диплом 2021\\Данные для работы\\work.xlsx";
+            this.textBoxWorkPath.Text = "D:\\chetv_va\\Диплом 2021\\Данные для работы\\work.xlsx";
             // 
             // openFileDialog
             // 
@@ -66,7 +66,7 @@
             this.checkButton.TabIndex = 2;
             this.checkButton.Text = "check";
             this.checkButton.UseVisualStyleBackColor = true;
-            this.checkButton.Click += new System.EventHandler(this.checkButton_Click);
+            this.checkButton.Click += new System.EventHandler(this.ComputeButton_Click);
             // 
             // button1
             // 
@@ -84,7 +84,7 @@
             this.textBoxResFilePath.Name = "textBoxResFilePath";
             this.textBoxResFilePath.Size = new System.Drawing.Size(440, 20);
             this.textBoxResFilePath.TabIndex = 4;
-            this.textBoxResFilePath.Text = "D:\\chetv_va\\ВУЗ\\Диплом 2021\\Данные для работы\\Results.txt";
+            this.textBoxResFilePath.Text = "D:\\chetv_va\\Диплом 2021\\Данные для работы\\Results.txt";
             // 
             // MainForm
             // 

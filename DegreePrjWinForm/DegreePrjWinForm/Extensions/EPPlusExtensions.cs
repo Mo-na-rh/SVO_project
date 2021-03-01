@@ -114,7 +114,7 @@ namespace DegreePrjWinForm.Extensions
             foreach (var row in rowvalues)
             {
                 var resRow = new PlaneParkingObject();
-
+               
                 foreach (var colName in colnames)
                 {
                     var prop = tprops.First(p => p.Name == colName.Name);

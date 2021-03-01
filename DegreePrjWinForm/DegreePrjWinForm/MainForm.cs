@@ -4,12 +4,14 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 using DegreePrjWinForm.Classes;
 using DegreePrjWinForm.Extensions;
 using OfficeOpenXml;
@@ -40,7 +42,7 @@ namespace DegreePrjWinForm
             }
         }
 
-        private void checkButton_Click(object sender, EventArgs e)
+        private void ComputeButton_Click(object sender, EventArgs e)
         {
             var pathResFile = textBoxResFilePath.Text; //@"D:\chetv_va\ВУЗ\Диплом 2021\Данные для работы\Results.txt";
 
@@ -71,6 +73,8 @@ namespace DegreePrjWinForm
                 package.Save();
             }
 
+            FillCoordinates(); // _planeParkingObjects input parameter
+
             // Заполняются блоки по 3 парковочных места в одном
             FillParkingBlocks(planeParkingsBlocksObjects, _planeParkingObjects);
 
@@ -89,6 +93,40 @@ namespace DegreePrjWinForm
             WriteToTxtFile(pathResFile, parkingBlocks);
 
             MessageBox.Show("Files succesfully written!");
+        }
+
+        private void FillCoordinates()
+        {
+            var pathToFile = @"D:\chetv_va\Диплом 2021\Данные для работы\Xml\";
+                foreach (var o in _planeParkingObjects)
+                {
+                    o.Coordinates = new List<CoordinateObject>();
+                    var path = pathToFile + o.Number + ".xml";
+                    try
+                    {
+                        XDocument xdoc = XDocument.Load(path);
+                        XElement geozoneType = xdoc.Element("geozoneType");
+
+                        XElement geometry = geozoneType.Elements("geometry").FirstOrDefault();
+                        foreach (XElement phoneElement in geometry.Elements("point"))
+                        {
+                            XAttribute nameX = phoneElement.Attribute("x");
+                            XAttribute nameY = phoneElement.Attribute("y");
+                            if (nameX != null && nameY != null)
+                            {
+                                var coordObj = new CoordinateObject();
+                                var englishCulture = CultureInfo.GetCultureInfo("en-US");
+                                coordObj.X = double.Parse(nameX.Value, englishCulture);
+                                coordObj.Y = double.Parse(nameY.Value, englishCulture);
+                                o.Coordinates.Add(coordObj);
+                            }
+                        }
+                    }
+                    catch (FileNotFoundException ex)
+                    {
+                        MessageBox.Show("Файл не найден!" + ex.Message);
+                    }
+                }
         }
 
         private void WriteToTxtFile(string pathResFile, IEnumerable<PlaneParkingsBlock> parkingBlocks)
@@ -110,7 +148,7 @@ namespace DegreePrjWinForm
                 tw.WriteLine(" ============================================================================================");
                 foreach (var row in _planeParkingObjects)
                 {
-                    tw.WriteLine($"num: {row.Id} / Number: {row.Number} ");
+                    tw.WriteLine($"num: {row.Id} / Number: {row.Number} / MiddleX: {row.MiddleX()} / MiddleY: {row.MiddleY()}");
                 }
 
                 tw.WriteLine(" ============================================================================================");
