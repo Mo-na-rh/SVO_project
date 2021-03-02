@@ -223,6 +223,4 @@ namespace DegreePrjWinForm
             }
         }
     }
-
-    
 }
