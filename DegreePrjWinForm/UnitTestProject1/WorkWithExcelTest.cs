@@ -8,7 +8,6 @@ using DegreePrjWinForm.Classes;
 using DegreePrjWinForm.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
-using OfficeOpenXml.Table;
 
 namespace UnitTestProject1
 {
