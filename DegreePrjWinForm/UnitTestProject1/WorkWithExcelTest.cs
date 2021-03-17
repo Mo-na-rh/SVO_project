@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Xml.Linq;
 using DegreePrjWinForm.Classes;
 using DegreePrjWinForm.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
-using OfficeOpenXml.Table;
 
 namespace UnitTestProject1
 {
@@ -34,6 +35,39 @@ namespace UnitTestProject1
                 }
 
                 package.Save();
+            }
+        }
+
+        [TestMethod]
+        public void ReadXml()
+        {
+            var _planeParkingObjects = new List<AircraftParkingObject>();
+            var pp = new AircraftParkingObject {Id = "1", Number = "1A"};
+            _planeParkingObjects.Add(pp);
+
+            var pathToFile = @"D:\chetv_va\Диплом 2021\Данные для работы\Xml\";
+            foreach (var o in _planeParkingObjects)
+            {
+                o.Coordinates = new List<CoordinateObject>();
+                var path = pathToFile + o.Number + ".xml";
+                XDocument xdoc = XDocument.Load(path);
+
+                XElement geozoneType = xdoc.Element("geozoneType");
+
+                XElement geometry = geozoneType.Elements("geometry").FirstOrDefault();
+                foreach (XElement phoneElement in geometry.Elements("point"))
+                {
+                    XAttribute nameX = phoneElement.Attribute("x");
+                    XAttribute nameY = phoneElement.Attribute("y");
+                    if (nameX != null && nameY != null)
+                    {
+                        var coordObj = new CoordinateObject();
+                        var englishCulture = CultureInfo.GetCultureInfo("en-US");
+                        coordObj.X = double.Parse(nameX.Value, englishCulture);
+                        coordObj.Y = double.Parse(nameY.Value, englishCulture);
+                        o.Coordinates.Add(coordObj);
+                    }
+                }
             }
         }
 

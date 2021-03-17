@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DegreePrjWinForm.Classes;
 using OfficeOpenXml;
 using OfficeOpenXml.Table;
 
@@ -114,7 +111,7 @@ namespace DegreePrjWinForm.Extensions
             foreach (var row in rowvalues)
             {
                 var resRow = new PlaneParkingObject();
-
+               
                 foreach (var colName in colnames)
                 {
                     var prop = tprops.First(p => p.Name == colName.Name);

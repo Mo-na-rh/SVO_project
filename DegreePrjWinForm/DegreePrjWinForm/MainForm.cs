@@ -4,32 +4,42 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 using DegreePrjWinForm.Classes;
 using DegreePrjWinForm.Extensions;
+using DegreePrjWinForm.Managers;
+using NLog;
 using OfficeOpenXml;
 
 namespace DegreePrjWinForm
 {
     public partial class MainForm : Form
     {
-        private List<ScheduleRowObject> _scheduleRowObjects;
-        private List<PlaneParkingObject> _planeParkingObjects;
-        private List<AircraftObject> _aircraftObjects;
+        private ExistingObjectManager _objectManager;
+
+        /// <summary>
+        /// Логгер.
+        /// </summary>
+        internal readonly ILogger _logger;
 
         public MainForm()
         {
             InitializeComponent();
 
+            _objectManager = new ExistingObjectManager();
             // initialize OpenFileDialog
             openFileDialog.FileName = "Select a shedule Excel file";
             openFileDialog.Filter = "Excel files (*.xlsx)|*.xlsx";
             openFileDialog.Title = "Open Excel file";
+
+            _logger = LogManager.GetCurrentClassLogger();
         }
 
         private void buttonSelectShedule_Click(object sender, EventArgs e)
@@ -40,151 +50,93 @@ namespace DegreePrjWinForm
             }
         }
 
-        private void checkButton_Click(object sender, EventArgs e)
+        private void ComputeButton_Click(object sender, EventArgs e)
         {
-            var pathResFile = textBoxResFilePath.Text; //@"D:\chetv_va\ВУЗ\Диплом 2021\Данные для работы\Results.txt";
+            var pathResFile = textBoxResFilePath.Text; 
+            var workFilePath = textBoxWorkPath.Text;
 
-            _scheduleRowObjects = new List<ScheduleRowObject>();
-            _planeParkingObjects = new List<PlaneParkingObject>();
-            _aircraftObjects = new List<AircraftObject>();
-            var planeParkingsBlocksObjects = new List<PlaneParkingsBlock>();
+            ExcelService.LoadData(workFilePath,_objectManager);
 
-            // If you use EPPlus in a noncommercial context
-            // according to the Polyform Noncommercial license:
-            ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
-
-            var fi = new FileInfo(textBoxWorkPath.Text); //@"D:\chetv_va\ВУЗ\Диплом 2021\Данные для работы\work.xlsx"
-            using (var package = new ExcelPackage(fi))
-            {
-                var workbook = package.Workbook;
-                var worksheet = workbook.Worksheets["Schedule"];
-                _scheduleRowObjects = worksheet.Tables.First().ConvertTableToObjects<ScheduleRowObject>().ToList();
-                package.Save();
-              
-            }
-
-            using (var package = new ExcelPackage(fi))
-            {
-                var workbook = package.Workbook;
-                var worksheet = workbook.Worksheets["PlaneParkings"];
-                _planeParkingObjects = worksheet.Tables.First().ConvertTablePPToObjects<PlaneParkingObject>().ToList();
-                package.Save();
-            }
+            var pathToFile = @"D:\chetv_va\Диплом 2021\Данные для работы\Xml\";
+            FillCoordinates(pathToFile);
 
             // Заполняются блоки по 3 парковочных места в одном
-            FillParkingBlocks(planeParkingsBlocksObjects, _planeParkingObjects);
+            FillParkingBlocks(_objectManager);
 
-            CheckParkingBlocks(planeParkingsBlocksObjects, _scheduleRowObjects);
+            ProcessingService.LinkRowObjectsToParkings(_objectManager);
+            ProcessingService.CheckParkingBlocks(_objectManager);
 
-            var parkingBlocks = planeParkingsBlocksObjects.Where(t => !t.IsFilled);
+            ReportService.WriteTestReport(pathResFile, _objectManager);
 
-            using (var package = new ExcelPackage(fi))
-            {
-                var workbook = package.Workbook;
-                var worksheet = workbook.Worksheets["Planes"];
-                _aircraftObjects = worksheet.Tables.First().ConvertTablePToObjects<AircraftObject>().ToList();
-                package.Save();
-            }
-
-            WriteToTxtFile(pathResFile, parkingBlocks);
-
-            MessageBox.Show("Files succesfully written!");
+            MessageBox.Show("Report succesfully written!");
         }
 
-        private void WriteToTxtFile(string pathResFile, IEnumerable<PlaneParkingsBlock> parkingBlocks)
+        private void FillCoordinates(string pathToFile)
         {
-            var fi1 = new FileInfo(pathResFile);
-            using (TextWriter tw = new StreamWriter(fi1.Open(FileMode.Truncate)))
-            {
-                tw.WriteLine(" Flights");
-                tw.WriteLine(" ============================================================================================");
-                var i = 0;
-                foreach (var row in _scheduleRowObjects)
+            
+                foreach (var o in _objectManager.ParkingObjects)
                 {
-                    tw.WriteLine(
-                        $"num: {i} / FlightDate: {DateTime.Parse(row.FlightDate).ToShortDateString()} / FlightScheduleTime: {DateTime.Parse(row.FlightScheduleTime).ToShortTimeString()} / CodeAirCompany: {row.CodeAirCompany} / FlightNumber: {row.FlightNumber} / Type: {row.Type} / TypePlane: {row.TypePlane} / ParkingPlane: {row.ParkingPlane} / ParkingSector: {row.ParkingSector} / AirCompanyName: {row.AirCompanyName}");
-                    i++;
-                }
-                tw.WriteLine(" ============================================================================================");
-                tw.WriteLine(" Plane parkings");
-                tw.WriteLine(" ============================================================================================");
-                foreach (var row in _planeParkingObjects)
-                {
-                    tw.WriteLine($"num: {row.Id} / Number: {row.Number} ");
-                }
-
-                tw.WriteLine(" ============================================================================================");
-                tw.WriteLine(" Planes");
-                tw.WriteLine(" ============================================================================================");
-                foreach (var row in _aircraftObjects)
-                {
-                    tw.WriteLine($"num: {row.Id} / IATA: {row.IATA} / ICAO: {row.ICAO} / Rus: {row.RUS} / Name: {row.Name} ");
-                }
-
-                tw.WriteLine(" ============================================================================================");
-                tw.WriteLine(" Empty parkings");
-                tw.WriteLine(" ============================================================================================");
-                foreach (var row in parkingBlocks)
-                {
-                    tw.WriteLine($"id block: {row.Id}");
-                    foreach (var parking in row.PlaneParkings)
+                    var path = pathToFile + o.Number + ".xml";
+                    try
                     {
-                        tw.WriteLine($" num: {parking.Id} / Number: {parking.Number} ");
+                        XDocument xdoc = XDocument.Load(path);
+                        XElement geozoneType = xdoc.Element("geozoneType");
+
+                        XElement geometry = geozoneType.Elements("geometry").FirstOrDefault();
+                        foreach (XElement phoneElement in geometry.Elements("point"))
+                        {
+                            XAttribute nameX = phoneElement.Attribute("x");
+                            XAttribute nameY = phoneElement.Attribute("y");
+                            if (nameX != null && nameY != null)
+                            {
+                                var coordObj = new CoordinateObject();
+                                var englishCulture = CultureInfo.GetCultureInfo("en-US");
+                                coordObj.X = double.Parse(nameX.Value, englishCulture);
+                                coordObj.Y = double.Parse(nameY.Value, englishCulture);
+                                o.Coordinates.Add(coordObj);
+                            }
+                        }
+                    }
+                    catch (FileNotFoundException ex)
+                    {
+                        _logger.Trace("Файл не найден!" + ex.Message);
                     }
                 }
-            }
         }
 
 
 
-        private void CheckParkingBlocks(List<PlaneParkingsBlock> planeParkingsBlocksObjects, List<ScheduleRowObject> scheduleRowObjects)
-        {
-            foreach (var ppb in planeParkingsBlocksObjects)
-            {
-                foreach (var row in scheduleRowObjects)
-                {
-                    if (ppb.PlaneParkings.FirstOrDefault(t => t.Number == row.ParkingPlane) != null)
-                    {
-                        ppb.IsFilled = true;
-                        break;
-                    }
-                }
-            }
-        }
-
-
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        private void FillParkingBlocks(List<PlaneParkingsBlock> planeParkingsBlocksObjects, List<PlaneParkingObject> planeParkingObjects)
+        private void FillParkingBlocks(ExistingObjectManager objMgr)
         {
             var i = 1;
-            var block = new PlaneParkingsBlock();
+            var block = new AircraftParkingsBlock();
             block.Id = i;
-            block.PlaneParkings = new List<PlaneParkingObject>();
-            planeParkingsBlocksObjects.Add(block);
-            foreach (var parkingObject in planeParkingObjects)
+            block.AircraftParkings = new List<AircraftParkingObject>();
+            objMgr.ParkingBlocks.Add(block);
+            foreach (var parkingObject in objMgr.ParkingObjects)
             {
                 if (i % 3 != 0)
                 {
-                    block.PlaneParkings.Add(parkingObject);
+                    block.AircraftParkings.Add(parkingObject);
                 }
                 else
                 {
-                    block = new PlaneParkingsBlock();
-                    block.PlaneParkings = new List<PlaneParkingObject>();
-                    block.Id = i;
-                    block.PlaneParkings.Add(parkingObject);
-                    planeParkingsBlocksObjects.Add(block);
+                    block = new AircraftParkingsBlock { AircraftParkings = new List<AircraftParkingObject>(), Id = i };
+                    block.AircraftParkings.Add(parkingObject);
+                    objMgr.ParkingBlocks.Add(block);
                 }
 
                 i++;
             }
         }
-    }
 
-    
+        #region Form Events
+
+        private void buttonExit_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        #endregion
+    }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DegreePrjWinForm.Classes
 {
-    public class PlaneParkingsBlock
+    public class AircraftParkingsBlock
     {
         /// <summary>
         /// Идентификатор объекта.
@@ -21,7 +21,7 @@ namespace DegreePrjWinForm.Classes
         /// <summary>
         /// Места стоянки входящие в блок.
         /// </summary>
-        public List<PlaneParkingObject> PlaneParkings { get; set; }
+        public List<AircraftParkingObject> AircraftParkings { get; set; }
 
     }
 }
