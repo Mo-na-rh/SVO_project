@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<geozoneType id="2385" ver="2">
+    <uuid>815741b8-1a0e-4c74-92a2-de05b12a731a</uuid>
+    <name>164 B</name>
+    <type>Polygon</type>
+    <color>#fefc70</color>
+    <transparency>50</transparency>
+    <allowed-speed>15.0</allowed-speed>
+    <use-as-address>false</use-as-address>
+    <enable-speed-monitoring>false</enable-speed-monitoring>
+    <status>1</status>
+    <geozone-root-id>1</geozone-root-id>
+    <geometry type="1">
+        <point x="37.402825" y="55.977214"/>
+        <point x="37.402675" y="55.977589"/>
+        <point x="37.403641" y="55.97773"/>
+        <point x="37.403802" y="55.977355"/>
+        <point x="37.402825" y="55.977214"/>
+    </geometry>
+</geozoneType>

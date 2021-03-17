@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<geozoneType id="2363" ver="2">
+    <uuid>4e355256-07a9-45f3-a342-fb32cba40935</uuid>
+    <name>85 L</name>
+    <type>Polygon</type>
+    <color>#005824</color>
+    <transparency>50</transparency>
+    <allowed-speed>60.0</allowed-speed>
+    <use-as-address>false</use-as-address>
+    <enable-speed-monitoring>false</enable-speed-monitoring>
+    <status>1</status>
+    <geozone-root-id>1</geozone-root-id>
+    <geometry type="1">
+        <point x="37.443647" y="55.981718"/>
+        <point x="37.44373" y="55.981785"/>
+        <point x="37.443814" y="55.981765"/>
+        <point x="37.443909" y="55.981978"/>
+        <point x="37.443504" y="55.982035"/>
+        <point x="37.443385" y="55.981931"/>
+        <point x="37.443337" y="55.981768"/>
+        <point x="37.443647" y="55.981718"/>
+    </geometry>
+</geozoneType>

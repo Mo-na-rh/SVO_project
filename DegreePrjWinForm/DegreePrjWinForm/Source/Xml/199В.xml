@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<geozoneType id="2326" ver="2">
+    <uuid>5b1db756-4796-4b57-ac12-825aa63d150c</uuid>
+    <name>199В</name>
+    <type>Polygon</type>
+    <color>#670071</color>
+    <transparency>50</transparency>
+    <allowed-speed>15.0</allowed-speed>
+    <use-as-address>false</use-as-address>
+    <enable-speed-monitoring>false</enable-speed-monitoring>
+    <status>1</status>
+    <geozone-root-id>1</geozone-root-id>
+    <geometry type="1">
+        <point x="37.389125" y="55.974879"/>
+        <point x="37.389366" y="55.974414"/>
+        <point x="37.390139" y="55.97454"/>
+        <point x="37.389902" y="55.975002"/>
+        <point x="37.389125" y="55.974879"/>
+    </geometry>
+</geozoneType>

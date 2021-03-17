@@ -9,6 +9,10 @@ namespace DegreePrjWinForm.Managers
 {
     public static class ProcessingService
     {
+        /// <summary>
+        /// К местам стоянок привязываются строки расписания
+        /// </summary>
+        /// <param name="objectMgr"></param>
         public static void LinkRowObjectsToParkings(ExistingObjectManager objectMgr)
         {
             foreach (var parkingObject in objectMgr.ParkingObjects)
@@ -24,6 +28,10 @@ namespace DegreePrjWinForm.Managers
 
         }
 
+        /// <summary>
+        /// Проверка если хотябы одно МС не пустует то Блок считать заполненным
+        /// </summary>
+        /// <param name="objectMgr"></param>
         public static void CheckParkingBlocks(ExistingObjectManager objectMgr)
         {
             foreach (var aircraftParkingsBlock in objectMgr.ParkingBlocks)

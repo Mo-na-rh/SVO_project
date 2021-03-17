@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<geozoneType id="2373" ver="2">
+    <uuid>4a56a3ad-4d3f-43b1-8bea-ede80e702a58</uuid>
+    <name>104 F</name>
+    <type>Polygon</type>
+    <color>#ffff61</color>
+    <transparency>15</transparency>
+    <allowed-speed>60.0</allowed-speed>
+    <use-as-address>false</use-as-address>
+    <enable-speed-monitoring>false</enable-speed-monitoring>
+    <status>1</status>
+    <geozone-root-id>1</geozone-root-id>
+    <geometry type="1">
+        <point x="37.423955" y="55.981052"/>
+        <point x="37.4256" y="55.981292"/>
+        <point x="37.425356" y="55.981835"/>
+        <point x="37.425118" y="55.981732"/>
+        <point x="37.424855" y="55.981442"/>
+        <point x="37.423955" y="55.981329"/>
+        <point x="37.423872" y="55.981192"/>
+        <point x="37.423955" y="55.981052"/>
+    </geometry>
+</geozoneType>

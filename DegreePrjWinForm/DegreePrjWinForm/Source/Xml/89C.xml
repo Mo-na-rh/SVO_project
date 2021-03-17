@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<geozoneType id="2245" ver="2">
+    <uuid>6d43ebc4-86c4-416f-8ced-b914fa649bf5</uuid>
+    <name>89C</name>
+    <type>Polygon</type>
+    <color>#005824</color>
+    <transparency>50</transparency>
+    <allowed-speed>15.0</allowed-speed>
+    <use-as-address>false</use-as-address>
+    <enable-speed-monitoring>false</enable-speed-monitoring>
+    <status>1</status>
+    <geozone-root-id>1</geozone-root-id>
+    <geometry type="1">
+        <point x="37.43447" y="55.98117"/>
+        <point x="37.434899" y="55.980705"/>
+        <point x="37.435597" y="55.980807"/>
+        <point x="37.435682" y="55.980921"/>
+        <point x="37.43558" y="55.98111"/>
+        <point x="37.43528" y="55.981287"/>
+        <point x="37.43447" y="55.98117"/>
+    </geometry>
+</geozoneType>

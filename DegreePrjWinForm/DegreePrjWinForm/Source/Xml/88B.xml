@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<geozoneType id="2242" ver="2">
+    <uuid>d20cd386-c1fd-4a2e-a42c-108f5e5ca0d1</uuid>
+    <name>88B</name>
+    <type>Polygon</type>
+    <color>#330058</color>
+    <transparency>50</transparency>
+    <allowed-speed>15.0</allowed-speed>
+    <use-as-address>false</use-as-address>
+    <enable-speed-monitoring>false</enable-speed-monitoring>
+    <status>1</status>
+    <geozone-root-id>1</geozone-root-id>
+    <geometry type="1">
+        <point x="37.435296" y="55.98129"/>
+        <point x="37.435591" y="55.981128"/>
+        <point x="37.435876" y="55.980861"/>
+        <point x="37.436433" y="55.980927"/>
+        <point x="37.436514" y="55.981095"/>
+        <point x="37.436417" y="55.981311"/>
+        <point x="37.436246" y="55.981431"/>
+        <point x="37.435296" y="55.98129"/>
+    </geometry>
+</geozoneType>

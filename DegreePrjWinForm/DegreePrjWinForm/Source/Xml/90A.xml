@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<geozoneType id="2248" ver="2">
+    <uuid>b0b75823-9baa-485c-b7e1-f2f0468afca7</uuid>
+    <name>90A</name>
+    <type>Polygon</type>
+    <color>#005824</color>
+    <transparency>50</transparency>
+    <allowed-speed>15.0</allowed-speed>
+    <use-as-address>false</use-as-address>
+    <enable-speed-monitoring>false</enable-speed-monitoring>
+    <status>1</status>
+    <geozone-root-id>1</geozone-root-id>
+    <geometry type="1">
+        <point x="37.433242" y="55.980969"/>
+        <point x="37.433424" y="55.980738"/>
+        <point x="37.434052" y="55.980544"/>
+        <point x="37.434875" y="55.980691"/>
+        <point x="37.434438" y="55.981155"/>
+        <point x="37.433242" y="55.980969"/>
+    </geometry>
+</geozoneType>

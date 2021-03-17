@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<geozoneType id="2158" ver="2">
+    <uuid>5b194247-d68c-4a57-b255-67c48920cbbe</uuid>
+    <name>22</name>
+    <type>Polygon</type>
+    <color>#fdfea2</color>
+    <transparency>50</transparency>
+    <allowed-speed>15.0</allowed-speed>
+    <use-as-address>false</use-as-address>
+    <enable-speed-monitoring>false</enable-speed-monitoring>
+    <status>1</status>
+    <geozone-root-id>1</geozone-root-id>
+    <geometry type="1">
+        <point x="37.403094" y="55.964949"/>
+        <point x="37.404301" y="55.96509"/>
+        <point x="37.404196" y="55.965279"/>
+        <point x="37.404042" y="55.965356"/>
+        <point x="37.403253" y="55.965239"/>
+        <point x="37.402978" y="55.965201"/>
+        <point x="37.403026" y="55.965088"/>
+        <point x="37.403094" y="55.964949"/>
+    </geometry>
+</geozoneType>

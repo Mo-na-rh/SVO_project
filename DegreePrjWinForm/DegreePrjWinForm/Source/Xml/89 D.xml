@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<geozoneType id="2336" ver="2">
+    <uuid>7480e7c3-2a40-4401-8805-1f8ce9a576c9</uuid>
+    <name>89 D</name>
+    <type>Polygon</type>
+    <color>#005824</color>
+    <transparency>50</transparency>
+    <allowed-speed>60.0</allowed-speed>
+    <use-as-address>false</use-as-address>
+    <enable-speed-monitoring>false</enable-speed-monitoring>
+    <status>1</status>
+    <geozone-root-id>1</geozone-root-id>
+    <geometry type="1">
+        <point x="37.435568" y="55.982116"/>
+        <point x="37.435443" y="55.982009"/>
+        <point x="37.435497" y="55.981892"/>
+        <point x="37.43567" y="55.981832"/>
+        <point x="37.43592" y="55.981862"/>
+        <point x="37.436033" y="55.981979"/>
+        <point x="37.435979" y="55.982109"/>
+        <point x="37.435789" y="55.982153"/>
+        <point x="37.435568" y="55.982116"/>
+    </geometry>
+</geozoneType>
