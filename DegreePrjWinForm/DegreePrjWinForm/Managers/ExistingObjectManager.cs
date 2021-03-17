@@ -10,16 +10,16 @@ namespace DegreePrjWinForm.Managers
     public class ExistingObjectManager
     {
         public List<ScheduleRowObject> ScheduleRows;
-        public List<PlaneParkingObject> ParkingObjects;
+        public List<AircraftParkingObject> ParkingObjects;
         public List<AircraftObject> AircraftObjects;
-        public List<PlaneParkingsBlock> ParkingBlocks;
+        public List<AircraftParkingsBlock> ParkingBlocks;
 
         public ExistingObjectManager()
         {
             ScheduleRows = new List<ScheduleRowObject>();
-            ParkingObjects = new List<PlaneParkingObject>();
+            ParkingObjects = new List<AircraftParkingObject>();
             AircraftObjects = new List<AircraftObject>();
-            ParkingBlocks = new List<PlaneParkingsBlock>();
+            ParkingBlocks = new List<AircraftParkingsBlock>();
         }
     }
 }

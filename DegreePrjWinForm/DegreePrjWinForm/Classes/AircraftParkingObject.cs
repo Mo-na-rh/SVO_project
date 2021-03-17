@@ -2,7 +2,7 @@
 
 namespace DegreePrjWinForm.Classes
 {
-    public class PlaneParkingObject
+    public class AircraftParkingObject
     {
 
         /// <summary>
@@ -18,7 +18,12 @@ namespace DegreePrjWinForm.Classes
         /// <summary>
         /// Координаты стоянки.
         /// </summary>
-        public List<CoordinateObject> Coordinates { get; set; }
+        public List<CoordinateObject> Coordinates = new List<CoordinateObject>();
+
+        /// <summary>
+        /// G
+        /// </summary>
+        public List<ScheduleRowObject> LinkedScheduleRows = new List<ScheduleRowObject>();
 
         public double MiddleX()
         {

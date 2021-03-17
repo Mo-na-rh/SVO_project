@@ -9,17 +9,30 @@ namespace DegreePrjWinForm.Managers
 {
     public static class ProcessingService
     {
-        public static void CheckParkingBlocks(ExistingObjectManager objectMgr)
+        public static void LinkRowObjectsToParkings(ExistingObjectManager objectMgr)
         {
-            foreach (var ppb in objectMgr.ParkingBlocks)
+            foreach (var parkingObject in objectMgr.ParkingObjects)
             {
                 foreach (var row in objectMgr.ScheduleRows)
                 {
-                    if (ppb.PlaneParkings.FirstOrDefault(t => t.Number == row.ParkingPlane) != null)
+                    if (parkingObject.Number == row.ParkingPlane)
                     {
-                        ppb.IsFilled = true;
-                        break;
+                        parkingObject.LinkedScheduleRows.Add(row);
                     }
+                }
+            }
+
+        }
+
+        public static void CheckParkingBlocks(ExistingObjectManager objectMgr)
+        {
+            foreach (var aircraftParkingsBlock in objectMgr.ParkingBlocks)
+            {
+                foreach (var parkingObject in aircraftParkingsBlock.AircraftParkings)
+                {
+                    if (parkingObject.LinkedScheduleRows.Count <= 0) continue;
+                    aircraftParkingsBlock.IsFilled = true;
+                    break;
                 }
             }
         }

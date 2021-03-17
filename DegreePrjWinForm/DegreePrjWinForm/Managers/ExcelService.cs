@@ -31,15 +31,15 @@ namespace DegreePrjWinForm.Managers
             using (var package = new ExcelPackage(fi))
             {
                 var workbook = package.Workbook;
-                var worksheet = workbook.Worksheets["PlaneParkings"];
-                objMgr.ParkingObjects = worksheet.Tables.First().ConvertTablePPToObjects<PlaneParkingObject>().ToList();
+                var worksheet = workbook.Worksheets["AircraftParkings"];
+                objMgr.ParkingObjects = worksheet.Tables.First().ConvertTablePPToObjects<AircraftParkingObject>().ToList();
                 package.Save();
             }
 
             using (var package = new ExcelPackage(fi))
             {
                 var workbook = package.Workbook;
-                var worksheet = workbook.Worksheets["Planes"];
+                var worksheet = workbook.Worksheets["Aircrafts"];
                 objMgr.AircraftObjects = worksheet.Tables.First().ConvertTablePToObjects<AircraftObject>().ToList();
                 package.Save();
             }

@@ -34,14 +34,19 @@ namespace DegreePrjWinForm.Managers
             }
         }
 
-        private static void WritePlaneParkings(TextWriter tw, List<PlaneParkingObject> _planeParkingObjects)
+        private static void WritePlaneParkings(TextWriter tw, List<AircraftParkingObject> _planeParkingObjects)
         {
             tw.WriteLine(" ============================================================================================");
             tw.WriteLine(" Plane parkings");
             tw.WriteLine(" ============================================================================================");
-            foreach (var row in _planeParkingObjects)
+            foreach (var parking in _planeParkingObjects)
             {
-                tw.WriteLine($"num: {row.Id} / Number: {row.Number} / MiddleX: {row.MiddleX()} / MiddleY: {row.MiddleY()}");
+                tw.WriteLine($"num: {parking.Id} / Number: {parking.Number} / MiddleX: {parking.MiddleX()} / MiddleY: {parking.MiddleY()}");
+                foreach (var row in parking.LinkedScheduleRows)
+                {
+                    tw.WriteLine(
+                        $"  FlightDate: {DateTime.Parse(row.FlightDate).ToShortDateString()} / FlightScheduleTime: {DateTime.Parse(row.FlightScheduleTime).ToShortTimeString()} / CodeAirCompany: {row.CodeAirCompany} / FlightNumber: {row.FlightNumber} / Type: {row.Type} / TypePlane: {row.TypePlane} / ParkingPlane: {row.ParkingPlane} / ParkingSector: {row.ParkingSector} / AirCompanyName: {row.AirCompanyName}");
+                }
             }
         }
 
@@ -56,7 +61,7 @@ namespace DegreePrjWinForm.Managers
             }
         }
 
-        private static void WriteEmptyParkings(TextWriter tw, List<PlaneParkingsBlock> _parkingBlocks)
+        private static void WriteEmptyParkings(TextWriter tw, List<AircraftParkingsBlock> _parkingBlocks)
         {
             tw.WriteLine(" ============================================================================================");
             tw.WriteLine(" Empty parkings");
@@ -64,7 +69,7 @@ namespace DegreePrjWinForm.Managers
             foreach (var row in _parkingBlocks.Where(t => !t.IsFilled).ToList())
             {
                 tw.WriteLine($"id block: {row.Id}");
-                foreach (var parking in row.PlaneParkings)
+                foreach (var parking in row.AircraftParkings)
                 {
                     tw.WriteLine($" num: {parking.Id} / Number: {parking.Number} ");
                 }

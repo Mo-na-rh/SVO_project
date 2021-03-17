@@ -15,6 +15,7 @@ using System.Xml.Linq;
 using DegreePrjWinForm.Classes;
 using DegreePrjWinForm.Extensions;
 using DegreePrjWinForm.Managers;
+using NLog;
 using OfficeOpenXml;
 
 namespace DegreePrjWinForm
@@ -22,6 +23,11 @@ namespace DegreePrjWinForm
     public partial class MainForm : Form
     {
         private ExistingObjectManager _objectManager;
+
+        /// <summary>
+        /// Логгер.
+        /// </summary>
+        internal readonly ILogger _logger;
 
         public MainForm()
         {
@@ -32,6 +38,8 @@ namespace DegreePrjWinForm
             openFileDialog.FileName = "Select a shedule Excel file";
             openFileDialog.Filter = "Excel files (*.xlsx)|*.xlsx";
             openFileDialog.Title = "Open Excel file";
+
+            _logger = LogManager.GetCurrentClassLogger();
         }
 
         private void buttonSelectShedule_Click(object sender, EventArgs e)
@@ -44,15 +52,18 @@ namespace DegreePrjWinForm
 
         private void ComputeButton_Click(object sender, EventArgs e)
         {
-            var pathResFile = textBoxResFilePath.Text; //@"D:\chetv_va\ВУЗ\Диплом 2021\Данные для работы\Results.txt";
+            var pathResFile = textBoxResFilePath.Text; 
             var workFilePath = textBoxWorkPath.Text;
 
             ExcelService.LoadData(workFilePath,_objectManager);
 
-            FillCoordinates();
+            var pathToFile = @"D:\chetv_va\Диплом 2021\Данные для работы\Xml\";
+            FillCoordinates(pathToFile);
+
             // Заполняются блоки по 3 парковочных места в одном
             FillParkingBlocks(_objectManager);
 
+            ProcessingService.LinkRowObjectsToParkings(_objectManager);
             ProcessingService.CheckParkingBlocks(_objectManager);
 
             ReportService.WriteTestReport(pathResFile, _objectManager);
@@ -60,12 +71,11 @@ namespace DegreePrjWinForm
             MessageBox.Show("Report succesfully written!");
         }
 
-        private void FillCoordinates()
+        private void FillCoordinates(string pathToFile)
         {
-            var pathToFile = @"D:\chetv_va\Диплом 2021\Данные для работы\Xml\";
+            
                 foreach (var o in _objectManager.ParkingObjects)
                 {
-                    o.Coordinates = new List<CoordinateObject>();
                     var path = pathToFile + o.Number + ".xml";
                     try
                     {
@@ -89,7 +99,7 @@ namespace DegreePrjWinForm
                     }
                     catch (FileNotFoundException ex)
                     {
-                        MessageBox.Show("Файл не найден!" + ex.Message);
+                        _logger.Trace("Файл не найден!" + ex.Message);
                     }
                 }
         }
@@ -99,20 +109,20 @@ namespace DegreePrjWinForm
         private void FillParkingBlocks(ExistingObjectManager objMgr)
         {
             var i = 1;
-            var block = new PlaneParkingsBlock();
+            var block = new AircraftParkingsBlock();
             block.Id = i;
-            block.PlaneParkings = new List<PlaneParkingObject>();
+            block.AircraftParkings = new List<AircraftParkingObject>();
             objMgr.ParkingBlocks.Add(block);
             foreach (var parkingObject in objMgr.ParkingObjects)
             {
                 if (i % 3 != 0)
                 {
-                    block.PlaneParkings.Add(parkingObject);
+                    block.AircraftParkings.Add(parkingObject);
                 }
                 else
                 {
-                    block = new PlaneParkingsBlock { PlaneParkings = new List<PlaneParkingObject>(), Id = i };
-                    block.PlaneParkings.Add(parkingObject);
+                    block = new AircraftParkingsBlock { AircraftParkings = new List<AircraftParkingObject>(), Id = i };
+                    block.AircraftParkings.Add(parkingObject);
                     objMgr.ParkingBlocks.Add(block);
                 }
 

@@ -57,5 +57,46 @@ namespace DegreePrjWinForm.Classes
         /// Название авиакомпании.
         /// </summary>
         public string AirCompanyName { get; set; }
+
+        /// <summary>
+        /// ТГО для воздушного судна по расписанию.
+        /// </summary>
+        public TgoObject LinkedTGO { get; set; }
     }
+
+    /// <summary>
+    /// Объект типа ТГО
+    /// </summary>
+    public class TgoObject
+    {
+        /// <summary>
+        /// Наименование ТГО
+        /// </summary>
+        public TgoType Type { get; set; }
+
+        /// <summary>
+        /// Список СНО используемых в данном ТГО
+        /// </summary>
+        public List<GseObject> GseList  = new List<GseObject>();
+        
+        /* надо подумать
+         
+         */ 
+    }
+
+    /// <summary>
+    /// Объект типа СНО
+    /// </summary>
+    public class GseObject
+    {
+        
+    }
+
+    public enum TgoType
+    {
+        arrival,
+        departure,
+        reverse
+    }
+
 }

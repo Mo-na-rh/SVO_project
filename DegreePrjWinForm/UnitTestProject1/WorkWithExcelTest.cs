@@ -41,8 +41,8 @@ namespace UnitTestProject1
         [TestMethod]
         public void ReadXml()
         {
-            var _planeParkingObjects = new List<PlaneParkingObject>();
-            var pp = new PlaneParkingObject {Id = "1", Number = "1A"};
+            var _planeParkingObjects = new List<AircraftParkingObject>();
+            var pp = new AircraftParkingObject {Id = "1", Number = "1A"};
             _planeParkingObjects.Add(pp);
 
             var pathToFile = @"D:\chetv_va\Диплом 2021\Данные для работы\Xml\";
