@@ -28,7 +28,7 @@ namespace UnitTestProject1
             {
                 var workbook = package.Workbook;
                 var worksheet = workbook.Worksheets.First();
-                var scheduleRowObjects = worksheet.Tables.First().ConvertTableToObjects<ScheduleRowObject>().ToList();
+                var scheduleRowObjects = worksheet.Tables.First().ConvertTableToObjects<ScheduleRow>().ToList();
                 foreach (var data in scheduleRowObjects)
                 {
                     Console.WriteLine(data.FlightDate + ":" + data.AirCompanyName + ":" + data.ParkingSector);
@@ -41,14 +41,14 @@ namespace UnitTestProject1
         [TestMethod]
         public void ReadXml()
         {
-            var _planeParkingObjects = new List<AircraftParkingObject>();
-            var pp = new AircraftParkingObject {Id = "1", Number = "1A"};
+            var _planeParkingObjects = new List<Parking>();
+            var pp = new Parking {Id = "1", Number = "1A"};
             _planeParkingObjects.Add(pp);
 
             var pathToFile = @"D:\chetv_va\Диплом 2021\Данные для работы\Xml\";
             foreach (var o in _planeParkingObjects)
             {
-                o.Coordinates = new List<CoordinateObject>();
+                o.Coordinates = new List<Coordinate>();
                 var path = pathToFile + o.Number + ".xml";
                 XDocument xdoc = XDocument.Load(path);
 
@@ -61,7 +61,7 @@ namespace UnitTestProject1
                     XAttribute nameY = phoneElement.Attribute("y");
                     if (nameX != null && nameY != null)
                     {
-                        var coordObj = new CoordinateObject();
+                        var coordObj = new Coordinate();
                         var englishCulture = CultureInfo.GetCultureInfo("en-US");
                         coordObj.X = double.Parse(nameX.Value, englishCulture);
                         coordObj.Y = double.Parse(nameY.Value, englishCulture);

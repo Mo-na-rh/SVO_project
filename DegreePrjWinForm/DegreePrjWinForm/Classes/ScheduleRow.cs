@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DegreePrjWinForm.Classes
+﻿namespace DegreePrjWinForm.Classes
 {
-    public class ScheduleRowObject
+    /// <summary>
+    /// Строка расписания
+    /// </summary>
+    public class ScheduleRow
     {
         /// <summary>
         /// Дата рейса.
         /// </summary>
-        public string FlightDate
-        {
-            get; set;
-        }
+        public string FlightDate { get; set; }
 
         /// <summary>
         /// Время по расписанию.
@@ -35,7 +29,6 @@ namespace DegreePrjWinForm.Classes
         /// Флаг прилет/вылет.
         /// </summary>
         public string Type { get; set; }
-
 
         /// <summary>
         /// Тип ВС IATA.
@@ -61,42 +54,6 @@ namespace DegreePrjWinForm.Classes
         /// <summary>
         /// ТГО для воздушного судна по расписанию.
         /// </summary>
-        public TgoObject LinkedTGO { get; set; }
+        public TGO LinkedTGO { get; set; }
     }
-
-    /// <summary>
-    /// Объект типа ТГО
-    /// </summary>
-    public class TgoObject
-    {
-        /// <summary>
-        /// Наименование ТГО
-        /// </summary>
-        public TgoType Type { get; set; }
-
-        /// <summary>
-        /// Список СНО используемых в данном ТГО
-        /// </summary>
-        public List<GseObject> GseList  = new List<GseObject>();
-        
-        /* надо подумать
-         
-         */ 
-    }
-
-    /// <summary>
-    /// Объект типа СНО
-    /// </summary>
-    public class GseObject
-    {
-        
-    }
-
-    public enum TgoType
-    {
-        arrival,
-        departure,
-        reverse
-    }
-
 }

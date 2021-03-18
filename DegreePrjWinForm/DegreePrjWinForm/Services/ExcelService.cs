@@ -1,10 +1,11 @@
-﻿using OfficeOpenXml;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using DegreePrjWinForm.Classes;
 using DegreePrjWinForm.Extensions;
+using DegreePrjWinForm.Managers;
+using OfficeOpenXml;
 
-namespace DegreePrjWinForm.Managers
+namespace DegreePrjWinForm.Services
 {
     /// <summary>
     /// Сервис для работы с MS Excel
@@ -12,7 +13,7 @@ namespace DegreePrjWinForm.Managers
     public static class ExcelService
     {
 
-        public static void LoadData(string path, ExistingObjectManager objMgr)
+        public static void LoadData(string path, ObjectManager objMgr)
         {
             // If you use EPPlus in a noncommercial context
             // according to the Polyform Noncommercial license:
@@ -23,7 +24,7 @@ namespace DegreePrjWinForm.Managers
             {
                 var workbook = package.Workbook;
                 var worksheet = workbook.Worksheets["Schedule"];
-                objMgr.ScheduleRows = worksheet.Tables.First().ConvertTableToObjects<ScheduleRowObject>().ToList();
+                objMgr.ScheduleRows = worksheet.Tables.First().ConvertTableToObjects<ScheduleRow>().ToList();
                 package.Save();
 
             }
@@ -32,7 +33,7 @@ namespace DegreePrjWinForm.Managers
             {
                 var workbook = package.Workbook;
                 var worksheet = workbook.Worksheets["AircraftParkings"];
-                objMgr.ParkingObjects = worksheet.Tables.First().ConvertTablePPToObjects<AircraftParkingObject>().ToList();
+                objMgr.Parkings = worksheet.Tables.First().ConvertTablePPToObjects<Parking>().ToList();
                 package.Save();
             }
 
@@ -40,7 +41,7 @@ namespace DegreePrjWinForm.Managers
             {
                 var workbook = package.Workbook;
                 var worksheet = workbook.Worksheets["Aircrafts"];
-                objMgr.AircraftObjects = worksheet.Tables.First().ConvertTablePToObjects<AircraftObject>().ToList();
+                objMgr.Aircrafts = worksheet.Tables.First().ConvertTablePToObjects<Aircraft>().ToList();
                 package.Save();
             }
         }

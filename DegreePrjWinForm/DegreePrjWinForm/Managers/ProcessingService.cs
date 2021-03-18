@@ -1,23 +1,21 @@
-﻿using DegreePrjWinForm.Classes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 
 namespace DegreePrjWinForm.Managers
 {
+    /// <summary>
+    /// Сервис по работе с объектами моделирования
+    /// </summary>
     public static class ProcessingService
     {
         /// <summary>
-        /// К местам стоянок привязываются строки расписания
+        /// Привязка строк расписания к местам стоянок
         /// </summary>
-        /// <param name="objectMgr"></param>
-        public static void LinkRowObjectsToParkings(ExistingObjectManager objectMgr)
+        /// <param name="objectManager"></param>
+        public static void LinkScheduleRowsToParkings(ObjectManager objectManager)
         {
-            foreach (var parkingObject in objectMgr.ParkingObjects)
+            foreach (var parkingObject in objectManager.Parkings)
             {
-                foreach (var row in objectMgr.ScheduleRows)
+                foreach (var row in objectManager.ScheduleRows)
                 {
                     if (parkingObject.Number == row.ParkingPlane)
                     {
@@ -32,7 +30,7 @@ namespace DegreePrjWinForm.Managers
         /// Проверка если хотябы одно МС не пустует то Блок считать заполненным
         /// </summary>
         /// <param name="objectMgr"></param>
-        public static void CheckParkingBlocks(ExistingObjectManager objectMgr)
+        public static void CheckParkingBlocks(ObjectManager objectMgr)
         {
             foreach (var aircraftParkingsBlock in objectMgr.ParkingBlocks)
             {
@@ -43,6 +41,15 @@ namespace DegreePrjWinForm.Managers
                     break;
                 }
             }
+        }
+
+        /// <summary>
+        /// Привязка ТГО к строкам расписания на каждую строку один ТГО
+        /// </summary>
+        /// <param name="objectManager"></param>
+        internal static void LinkTgoToScheduleRows(ObjectManager objectManager)
+        {
+            throw new NotImplementedException();
         }
     }
 }

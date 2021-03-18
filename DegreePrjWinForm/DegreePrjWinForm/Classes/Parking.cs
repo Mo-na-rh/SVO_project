@@ -2,9 +2,11 @@
 
 namespace DegreePrjWinForm.Classes
 {
-    public class AircraftParkingObject
+    /// <summary>
+    /// Место стоянки воздушного судна
+    /// </summary>
+    public class Parking
     {
-
         /// <summary>
         /// Идентификатор объекта.
         /// </summary>
@@ -18,13 +20,17 @@ namespace DegreePrjWinForm.Classes
         /// <summary>
         /// Координаты стоянки.
         /// </summary>
-        public List<CoordinateObject> Coordinates = new List<CoordinateObject>();
+        public List<Coordinate> Coordinates = new List<Coordinate>();
 
         /// <summary>
-        /// G
+        /// Связанные Строки расписания
         /// </summary>
-        public List<ScheduleRowObject> LinkedScheduleRows = new List<ScheduleRowObject>();
+        public List<ScheduleRow> LinkedScheduleRows = new List<ScheduleRow>();
 
+        /// <summary>
+        /// Среднее по X коодрдинате
+        /// </summary>
+        /// <returns>число с плавающей точкой</returns>
         public double MiddleX()
         {
             double sum = 0;
@@ -36,6 +42,10 @@ namespace DegreePrjWinForm.Classes
             return sum / Coordinates.Count;
         }
 
+        /// <summary>
+        /// Среднее по Y коодрдинате
+        /// </summary>
+        /// <returns>число с плавающей точкой</returns>
         public double MiddleY()
         {
             double sum = 0;
@@ -46,11 +56,5 @@ namespace DegreePrjWinForm.Classes
 
             return sum / Coordinates.Count;
         }
-    }
-
-    public class CoordinateObject
-    {
-        public double X { get; set; }
-        public double Y { get; set; }
     }
 }

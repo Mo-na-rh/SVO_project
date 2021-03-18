@@ -70,10 +70,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\AircraftObject.cs" />
-    <Compile Include="Classes\AircraftParkingsBlock.cs" />
-    <Compile Include="Classes\AircraftParkingObject.cs" />
-    <Compile Include="Classes\ScheduleRowObject.cs" />
+    <Compile Include="Classes\Aircraft.cs" />
+    <Compile Include="Classes\GSE.cs" />
+    <Compile Include="Classes\ParkingBlock.cs" />
+    <Compile Include="Classes\Parking.cs" />
+    <Compile Include="Classes\Coordinate.cs" />
+    <Compile Include="Classes\ScheduleRow.cs" />
+    <Compile Include="Classes\TGO.cs" />
+    <Compile Include="Enums\TgoType.cs" />
     <Compile Include="Extensions\EPPlusExtensions.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -81,9 +85,9 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Managers\ExcelService.cs" />
+    <Compile Include="Services\ExcelService.cs" />
     <Compile Include="Managers\ProcessingService.cs" />
-    <Compile Include="Managers\ExistingObjectManager.cs" />
+    <Compile Include="Managers\ObjectManager.cs" />
     <Compile Include="Managers\ReportService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

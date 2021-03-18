@@ -6,9 +6,18 @@ using OfficeOpenXml.Table;
 
 namespace DegreePrjWinForm.Extensions
 {
+    /// <summary>
+    /// Расширения EPPlus.ExcelTable для получения объектов из Excel таблицы
+    /// </summary>
     public static class EPPlusExtensions
     {
-        public static IEnumerable<ScheduleRowObject> ConvertTableToObjects<ScheduleRowObject>(this ExcelTable table) where ScheduleRowObject : new()
+        /// <summary>
+        /// Получение объектов расписание 
+        /// </summary>
+        /// <typeparam name="ScheduleRow"></typeparam>
+        /// <param name="table"></param>
+        /// <returns></returns>
+        public static IEnumerable<ScheduleRow> ConvertTableToObjects<ScheduleRow>(this ExcelTable table) where ScheduleRow : new()
         {
             //DateTime Conversion
             var convertDateTime = new Func<double, DateTime>(excelDate =>
@@ -26,7 +35,7 @@ namespace DegreePrjWinForm.Extensions
             });
 
             //Get the properties of T
-            var tprops = (new ScheduleRowObject())
+            var tprops = (new ScheduleRow())
                 .GetType()
                 .GetProperties()
                 .ToList();
@@ -56,10 +65,10 @@ namespace DegreePrjWinForm.Extensions
             var rowvalues = groups.Skip(1) //Exclude header
                 .Select(cg => cg.Select(c => c.Value).ToList());
 
-            var resList = new List<ScheduleRowObject>();
+            var resList = new List<ScheduleRow>();
             foreach (var row in rowvalues)
             {
-                var resRow = new ScheduleRowObject();
+                var resRow = new ScheduleRow();
 
                 foreach (var colName in colnames)
                 {
@@ -73,11 +82,17 @@ namespace DegreePrjWinForm.Extensions
             return resList;
         }
 
-        public static IEnumerable<PlaneParkingObject> ConvertTablePPToObjects<PlaneParkingObject>(this ExcelTable table) where PlaneParkingObject : new()
+        /// <summary>
+        /// Получение объектов мест стоянок воздушных судов
+        /// </summary>
+        /// <typeparam name="Parking"></typeparam>
+        /// <param name="table"></param>
+        /// <returns></returns>
+        public static IEnumerable<Parking> ConvertTablePPToObjects<Parking>(this ExcelTable table) where Parking : new()
         {
 
             //Get the properties of T
-            var tprops = (new PlaneParkingObject())
+            var tprops = (new Parking())
                 .GetType()
                 .GetProperties()
                 .ToList();
@@ -107,10 +122,10 @@ namespace DegreePrjWinForm.Extensions
             var rowvalues = groups.Skip(1) //Exclude header
                 .Select(cg => cg.Select(c => c.Value).ToList());
 
-            var resList = new List<PlaneParkingObject>();
+            var resList = new List<Parking>();
             foreach (var row in rowvalues)
             {
-                var resRow = new PlaneParkingObject();
+                var resRow = new Parking();
                
                 foreach (var colName in colnames)
                 {
@@ -124,11 +139,17 @@ namespace DegreePrjWinForm.Extensions
             return resList;
         }
 
-        public static IEnumerable<PlaneObject> ConvertTablePToObjects<PlaneObject>(this ExcelTable table) where PlaneObject : new()
+        /// <summary>
+        /// Получение объектов воздушных судов
+        /// </summary>
+        /// <typeparam name="Aircraft"></typeparam>
+        /// <param name="table"></param>
+        /// <returns></returns>
+        public static IEnumerable<Aircraft> ConvertTablePToObjects<Aircraft>(this ExcelTable table) where Aircraft : new()
         {
 
             //Get the properties of T
-            var tprops = (new PlaneObject())
+            var tprops = (new Aircraft())
                 .GetType()
                 .GetProperties()
                 .ToList();
@@ -158,10 +179,10 @@ namespace DegreePrjWinForm.Extensions
             var rowvalues = groups.Skip(1) //Exclude header
                 .Select(cg => cg.Select(c => c.Value).ToList());
 
-            var resList = new List<PlaneObject>();
+            var resList = new List<Aircraft>();
             foreach (var row in rowvalues)
             {
-                var resRow = new PlaneObject();
+                var resRow = new Aircraft();
 
                 foreach (var colName in colnames)
                 {

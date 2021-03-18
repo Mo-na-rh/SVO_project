@@ -7,21 +7,34 @@ using DegreePrjWinForm.Classes;
 
 namespace DegreePrjWinForm.Managers
 {
+    /// <summary>
+    /// Сервис по составлению результирующего отчёта
+    /// </summary>
     public static class ReportService
     {
-        public static void WriteTestReport(string pathToResFile, ExistingObjectManager objMgr)
+        /// <summary>
+        /// Компоновка и запись в файл результирующего отчёта
+        /// </summary>
+        /// <param name="pathToResultReportFile"></param>
+        /// <param name="objectManager"></param>
+        public static void WriteResultReport(string pathToResultReportFile, ObjectManager objectManager)
         {
-            var fi = new FileInfo(pathToResFile);
+            var fi = new FileInfo(pathToResultReportFile);
             using (TextWriter tw = new StreamWriter(fi.Open(FileMode.Truncate)))
             {
-                WriteFlights(tw, objMgr.ScheduleRows);
-                WritePlaneParkings(tw, objMgr.ParkingObjects);
-                WriteAircrafts(tw, objMgr.AircraftObjects);
-                WriteEmptyParkings(tw, objMgr.ParkingBlocks);
+                WriteFlights(tw, objectManager.ScheduleRows);
+                WriteParkings(tw, objectManager.Parkings);
+                WriteAircrafts(tw, objectManager.Aircrafts);
+                WriteEmptyParkings(tw, objectManager.ParkingBlocks);
             }
         }
 
-        private static void WriteFlights(TextWriter tw, List<ScheduleRowObject> _scheduleRowObjects)
+        /// <summary>
+        /// Запись рейсов
+        /// </summary>
+        /// <param name="tw"></param>
+        /// <param name="_scheduleRowObjects"></param>
+        private static void WriteFlights(TextWriter tw, List<ScheduleRow> _scheduleRowObjects)
         {
             tw.WriteLine(" Flights");
             tw.WriteLine(" ============================================================================================");
@@ -34,12 +47,17 @@ namespace DegreePrjWinForm.Managers
             }
         }
 
-        private static void WritePlaneParkings(TextWriter tw, List<AircraftParkingObject> _planeParkingObjects)
+        /// <summary>
+        /// Запись мест стоянок
+        /// </summary>
+        /// <param name="tw"></param>
+        /// <param name="parkings"></param>
+        private static void WriteParkings(TextWriter tw, List<Parking> parkings)
         {
             tw.WriteLine(" ============================================================================================");
             tw.WriteLine(" Plane parkings");
             tw.WriteLine(" ============================================================================================");
-            foreach (var parking in _planeParkingObjects)
+            foreach (var parking in parkings)
             {
                 tw.WriteLine($"num: {parking.Id} / Number: {parking.Number} / MiddleX: {parking.MiddleX()} / MiddleY: {parking.MiddleY()}");
                 foreach (var row in parking.LinkedScheduleRows)
@@ -50,18 +68,28 @@ namespace DegreePrjWinForm.Managers
             }
         }
 
-        private static void WriteAircrafts(TextWriter tw, List<AircraftObject> _aircraftObjects)
+        /// <summary>
+        /// Запись типов ВС
+        /// </summary>
+        /// <param name="tw"></param>
+        /// <param name="aircrafts"></param>
+        private static void WriteAircrafts(TextWriter tw, List<Aircraft> aircrafts)
         {
             tw.WriteLine(" ============================================================================================");
             tw.WriteLine(" Aircrafts");
             tw.WriteLine(" ============================================================================================");
-            foreach (var row in _aircraftObjects)
+            foreach (var row in aircrafts)
             {
                 tw.WriteLine($"num: {row.Id} / IATA: {row.IATA} / ICAO: {row.ICAO} / Rus: {row.RUS} / Name: {row.Name} ");
             }
         }
 
-        private static void WriteEmptyParkings(TextWriter tw, List<AircraftParkingsBlock> _parkingBlocks)
+        /// <summary>
+        /// Вывод пустых блоков МС
+        /// </summary>
+        /// <param name="tw"></param>
+        /// <param name="_parkingBlocks"></param>
+        private static void WriteEmptyParkings(TextWriter tw, List<ParkingBlock> _parkingBlocks)
         {
             tw.WriteLine(" ============================================================================================");
             tw.WriteLine(" Empty parkings");

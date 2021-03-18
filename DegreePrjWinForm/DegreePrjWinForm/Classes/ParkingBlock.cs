@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace DegreePrjWinForm.Classes
 {
-    public class AircraftParkingsBlock
+    /// <summary>
+    /// Блок стоянок
+    /// </summary>
+    public class ParkingBlock
     {
         /// <summary>
         /// Идентификатор объекта.
@@ -21,7 +20,7 @@ namespace DegreePrjWinForm.Classes
         /// <summary>
         /// Места стоянки входящие в блок.
         /// </summary>
-        public List<AircraftParkingObject> AircraftParkings { get; set; }
+        public List<Parking> AircraftParkings { get; set; }
 
     }
 }

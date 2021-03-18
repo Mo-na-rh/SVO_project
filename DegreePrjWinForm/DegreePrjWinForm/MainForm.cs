@@ -1,119 +1,114 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Security;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using DegreePrjWinForm.Classes;
-using DegreePrjWinForm.Extensions;
 using DegreePrjWinForm.Managers;
+using DegreePrjWinForm.Services;
 using NLog;
-using OfficeOpenXml;
 
 namespace DegreePrjWinForm
 {
+    /// <summary>
+    /// Основная форма
+    /// </summary>
     public partial class MainForm : Form
     {
-        private ExistingObjectManager _objectManager;
+        /// <summary>
+        /// Класс для работы с объектами моделирования
+        /// </summary>
+        private ObjectManager _objectManager;
 
         /// <summary>
         /// Логгер.
         /// </summary>
         internal readonly ILogger _logger;
 
+        /// <summary>
+        /// Констуктор основной формы
+        /// </summary>
         public MainForm()
         {
             InitializeComponent();
 
-            _objectManager = new ExistingObjectManager();
-            // initialize OpenFileDialog
-            openFileDialog.FileName = "Select a shedule Excel file";
-            openFileDialog.Filter = "Excel files (*.xlsx)|*.xlsx";
-            openFileDialog.Title = "Open Excel file";
-
             _logger = LogManager.GetCurrentClassLogger();
-        }
-
-        private void buttonSelectShedule_Click(object sender, EventArgs e)
-        {
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                textBoxWorkPath.Text = openFileDialog.FileName;
-            }
+            _objectManager = new ObjectManager();
+            
+            openFileDialog.Filter = "Все файлы Excel (*.xlsx)|*.xlsx";
+            openFileDialog.Title = "Выбрать";
         }
 
         private void ComputeButton_Click(object sender, EventArgs e)
         {
-            var pathResFile = textBoxResFilePath.Text; 
-            var workFilePath = textBoxWorkPath.Text;
 
-            ExcelService.LoadData(workFilePath,_objectManager);
+            ExcelService.LoadData(textBoxResFilePath.Text, _objectManager);
+            ProcessingService.LinkTgoToScheduleRows(_objectManager);
 
-            var pathToFile = @"D:\chetv_va\Диплом 2021\Данные для работы\Xml\";
-            FillCoordinates(pathToFile);
+            // replace calling xml service
+            FillCoordinatesFromXml();
 
-            // Заполняются блоки по 3 парковочных места в одном
+            // Заполняются блоки по 3 парковочных места в одном заглушка
             FillParkingBlocks(_objectManager);
 
-            ProcessingService.LinkRowObjectsToParkings(_objectManager);
+            ProcessingService.LinkScheduleRowsToParkings(_objectManager);
             ProcessingService.CheckParkingBlocks(_objectManager);
 
-            ReportService.WriteTestReport(pathResFile, _objectManager);
+            ReportService.WriteResultReport(textBoxResFilePath.Text, _objectManager);
 
-            MessageBox.Show("Report succesfully written!");
+            MessageBox.Show("Отчёт успешно записан!");
         }
 
-        private void FillCoordinates(string pathToFile)
+        /// <summary>
+        /// Зачитывание координат парковочных мест из xml файлов
+        /// </summary>
+        /// <param name="pathToFile"></param>
+        private void FillCoordinatesFromXml()
         {
-            
-                foreach (var o in _objectManager.ParkingObjects)
-                {
-                    var path = pathToFile + o.Number + ".xml";
-                    try
-                    {
-                        XDocument xdoc = XDocument.Load(path);
-                        XElement geozoneType = xdoc.Element("geozoneType");
+            var pathToFile = @"D:\chetv_va\Диплом 2021\Данные для работы\Xml\Parkings";
 
-                        XElement geometry = geozoneType.Elements("geometry").FirstOrDefault();
-                        foreach (XElement phoneElement in geometry.Elements("point"))
-                        {
-                            XAttribute nameX = phoneElement.Attribute("x");
-                            XAttribute nameY = phoneElement.Attribute("y");
-                            if (nameX != null && nameY != null)
-                            {
-                                var coordObj = new CoordinateObject();
-                                var englishCulture = CultureInfo.GetCultureInfo("en-US");
-                                coordObj.X = double.Parse(nameX.Value, englishCulture);
-                                coordObj.Y = double.Parse(nameY.Value, englishCulture);
-                                o.Coordinates.Add(coordObj);
-                            }
-                        }
-                    }
-                    catch (FileNotFoundException ex)
+            foreach (var o in _objectManager.Parkings)
+            {
+                var path = pathToFile + o.Number + ".xml";
+                try
+                {
+                    var xdoc = XDocument.Load(path);
+                    var geozoneType = xdoc.Element("geozoneType");
+
+                    var geometry = geozoneType.Elements("geometry").FirstOrDefault();
+                    foreach (var phoneElement in geometry.Elements("point"))
                     {
-                        _logger.Trace("Файл не найден!" + ex.Message);
+                        var nameX = phoneElement.Attribute("x");
+                        var nameY = phoneElement.Attribute("y");
+                        if (nameX == null || nameY == null) continue;
+                        var coordObj = new Coordinate();
+                        var englishCulture = CultureInfo.GetCultureInfo("en-US");
+                        coordObj.X = double.Parse(nameX.Value, englishCulture);
+                        coordObj.Y = double.Parse(nameY.Value, englishCulture);
+                        o.Coordinates.Add(coordObj);
                     }
                 }
+                catch (FileNotFoundException ex)
+                {
+                    _logger.Trace("Файл не найден!" + ex.Message);
+                }
+            }
         }
 
-
-
-        private void FillParkingBlocks(ExistingObjectManager objMgr)
+        /// <summary>
+        /// Заполнение блоков парковок
+        /// </summary>
+        /// <param name="objMgr"></param>
+        private void FillParkingBlocks(ObjectManager objMgr)
         {
             var i = 1;
-            var block = new AircraftParkingsBlock();
+            var block = new ParkingBlock();
             block.Id = i;
-            block.AircraftParkings = new List<AircraftParkingObject>();
+            block.AircraftParkings = new List<Parking>();
             objMgr.ParkingBlocks.Add(block);
-            foreach (var parkingObject in objMgr.ParkingObjects)
+            foreach (var parkingObject in objMgr.Parkings)
             {
                 if (i % 3 != 0)
                 {
@@ -121,7 +116,7 @@ namespace DegreePrjWinForm
                 }
                 else
                 {
-                    block = new AircraftParkingsBlock { AircraftParkings = new List<AircraftParkingObject>(), Id = i };
+                    block = new ParkingBlock { AircraftParkings = new List<Parking>(), Id = i };
                     block.AircraftParkings.Add(parkingObject);
                     objMgr.ParkingBlocks.Add(block);
                 }
@@ -132,9 +127,27 @@ namespace DegreePrjWinForm
 
         #region Form Events
 
+        /// <summary>
+        /// Обработка нажатия на кнопку выход
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonExit_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        /// <summary>
+        /// Обработка нажатия на кнопку выбрать файл с расписанием
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void buttonSelectShedule_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                textBoxWorkPath.Text = openFileDialog.FileName;
+            }
         }
 
         #endregion
