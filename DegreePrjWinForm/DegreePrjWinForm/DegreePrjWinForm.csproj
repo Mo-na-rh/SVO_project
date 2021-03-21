@@ -72,6 +72,7 @@
   <ItemGroup>
     <Compile Include="Classes\Aircraft.cs" />
     <Compile Include="Classes\GSE.cs" />
+    <Compile Include="Classes\Operation.cs" />
     <Compile Include="Classes\ParkingBlock.cs" />
     <Compile Include="Classes\Parking.cs" />
     <Compile Include="Classes\Coordinate.cs" />
@@ -86,9 +87,9 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Services\ExcelService.cs" />
-    <Compile Include="Managers\ProcessingService.cs" />
+    <Compile Include="Services\ProcessingService.cs" />
     <Compile Include="Managers\ObjectManager.cs" />
-    <Compile Include="Managers\ReportService.cs" />
+    <Compile Include="Services\ReportService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="MainForm.resx">
@@ -106,6 +107,7 @@
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Classes\ClassDiagramFirst.cd" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>

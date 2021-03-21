@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace DegreePrjWinForm.Classes
+﻿namespace DegreePrjWinForm.Classes
 {
     /// <summary>
     /// Объект типа ТГО
@@ -17,9 +15,6 @@ namespace DegreePrjWinForm.Classes
         /// </summary>
         public TgoType Type { get; set; }
 
-        /// <summary>
-        /// Список СНО используемых в данном ТГО
-        /// </summary>
-        public List<GSE> GseList  = new List<GSE>();
+
     }
 }

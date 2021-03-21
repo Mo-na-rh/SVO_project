@@ -1,11 +1,11 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using DegreePrjWinForm.Classes;
+using DegreePrjWinForm.Managers;
 
-namespace DegreePrjWinForm.Managers
+namespace DegreePrjWinForm.Services
 {
     /// <summary>
     /// Сервис по составлению результирующего отчёта

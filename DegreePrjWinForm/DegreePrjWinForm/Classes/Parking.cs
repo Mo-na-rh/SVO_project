@@ -23,6 +23,11 @@ namespace DegreePrjWinForm.Classes
         public List<Coordinate> Coordinates = new List<Coordinate>();
 
         /// <summary>
+        /// Признак своим ходом туда добирается ВС или нет.
+        /// </summary>
+        public bool IsPropelled;
+
+        /// <summary>
         /// Связанные Строки расписания
         /// </summary>
         public List<ScheduleRow> LinkedScheduleRows = new List<ScheduleRow>();
