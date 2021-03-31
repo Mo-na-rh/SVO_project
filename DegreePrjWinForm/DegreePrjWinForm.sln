@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.28307.1340
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DegreePrjWinForm", "DegreePrjWinForm\DegreePrjWinForm.csproj", "{76227145-85E4-4FF6-AA45-12947FC18FEA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject1", "UnitTestProject1\UnitTestProject1.csproj", "{52D807C8-A58D-4C3A-B4D1-7B5EAA8B2A23}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DegreePrjTestProject", "UnitTestProject1\DegreePrjTestProject.csproj", "{52D807C8-A58D-4C3A-B4D1-7B5EAA8B2A23}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

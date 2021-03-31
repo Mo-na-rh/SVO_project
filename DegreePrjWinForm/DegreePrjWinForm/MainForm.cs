@@ -43,12 +43,13 @@ namespace DegreePrjWinForm
 
         private void ComputeButton_Click(object sender, EventArgs e)
         {
-
-            ExcelService.LoadData(textBoxResFilePath.Text, _objectManager);
-            ProcessingService.LinkTgoToScheduleRows(_objectManager);
+            ExcelService.LoadData(textBoxWorkPath.Text, _objectManager);
+            //ProcessingService.LinkTgoToScheduleRows(_objectManager);
 
             // replace calling xml service
-            FillCoordinatesFromXml();
+            XmlService.FillCoordinatesFromXml(_objectManager);
+
+            XmlService.FillTgoObjects(_objectManager);
 
             // Заполняются блоки по 3 парковочных места в одном заглушка
             FillParkingBlocks(_objectManager);
@@ -56,46 +57,17 @@ namespace DegreePrjWinForm
             ProcessingService.LinkScheduleRowsToParkings(_objectManager);
             ProcessingService.CheckParkingBlocks(_objectManager);
 
+            //ReportService.WriteTestResultReport(textBoxResFilePath.Text, _objectManager);
             ReportService.WriteResultReport(textBoxResFilePath.Text, _objectManager);
 
             MessageBox.Show("Отчёт успешно записан!");
         }
 
-        /// <summary>
-        /// Зачитывание координат парковочных мест из xml файлов
-        /// </summary>
-        /// <param name="pathToFile"></param>
-        private void FillCoordinatesFromXml()
-        {
-            var pathToFile = @"D:\chetv_va\Диплом 2021\Данные для работы\Xml\Parkings";
+        
+        
 
-            foreach (var o in _objectManager.Parkings)
-            {
-                var path = pathToFile + o.Number + ".xml";
-                try
-                {
-                    var xdoc = XDocument.Load(path);
-                    var geozoneType = xdoc.Element("geozoneType");
+        
 
-                    var geometry = geozoneType.Elements("geometry").FirstOrDefault();
-                    foreach (var phoneElement in geometry.Elements("point"))
-                    {
-                        var nameX = phoneElement.Attribute("x");
-                        var nameY = phoneElement.Attribute("y");
-                        if (nameX == null || nameY == null) continue;
-                        var coordObj = new Coordinate();
-                        var englishCulture = CultureInfo.GetCultureInfo("en-US");
-                        coordObj.X = double.Parse(nameX.Value, englishCulture);
-                        coordObj.Y = double.Parse(nameY.Value, englishCulture);
-                        o.Coordinates.Add(coordObj);
-                    }
-                }
-                catch (FileNotFoundException ex)
-                {
-                    _logger.Trace("Файл не найден!" + ex.Message);
-                }
-            }
-        }
 
         /// <summary>
         /// Заполнение блоков парковок

@@ -1,4 +1,5 @@
-﻿using DegreePrjWinForm.Classes;
+﻿using System;
+using DegreePrjWinForm.Classes;
 using System.Collections.Generic;
 
 namespace DegreePrjWinForm.Managers
@@ -8,6 +9,10 @@ namespace DegreePrjWinForm.Managers
     /// </summary>
     public class ObjectManager
     {
+        public DateTime FromDate;
+
+        public DateTime ToDate;
+
         /// <summary>
         /// Строки расписания
         /// </summary>
@@ -28,6 +33,8 @@ namespace DegreePrjWinForm.Managers
         /// </summary>
         public List<ParkingBlock> ParkingBlocks;
 
+        public List<TGO> TgoObjects;
+
         /// <summary>
         /// Конструктор класса
         /// </summary>
@@ -37,6 +44,22 @@ namespace DegreePrjWinForm.Managers
             Parkings = new List<Parking>();
             Aircrafts = new List<Aircraft>();
             ParkingBlocks = new List<ParkingBlock>();
+            TgoObjects = new List<TGO>();
+        }
+
+        public int GetGseCountByType(GseType type)
+        {
+            //TODO now plug will add logic
+            var count = 0;
+            foreach (var pb in ParkingBlocks)
+            {
+                foreach (var p in pb.AircraftParkings)
+                {
+                    count++;
+                }
+            }
+
+            return count;
         }
     }
 }

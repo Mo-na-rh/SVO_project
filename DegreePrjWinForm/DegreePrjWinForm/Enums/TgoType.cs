@@ -5,8 +5,19 @@
     /// </summary>
     public enum TgoType
     {
+        /// <summary>
+        /// Прилёт
+        /// </summary>
         arrival,
+
+        /// <summary>
+        /// Вылет
+        /// </summary>
         departure,
+
+        /// <summary>
+        /// Разворот
+        /// </summary>
         reverse
     }
 }

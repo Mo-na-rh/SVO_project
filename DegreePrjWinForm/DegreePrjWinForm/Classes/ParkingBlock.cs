@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace DegreePrjWinForm.Classes
 {
@@ -21,6 +22,13 @@ namespace DegreePrjWinForm.Classes
         /// Места стоянки входящие в блок.
         /// </summary>
         public List<Parking> AircraftParkings { get; set; }
+
+
+        public int GetGseCountByType(GseType type)
+        {
+            //TODO now plug will add logic
+            return AircraftParkings.Count;
+        }
 
     }
 }

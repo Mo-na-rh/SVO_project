@@ -12,7 +12,11 @@ namespace DegreePrjWinForm.Services
     /// </summary>
     public static class ExcelService
     {
-
+        /// <summary>
+        /// Загрузка данных
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="objMgr"></param>
         public static void LoadData(string path, ObjectManager objMgr)
         {
             // If you use EPPlus in a noncommercial context
