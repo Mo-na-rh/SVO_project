@@ -1,6 +1,7 @@
-﻿using System;
+﻿using DegreePrjWinForm.Managers;
+using System;
 
-namespace DegreePrjWinForm.Managers
+namespace DegreePrjWinForm.Services
 {
     /// <summary>
     /// Сервис по работе с объектами моделирования
