@@ -57,8 +57,8 @@ namespace DegreePrjWinForm
             ProcessingService.LinkScheduleRowsToParkings(_objectManager);
             ProcessingService.CheckParkingBlocks(_objectManager);
 
-            //ReportService.WriteTestResultReport(textBoxResFilePath.Text, _objectManager);
-            ReportService.WriteResultReport(textBoxResFilePath.Text, _objectManager);
+            //ReportService.WriteTestResultReport(@"D:\chetv_va\Диплом 2021\Данные для работы\Results.txt", _objectManager);
+            ReportService.WriteResultReportExcel(textBoxResFilePath.Text, _objectManager);
 
             MessageBox.Show("Отчёт успешно записан!");
         }

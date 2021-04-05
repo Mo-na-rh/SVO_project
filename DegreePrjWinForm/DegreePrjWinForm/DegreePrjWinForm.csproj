@@ -110,6 +110,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Classes\ClassDiagramFirst.cd" />
+    <None Include="Documents\Формальная постановка задачи.docx" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -128,6 +129,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Results\" />
     <Folder Include="Source\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,24 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<geozoneType id="2334" ver="2">
-    <uuid>058357c4-7dfc-4bf1-8f46-1e147b8b6f88</uuid>
-    <name>1</name>
-    <type>Polygon</type>
-    <color>#005824</color>
-    <transparency>50</transparency>
-    <allowed-speed>60.0</allowed-speed>
-    <use-as-address>false</use-as-address>
-    <enable-speed-monitoring>false</enable-speed-monitoring>
-    <status>1</status>
-    <geozone-root-id>1</geozone-root-id>
-    <geometry type="1">
-        <point x="37.396797" y="55.966005"/>
-        <point x="37.397738" y="55.966172"/>
-        <point x="37.397965" y="55.966132"/>
-        <point x="37.398197" y="55.965641"/>
-        <point x="37.398173" y="55.965501"/>
-        <point x="37.398245" y="55.965345"/>
-        <point x="37.397423" y="55.965214"/>
-        <point x="37.397089" y="55.965345"/>
-        <point x="37.396797" y="55.966005"/>
-    </geometry>
-</geozoneType>
+<tgo>
+    <id>1</id>
+    <name>"Departure"</name>
+    <type>1</type>
+	<time>"20:55:00"</time>
+    <operations>
+	 <operation>
+		  <id>1</id>
+		  <name>"Прибытие ВС"</name>
+		  <startTime>"20:55:00"</startTime>
+		  <endTime>"21:05:00"</endTime>
+		</operation>
+        <operation>
+		  <id>1</id>
+		  <name>"Установка колодок"</name>
+		  <startTime>10</startTime>
+		  <endTime>10</endTime>
+		</operation>
+		<operation>
+		  <order>11</order>
+		  <name>"Снятие колодок"</name>
+		  <startTime>10</startTime>
+		  <endTime>10</endTime>
+		</operation>
+    </operations>
+</tgo>
