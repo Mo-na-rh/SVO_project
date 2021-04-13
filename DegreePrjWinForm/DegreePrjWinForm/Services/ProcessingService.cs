@@ -1,5 +1,7 @@
-﻿using DegreePrjWinForm.Managers;
+﻿using DegreePrjWinForm.Classes;
+using DegreePrjWinForm.Managers;
 using System;
+using System.Collections.Generic;
 
 namespace DegreePrjWinForm.Services
 {
@@ -51,6 +53,34 @@ namespace DegreePrjWinForm.Services
         internal static void LinkTgoToScheduleRows(ObjectManager objectManager)
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Заполнение блоков парковок заглушка
+        /// </summary>
+        /// <param name="objMgr"></param>
+        public static void FillParkingBlocks(ObjectManager objMgr)
+        {
+            var i = 1;
+            var block = new ParkingBlock();
+            block.Id = i;
+            block.AircraftParkings = new List<Parking>();
+            objMgr.ParkingBlocks.Add(block);
+            foreach (var parkingObject in objMgr.Parkings)
+            {
+                if (i % 3 != 0)
+                {
+                    block.AircraftParkings.Add(parkingObject);
+                }
+                else
+                {
+                    block = new ParkingBlock { AircraftParkings = new List<Parking>(), Id = i };
+                    block.AircraftParkings.Add(parkingObject);
+                    objMgr.ParkingBlocks.Add(block);
+                }
+
+                i++;
+            }
         }
     }
 }

@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
 using System.Windows.Forms;
-using System.Xml.Linq;
-using DegreePrjWinForm.Classes;
 using DegreePrjWinForm.Managers;
 using DegreePrjWinForm.Services;
 using NLog;
@@ -33,7 +27,7 @@ namespace DegreePrjWinForm
         public MainForm()
         {
             InitializeComponent();
-
+            
             _logger = LogManager.GetCurrentClassLogger();
             _objectManager = new ObjectManager();
             
@@ -52,7 +46,7 @@ namespace DegreePrjWinForm
             XmlService.FillTgoObjects(_objectManager);
 
             // Заполняются блоки по 3 парковочных места в одном заглушка
-            FillParkingBlocks(_objectManager);
+            ProcessingService.FillParkingBlocks(_objectManager);
 
             ProcessingService.LinkScheduleRowsToParkings(_objectManager);
             ProcessingService.CheckParkingBlocks(_objectManager);
@@ -61,40 +55,6 @@ namespace DegreePrjWinForm
             ReportService.WriteResultReportExcel(textBoxResFilePath.Text, _objectManager);
 
             MessageBox.Show("Отчёт успешно записан!");
-        }
-
-        
-        
-
-        
-
-
-        /// <summary>
-        /// Заполнение блоков парковок
-        /// </summary>
-        /// <param name="objMgr"></param>
-        private void FillParkingBlocks(ObjectManager objMgr)
-        {
-            var i = 1;
-            var block = new ParkingBlock();
-            block.Id = i;
-            block.AircraftParkings = new List<Parking>();
-            objMgr.ParkingBlocks.Add(block);
-            foreach (var parkingObject in objMgr.Parkings)
-            {
-                if (i % 3 != 0)
-                {
-                    block.AircraftParkings.Add(parkingObject);
-                }
-                else
-                {
-                    block = new ParkingBlock { AircraftParkings = new List<Parking>(), Id = i };
-                    block.AircraftParkings.Add(parkingObject);
-                    objMgr.ParkingBlocks.Add(block);
-                }
-
-                i++;
-            }
         }
 
         #region Form Events

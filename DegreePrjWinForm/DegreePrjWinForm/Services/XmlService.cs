@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
@@ -12,12 +13,20 @@ namespace DegreePrjWinForm.Services
     /// </summary>
     public static class XmlService
     {
+        public static string GetPathToXml()
+        {
+            var path = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            path = path.Substring(0, path.IndexOf("bin"));
+            return path + @"Source\Xml\";
+        }
+
         /// <summary>
         /// Зачитывание координат парковочных мест из xml файлов
         /// </summary>
         public static void FillCoordinatesFromXml(ObjectManager objMgr)
         {
-            var pathToFile = @"D:\chetv_va\Диплом 2021\Данные для работы\Xml\Parkings\";
+            //var pathToFile = @"C:\Users\chetv_va\Desktop\Education\Diploma\Git\Degree-project\DegreePrjWinForm\DegreePrjWinForm\Source\Xml\Parkings\";
+            var pathToFile = GetPathToXml() + @"Parkings\";
 
             foreach (var o in objMgr.Parkings)
             {
@@ -49,7 +58,8 @@ namespace DegreePrjWinForm.Services
 
         public static void FillTgoObjects(ObjectManager objMgr)
         {
-            var path = @"D:\chetv_va\Диплом 2021\Данные для работы\Xml\Tgo\1.xml";
+            //var path = @"D:\chetv_va\Диплом 2021\Данные для работы\Xml\Tgo\1.xml";
+            var path = GetPathToXml() + @"Tgo\Tgo.xml"; ;
             try
             {
                 var xdoc = XDocument.Load(path);
