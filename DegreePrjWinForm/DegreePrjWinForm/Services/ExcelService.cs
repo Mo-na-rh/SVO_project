@@ -8,7 +8,7 @@ using OfficeOpenXml;
 namespace DegreePrjWinForm.Services
 {
     /// <summary>
-    /// Сервис для работы с MS Excel
+    /// Сервис для работы с MS Excel, загрузка расписания, типов самолётов и 
     /// </summary>
     public static class ExcelService
     {

@@ -1,18 +1,22 @@
-﻿using System.Collections.Generic;
-using System.Globalization;
+﻿using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using DegreePrjWinForm.Classes;
+using DegreePrjWinForm.Enums;
 using DegreePrjWinForm.Managers;
 
 namespace DegreePrjWinForm.Services
 {
     /// <summary>
-    /// Сервис для работы с Xml
+    /// Сервис для работы с Xml, заполнение мест стоянок и ТГО
     /// </summary>
     public static class XmlService
     {
+        /// <summary>
+        /// Получение пути к текущей папке с Xml
+        /// </summary>
+        /// <returns></returns>
         public static string GetPathToXml()
         {
             var path = System.Reflection.Assembly.GetExecutingAssembly().Location;
@@ -21,16 +25,15 @@ namespace DegreePrjWinForm.Services
         }
 
         /// <summary>
-        /// Зачитывание координат парковочных мест из xml файлов
+        /// Зачитывание координат парковочных мест из xml 
         /// </summary>
-        public static void FillCoordinatesFromXml(ObjectManager objMgr)
+        public static void FillParkingCoordinatesFromXml(ObjectManager objMgr)
         {
-            //var pathToFile = @"C:\Users\chetv_va\Desktop\Education\Diploma\Git\Degree-project\DegreePrjWinForm\DegreePrjWinForm\Source\Xml\Parkings\";
             var pathToFile = GetPathToXml() + @"Parkings\";
 
-            foreach (var o in objMgr.Parkings)
+            foreach (var parking in objMgr.Parkings)
             {
-                var path = pathToFile + o.Number + ".xml";
+                var path = pathToFile + parking.Number + ".xml";
                 try
                 {
                     var xdoc = XDocument.Load(path);
@@ -42,15 +45,16 @@ namespace DegreePrjWinForm.Services
                         var nameX = element.Attribute("x");
                         var nameY = element.Attribute("y");
                         if (nameX == null || nameY == null) continue;
-                        var coordObj = new Coordinate();
+                        var coordinates = new Coordinate();
                         var englishCulture = CultureInfo.GetCultureInfo("en-US");
-                        coordObj.X = double.Parse(nameX.Value, englishCulture);
-                        coordObj.Y = double.Parse(nameY.Value, englishCulture);
-                        o.Coordinates.Add(coordObj);
+                        coordinates.X = double.Parse(nameX.Value, englishCulture);
+                        coordinates.Y = double.Parse(nameY.Value, englishCulture);
+                        parking.Coordinates.Add(coordinates);
                     }
                 }
                 catch (FileNotFoundException ex)
                 {
+                    //TODO handle exception
                     //_logger.Trace("Файл не найден!" + ex.Message);
                 }
             }
@@ -58,41 +62,54 @@ namespace DegreePrjWinForm.Services
 
         public static void FillTgoObjects(ObjectManager objMgr)
         {
-            //var path = @"D:\chetv_va\Диплом 2021\Данные для работы\Xml\Tgo\1.xml";
             var path = GetPathToXml() + @"Tgo\Tgo.xml"; ;
             try
             {
                 var xdoc = XDocument.Load(path);
-                foreach (var element in xdoc.Elements("TGOs"))
+                var rootElement = xdoc.Element("TGOs");
+                foreach (var element in rootElement.Elements("TGO"))
                 {
                     var tgo = new TGO();
+                    tgo.ACCode = element.Element("airCompany")?.Value;
+                    tgo.TotalTime = element.Element("totalTime")?.Value;
+                    var tp = element.Element("type")?.Value;
+                    if (!string.IsNullOrEmpty(tp))
+                    {
+                        tgo.Type = GetTgoType(tp);
+                    }
+                    var planeType = element.Element("type")?.Value;
+                    if (!string.IsNullOrEmpty(tp))
+                    {
+                        tgo.AircraftBodyType = GetPlaneType(planeType);
+                    }
 
-                    tgo.AirCompanyCode = element.Attribute("name")?.Value;
-                    tgo.TotalTime = element.Attribute("totalTime")?.Value;
-                    tgo.Type = GetTgoType(element.Attribute("type")?.Value);
                     // заполнить базовые параметры
-
                     var operations = element.Elements("operations").FirstOrDefault();
                     foreach (var xElement in operations.Elements("operation"))
                     {
                         var operation = new Operation();
-                        operation.Name = xElement.Attribute("name")?.Value;
-                        operation.GseType = xElement.Attribute("gseType")?.Value;
-                        operation.StartTime = xElement.Attribute("startTime")?.Value;
-                        operation.EndTime = xElement.Attribute("endTime")?.Value;
+                        operation.Name = xElement.Element("name")?.Value;
+                        operation.GseType = xElement.Element("gseType")?.Value;
+                        operation.StartTime = xElement.Element("startTime")?.Value;
+                        operation.EndTime = xElement.Element("endTime")?.Value;
 
                         tgo.Operations.Add(operation);
                     }
-
                     objMgr.TgoObjects.Add(tgo);
                 }
-
             }
             catch (FileNotFoundException ex)
             {
+                // TODO handle exception
                 //    _logger.Trace("Файл не найден!" + ex.Message);
             }
         }
+
+        /// <summary>
+        /// Получения типа ТГО
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         private static TgoType GetTgoType(string value)
         {
             if (value.Contains("Прилет"))
@@ -102,6 +119,19 @@ namespace DegreePrjWinForm.Services
                 return TgoType.departure;
 
             return TgoType.reverse;
+        }
+
+        /// <summary>
+        /// Получения типа ВС
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        private static AircraftBodyType GetPlaneType(string value)
+        {
+            if (value.Contains("ШФ"))
+                return AircraftBodyType.wide;
+
+            return AircraftBodyType.narrow;
         }
     }
 }

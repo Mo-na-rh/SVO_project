@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using DegreePrjWinForm.Enums;
+using System.Collections.Generic;
 
 namespace DegreePrjWinForm.Classes
 {
@@ -15,10 +16,15 @@ namespace DegreePrjWinForm.Classes
         /// <summary>
         /// Код авиакомпании
         /// </summary>
-        public string AirCompanyCode { get; set; }
+        public string ACCode { get; set; }
 
         /// <summary>
-        /// Наименование ТГО
+        /// Тип самолёта ШФ/УФ
+        /// </summary>
+        public AircraftBodyType AircraftBodyType { get; set; }
+
+        /// <summary>
+        /// Тип ТГО
         /// </summary>
         public TgoType Type { get; set; }
 

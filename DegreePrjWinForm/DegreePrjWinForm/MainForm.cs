@@ -41,18 +41,20 @@ namespace DegreePrjWinForm
             //ProcessingService.LinkTgoToScheduleRows(_objectManager);
 
             // replace calling xml service
-            XmlService.FillCoordinatesFromXml(_objectManager);
+            XmlService.FillParkingCoordinatesFromXml(_objectManager);
 
             XmlService.FillTgoObjects(_objectManager);
 
+            // Операция выполняется в отдельном сервисе, который работает с МС и 
             // Заполняются блоки по 3 парковочных места в одном заглушка
-            ProcessingService.FillParkingBlocks(_objectManager);
+            ParkingBlockService.FillParkingBlocks(_objectManager);
 
-            ProcessingService.LinkScheduleRowsToParkings(_objectManager);
-            ProcessingService.CheckParkingBlocks(_objectManager);
+            LinkingService.LinkScheduleRowsToParkings(_objectManager);
+            LinkingService.LinkTgoToScheduleRows(_objectManager);
+            ParkingBlockService.CheckParkingBlocks(_objectManager);
 
             //ReportService.WriteTestResultReport(@"D:\chetv_va\Диплом 2021\Данные для работы\Results.txt", _objectManager);
-            ReportService.WriteResultReportExcel(textBoxResFilePath.Text, _objectManager);
+            //ReportService.WriteResultReportExcel(textBoxResFilePath.Text, _objectManager);
 
             MessageBox.Show("Отчёт успешно записан!");
         }

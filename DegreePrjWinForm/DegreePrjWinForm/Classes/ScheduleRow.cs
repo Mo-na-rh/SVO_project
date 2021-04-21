@@ -1,4 +1,7 @@
-﻿namespace DegreePrjWinForm.Classes
+﻿using System;
+using DegreePrjWinForm.Enums;
+
+namespace DegreePrjWinForm.Classes
 {
     /// <summary>
     /// Строка расписания
@@ -45,7 +48,6 @@
         /// </summary>
         public string ParkingSector { get; set; }
 
-
         /// <summary>
         /// Название авиакомпании.
         /// </summary>
@@ -55,5 +57,26 @@
         /// ТГО для воздушного судна по расписанию.
         /// </summary>
         public TGO LinkedTGO { get; set; }
+
+        public string GetAirCompanyCode()
+        {
+            return CodeAirCompany;
+        }
+
+        public string GetAircraftBodyType()
+        {
+            return TypePlane;
+        }
+
+        public TgoType GetTgoType()
+        {
+            if (Type.Contains("D"))
+                return TgoType.departure;
+
+            if (Type.Contains("A"))
+                return TgoType.arrival;
+
+            return TgoType.reverse;
+        }
     }
 }

@@ -78,6 +78,7 @@
     <Compile Include="Classes\Coordinate.cs" />
     <Compile Include="Classes\ScheduleRow.cs" />
     <Compile Include="Classes\TGO.cs" />
+    <Compile Include="Enums\AircraftBodyType.cs" />
     <Compile Include="Enums\GseType.cs" />
     <Compile Include="Enums\TgoType.cs" />
     <Compile Include="Extensions\EPPlusExtensions.cs" />
@@ -88,6 +89,8 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Services\ExcelService.cs" />
+    <Compile Include="Services\LinkingService.cs" />
+    <Compile Include="Services\ParkingBlockService.cs" />
     <Compile Include="Services\ProcessingService.cs" />
     <Compile Include="Managers\ObjectManager.cs" />
     <Compile Include="Services\ReportService.cs" />
@@ -128,6 +131,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Exceptions\" />
     <Folder Include="Results\" />
     <Folder Include="Source\" />
   </ItemGroup>

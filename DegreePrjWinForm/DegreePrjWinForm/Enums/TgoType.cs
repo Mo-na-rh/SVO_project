@@ -1,4 +1,4 @@
-﻿namespace DegreePrjWinForm.Classes
+﻿namespace DegreePrjWinForm.Enums
 {
     /// <summary>
     /// перечисление типов ТГО
