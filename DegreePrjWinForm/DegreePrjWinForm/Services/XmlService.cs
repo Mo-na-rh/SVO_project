@@ -27,7 +27,7 @@ namespace DegreePrjWinForm.Services
         /// <summary>
         /// Зачитывание координат парковочных мест из xml 
         /// </summary>
-        public static void FillParkingCoordinatesFromXml(ObjectManager objMgr)
+        public static void LoadParkingCoordinates(ObjectManager objMgr)
         {
             var pathToFile = GetPathToXml() + @"Parkings\";
 
@@ -60,7 +60,11 @@ namespace DegreePrjWinForm.Services
             }
         }
 
-        public static void FillTgoObjects(ObjectManager objMgr)
+        /// <summary>
+        /// Загрузка объектов ТГО из XML
+        /// </summary>
+        /// <param name="objMgr"></param>
+        public static void LoadTgoObjects(ObjectManager objMgr)
         {
             var path = GetPathToXml() + @"Tgo\Tgo.xml"; ;
             try

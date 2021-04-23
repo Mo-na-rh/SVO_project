@@ -32,8 +32,8 @@ namespace DegreePrjWinForm.Services
         {
             foreach (var row in objectManager.ScheduleRows)
             {
-                var aCCode = row.GetAirCompanyCode();
-                var aircraftType = GetAircraftBodyType(row.GetAircraftBodyType());
+                var aCCode = row.CodeAirCompany;
+                var aircraftType = GetAircraftBodyType(row.TypePlane);
                 var type = row.GetTgoType();
 
                 foreach (var tgo in objectManager.TgoObjects)

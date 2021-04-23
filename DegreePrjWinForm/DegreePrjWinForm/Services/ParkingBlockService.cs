@@ -17,7 +17,7 @@ namespace DegreePrjWinForm.Services
         {
             foreach (var aircraftParkingsBlock in objectMgr.ParkingBlocks)
             {
-                foreach (var parkingObject in aircraftParkingsBlock.AircraftParkings)
+                foreach (var parkingObject in aircraftParkingsBlock.Parkings)
                 {
                     if (parkingObject.LinkedScheduleRows.Count <= 0) continue;
                     aircraftParkingsBlock.IsFilled = true;
@@ -35,18 +35,18 @@ namespace DegreePrjWinForm.Services
             var i = 1;
             var block = new ParkingBlock();
             block.Id = i;
-            block.AircraftParkings = new List<Parking>();
+            block.Parkings = new List<Parking>();
             objMgr.ParkingBlocks.Add(block);
             foreach (var parkingObject in objMgr.Parkings)
             {
                 if (i % 3 != 0)
                 {
-                    block.AircraftParkings.Add(parkingObject);
+                    block.Parkings.Add(parkingObject);
                 }
                 else
                 {
-                    block = new ParkingBlock { AircraftParkings = new List<Parking>(), Id = i };
-                    block.AircraftParkings.Add(parkingObject);
+                    block = new ParkingBlock { Parkings = new List<Parking>(), Id = i };
+                    block.Parkings.Add(parkingObject);
                     objMgr.ParkingBlocks.Add(block);
                 }
 

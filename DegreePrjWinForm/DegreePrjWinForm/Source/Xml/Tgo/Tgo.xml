@@ -2,7 +2,7 @@
 <TGOs>
 <TGO>
     <airCompany>RL</airCompany>
-    <totalTime>60:00</totalTime>
+    <totalTime>45:00</totalTime>
 	<typePlane>ШФ</typePlane>
     <type>Прилет</type>
     <operations>
@@ -22,7 +22,7 @@
 </TGO>
 <TGO>
     <airCompany>RL</airCompany>
-    <totalTime>60:00</totalTime>
+    <totalTime>50:00</totalTime>
 	<typePlane>ШФ</typePlane>
     <type>Вылет</type>
     <operations>
@@ -62,7 +62,7 @@
 </TGO>
 <TGO>
     <airCompany>RL</airCompany>
-    <totalTime>60:00</totalTime>
+    <totalTime>40:00</totalTime>
 	<typePlane>УФ</typePlane>
     <type>Вылет</type>
     <operations>

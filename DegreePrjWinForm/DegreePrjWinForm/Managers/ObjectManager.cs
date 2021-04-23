@@ -53,7 +53,7 @@ namespace DegreePrjWinForm.Managers
             var count = 0;
             foreach (var pb in ParkingBlocks)
             {
-                foreach (var p in pb.AircraftParkings)
+                foreach (var p in pb.Parkings)
                 {
                     count++;
                 }

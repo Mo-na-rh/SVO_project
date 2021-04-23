@@ -37,24 +37,29 @@ namespace DegreePrjWinForm
 
         private void ComputeButton_Click(object sender, EventArgs e)
         {
-            ExcelService.LoadData(textBoxWorkPath.Text, _objectManager);
-            //ProcessingService.LinkTgoToScheduleRows(_objectManager);
+        //    // load 
+        //    ExcelService.LoadData(textBoxWorkPath.Text, _objectManager);
+        //    XmlService.LoadParkingCoordinates(_objectManager);
+        //    XmlService.LoadTgoObjects(_objectManager);
 
-            // replace calling xml service
-            XmlService.FillParkingCoordinatesFromXml(_objectManager);
+        //    // linking
+        //    LinkingService.LinkScheduleRowsToParkings(_objectManager);
+        //    LinkingService.LinkTgoToScheduleRows(_objectManager);
 
-            XmlService.FillTgoObjects(_objectManager);
+        //    // processing 
+        //    // first step generate blocks
+        //    ParkingBlockService.FillParkingBlocks(_objectManager);
 
-            // Операция выполняется в отдельном сервисе, который работает с МС и 
-            // Заполняются блоки по 3 парковочных места в одном заглушка
-            ParkingBlockService.FillParkingBlocks(_objectManager);
+        //    // second handle blocks return gse count by types
+        //    ProcessingService.HandleBlocks(_objectManager);
 
-            LinkingService.LinkScheduleRowsToParkings(_objectManager);
-            LinkingService.LinkTgoToScheduleRows(_objectManager);
-            ParkingBlockService.CheckParkingBlocks(_objectManager);
+            // Check blocks without scheduleRows rudimentary method
+            // ParkingBlockService.CheckParkingBlocks(_objectManager);
 
+            // Write report
             //ReportService.WriteTestResultReport(@"D:\chetv_va\Диплом 2021\Данные для работы\Results.txt", _objectManager);
             //ReportService.WriteResultReportExcel(textBoxResFilePath.Text, _objectManager);
+            ReportService.TestWritingInExcel();
 
             MessageBox.Show("Отчёт успешно записан!");
         }

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Xml.Linq;
 using DegreePrjWinForm.Classes;
 using DegreePrjWinForm.Extensions;
+using DegreePrjWinForm.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 
@@ -36,6 +37,12 @@ namespace UnitTestProject1
 
                 package.Save();
             }
+        }
+
+        [TestMethod]
+        public void TestInExcel()
+        {
+            ReportService.TestWritingInExcel();
         }
 
         [TestMethod]

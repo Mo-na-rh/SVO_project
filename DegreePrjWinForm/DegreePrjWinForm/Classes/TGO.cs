@@ -1,4 +1,5 @@
 ﻿using DegreePrjWinForm.Enums;
+using System;
 using System.Collections.Generic;
 
 namespace DegreePrjWinForm.Classes
@@ -37,5 +38,12 @@ namespace DegreePrjWinForm.Classes
         /// Список операций производимых в данном ТГО
         /// </summary>
         public List<Operation> Operations = new List<Operation>();
+
+        public DateTime GetTotalTime()
+        {
+            var splittedTime = TotalTime.Split(':'); //default format mm:ss
+            var time = TimeSpan.FromMinutes(int.Parse(splittedTime[0]));
+            return DateTime.MinValue + time; 
+        }
     }
 }

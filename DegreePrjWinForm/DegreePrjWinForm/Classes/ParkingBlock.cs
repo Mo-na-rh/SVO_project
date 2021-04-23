@@ -21,13 +21,17 @@ namespace DegreePrjWinForm.Classes
         /// <summary>
         /// Места стоянки входящие в блок.
         /// </summary>
-        public List<Parking> AircraftParkings { get; set; }
+        public List<Parking> Parkings { get; set; }
 
-
+        /// <summary>
+        /// Получение количества СНО на блок по типу
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public int GetGseCountByType(GseType type)
         {
             //TODO now plug will add logic
-            return AircraftParkings.Count;
+            return Parkings.Count;
         }
 
     }

@@ -58,16 +58,25 @@ namespace DegreePrjWinForm.Classes
         /// </summary>
         public TGO LinkedTGO { get; set; }
 
-        public string GetAirCompanyCode()
-        {
-            return CodeAirCompany;
-        }
+        /// <summary>
+        /// Есть ли пересечения с другими ТГО внутри блока (false по умолчанию)
+        /// </summary>
+        public bool IsCrossed { get; set; } = false;
 
-        public string GetAircraftBodyType()
-        {
-            return TypePlane;
-        }
+        /// <summary>
+        /// Начало техобслуживания по графику
+        /// </summary>
+        public DateTime StartTGO { get; set; }
 
+        /// <summary>
+        /// Окончание тех обслуживания по графику
+        /// </summary>
+        public DateTime EndTGO { get; set; }
+
+        /// <summary>
+        /// Получение типа ТГО
+        /// </summary>
+        /// <returns></returns>
         public TgoType GetTgoType()
         {
             if (Type.Contains("D"))
@@ -77,6 +86,19 @@ namespace DegreePrjWinForm.Classes
                 return TgoType.arrival;
 
             return TgoType.reverse;
+        }
+
+        /// <summary>
+        /// Получение времени начала ТГО
+        /// </summary>
+        /// <returns></returns>
+        public DateTime GetStartDate()
+        {
+            var date = Convert.ToDateTime(FlightDate);
+            var time = Convert.ToDateTime(FlightScheduleTime);
+            StartTGO = date.Add(time.TimeOfDay);
+
+            return StartTGO;
         }
     }
 }

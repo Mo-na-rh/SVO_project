@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using DegreePrjWinForm.Classes;
 using DegreePrjWinForm.Managers;
+using OfficeOpenXml;
+using OfficeOpenXml.Style;
 
 namespace DegreePrjWinForm.Services
 {
@@ -97,7 +99,7 @@ namespace DegreePrjWinForm.Services
             foreach (var row in _parkingBlocks.Where(t => !t.IsFilled).ToList())
             {
                 tw.WriteLine($"id block: {row.Id}");
-                foreach (var parking in row.AircraftParkings)
+                foreach (var parking in row.Parkings)
                 {
                     tw.WriteLine($" num: {parking.Id} / Number: {parking.Number} ");
                 }
@@ -123,7 +125,7 @@ namespace DegreePrjWinForm.Services
                 foreach (var pb in oM.ParkingBlocks)
                 {
                     tw.WriteLine($" Блок {pb.Id}");
-                    foreach (var parking in pb.AircraftParkings)
+                    foreach (var parking in pb.Parkings)
                     {
                         tw.WriteLine($"     - Место стоянки {parking.Number}");
                     }
@@ -176,6 +178,106 @@ namespace DegreePrjWinForm.Services
             //                 $"конуса безопасности {oM.GetGseCountByType(GseType.markerCone)}, " +
             //                 $"буксировочные водила {oM.GetGseCountByType(GseType.towhead)}.");
             //}
+        }
+
+        public static void TestWritingInExcel()
+        {
+            // If you use EPPlus in a noncommercial context
+            // according to the Polyform Noncommercial license:
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+            var Articles = new[]
+            {
+                new {
+                    Id = "101", Name = "C++"
+                },
+                new {
+                    Id = "102", Name = "Python"
+                },
+                new {
+                    Id = "103", Name = "Java Script"
+                },
+                new {
+                    Id = "104", Name = "GO"
+                },
+                new {
+                    Id = "105", Name = "Java"
+                },
+                new {
+                    Id = "106", Name = "C#"
+                }
+            };
+
+            // Creating an instance
+            // of ExcelPackage
+            ExcelPackage excel = new ExcelPackage();
+
+            // name of the sheet
+            var workSheet = excel.Workbook.Worksheets.Add("Sheet1");
+
+            // setting the properties
+            // of the work sheet 
+            workSheet.TabColor = System.Drawing.Color.Black;
+            workSheet.DefaultRowHeight = 12;
+
+            // Setting the properties
+            // of the first row
+            workSheet.Row(1).Height = 20;
+            workSheet.Row(1).Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            workSheet.Row(1).Style.Font.Bold = true;
+
+            // Header of the Excel sheet
+            workSheet.Cells[1, 1].Value = "S.No";
+            workSheet.Cells[1, 2].Value = "Id";
+            workSheet.Cells[1, 3].Value = "Name";
+
+            // Inserting the article data into excel
+            // sheet by using the for each loop
+            // As we have values to the first row 
+            // we will start with second row
+            int recordIndex = 2;
+
+            foreach (var article in Articles)
+            {
+                workSheet.Cells[recordIndex, 1].Value = (recordIndex - 1).ToString();
+                workSheet.Cells[recordIndex, 2].Value = article.Id;
+                workSheet.Cells[recordIndex, 3].Value = article.Name;
+                recordIndex++;
+            }
+
+            // By default, the column width is not 
+            // set to auto fit for the content
+            // of the range, so we are using
+            // AutoFit() method here. 
+            workSheet.Column(1).AutoFit();
+            workSheet.Column(2).AutoFit();
+            workSheet.Column(3).AutoFit();
+
+            // file name with .xlsx extension 
+            string p_strPath = GetPathToExcel() + "report.xlsx";
+
+            if (File.Exists(p_strPath))
+                File.Delete(p_strPath);
+
+            // Create excel file on physical disk 
+            FileStream objFileStrm = File.Create(p_strPath);
+            objFileStrm.Close();
+
+            // Write content to excel file 
+            File.WriteAllBytes(p_strPath, excel.GetAsByteArray());
+            //Close Excel package
+            excel.Dispose();
+        }
+
+        /// <summary>
+        /// Получение пути к текущей папке с Xml
+        /// </summary>
+        /// <returns></returns>
+        public static string GetPathToExcel()
+        {
+            var path = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            path = path.Substring(0, path.IndexOf("bin"));
+            return path + @"Source\";
         }
 
     }
