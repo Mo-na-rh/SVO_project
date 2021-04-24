@@ -18,25 +18,17 @@
 			<startTime>00:05</startTime>
 			<endTime>00:10</endTime>
 		</operation>
-    </operations>
-</TGO>
-<TGO>
-    <airCompany>RL</airCompany>
-    <totalTime>50:00</totalTime>
-	<typePlane>ШФ</typePlane>
-    <type>Вылет</type>
-    <operations>
-        <operation>
-			<name>Установка колодок</name>
+		<operation>
+			<name>Уборка колодок</name>
 			<gseType>Колодки</gseType>
-			<startTime>00:00</startTime>
-			<endTime>00:05</endTime>
+			<startTime>35:00</startTime>
+			<endTime>40:00</endTime>
 		</operation>
 		<operation>
-			<name>Установка конусов безопасности</name>
+			<name>Уборка конусов безопасности</name>
 			<gseType>Конуса безопасности</gseType>
-			<startTime>00:05</startTime>
-			<endTime>00:10</endTime>
+			<startTime>40:00</startTime>
+			<endTime>45:00</endTime>
 		</operation>
     </operations>
 </TGO>
@@ -58,6 +50,50 @@
 			<startTime>00:05</startTime>
 			<endTime>00:10</endTime>
 		</operation>
+		<operation>
+			<name>Уборка колодок</name>
+			<gseType>Колодки</gseType>
+			<startTime>50:00</startTime>
+			<endTime>55:00</endTime>
+		</operation>
+		<operation>
+			<name>Уборка конусов безопасности</name>
+			<gseType>Конуса безопасности</gseType>
+			<startTime>55:00</startTime>
+			<endTime>60:00</endTime>
+		</operation>
+    </operations>
+</TGO>
+<TGO>
+    <airCompany>RL</airCompany>
+    <totalTime>50:00</totalTime>
+	<typePlane>ШФ</typePlane>
+    <type>Вылет</type>
+    <operations>
+        <operation>
+			<name>Установка колодок</name>
+			<gseType>Колодки</gseType>
+			<startTime>00:00</startTime>
+			<endTime>00:05</endTime>
+		</operation>
+		<operation>
+			<name>Установка конусов безопасности</name>
+			<gseType>Конуса безопасности</gseType>
+			<startTime>00:05</startTime>
+			<endTime>00:10</endTime>
+		</operation>
+		<operation>
+			<name>Уборка колодок</name>
+			<gseType>Колодки</gseType>
+			<startTime>40:00</startTime>
+			<endTime>45:00</endTime>
+		</operation>
+		<operation>
+			<name>Уборка конусов безопасности</name>
+			<gseType>Конуса безопасности</gseType>
+			<startTime>45:00</startTime>
+			<endTime>50:00</endTime>
+		</operation>
     </operations>
 </TGO>
 <TGO>
@@ -77,6 +113,18 @@
 			<gseType>Конуса безопасности</gseType>
 			<startTime>00:05</startTime>
 			<endTime>00:10</endTime>
+		</operation>
+		<operation>
+			<name>Уборка колодок</name>
+			<gseType>Колодки</gseType>
+			<startTime>30:00</startTime>
+			<endTime>35:00</endTime>
+		</operation>
+		<operation>
+			<name>Уборка конусов безопасности</name>
+			<gseType>Конуса безопасности</gseType>
+			<startTime>35:00</startTime>
+			<endTime>40:00</endTime>
 		</operation>
     </operations>
 </TGO>

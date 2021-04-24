@@ -28,12 +28,15 @@ namespace DegreePrjWinForm.Services
         private static void HandleBlock(ParkingBlock block)
         {
             CheckIntersections(block);
-           // Чо делать с этими пересечениями?????????????????
+
+            foreach (var parking in block.Parkings)
+            {
+
+            }
         }
 
         private static void CheckIntersections(ParkingBlock block)
         {
-            var resultList = new List<Parking>();
             foreach(var parking in block.Parkings)
             {
                 foreach (var row in parking.LinkedScheduleRows)
@@ -96,5 +99,6 @@ namespace DegreePrjWinForm.Services
                 }
             }
         }
+
     }
 }
