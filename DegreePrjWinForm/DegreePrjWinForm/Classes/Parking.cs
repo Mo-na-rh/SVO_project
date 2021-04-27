@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace DegreePrjWinForm.Classes
 {
@@ -60,6 +61,25 @@ namespace DegreePrjWinForm.Classes
             }
 
             return sum / Coordinates.Count;
+        }
+
+        public bool IsContact()
+        {
+            var utk = new string[] {
+                "10", "11", "12", "13", "13A", "14", "15", "15A", "16", "17", "17A", "18", "19", "19A",
+                "20", "21", "21A", "22", "23", "24", "25", "26", "27", "27A", "28", "29", "29A",
+                "30", "31", "32", "32A", "33", "34", "34A", "35", "36", "37", "37A", "38", "39",
+                "40", "41", "42", "42A", "42C", "43", "43A", "43C", "44",
+                "44A", "44C", "45", "45A", "46", "47", "48", "48A", "49",
+                "50", "51", "52", "53", "53A", "54", "55", "56", "57", "57A", "58", "59","60"
+            };
+            var stk = new string[] {
+                "113", "114", "115", "116", "117", "118", "119",
+                "120", "120A", "121", "122", "123", "124", "125", "126",
+                "127", "128", "128A", "129", "130", "130A", "131"
+            };
+
+            return Array.Exists(utk, t => t == Number) || Array.Exists(stk, t => t == Number);
         }
     }
 }

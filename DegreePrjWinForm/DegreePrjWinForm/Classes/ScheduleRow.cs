@@ -54,7 +54,7 @@ namespace DegreePrjWinForm.Classes
         public string AirCompanyName { get; set; }
 
         /// <summary>
-        /// ТГО для воздушного судна по расписанию.
+        /// ТГО для воздушного судна по расписанию
         /// </summary>
         public TGO LinkedTGO { get; set; }
 
@@ -62,6 +62,26 @@ namespace DegreePrjWinForm.Classes
         /// Есть ли пересечения с другими ТГО внутри блока (false по умолчанию)
         /// </summary>
         public bool IsCrossed { get; set; } = false;
+
+        /// <summary>
+        /// Есть ли пересечения с другими ТГО внутри блока (false по умолчанию)
+        /// </summary>
+        public bool IsBlockCrossed { get; set; } = false;
+
+        /// <summary>
+        /// Есть ли пересечения с другими ТГО внутри блока (false по умолчанию)
+        /// </summary>
+        public bool IsTowBarCrossed { get; set; } = false;
+
+        /// <summary>
+        /// Есть ли пересечения с другими ТГО внутри блока (false по умолчанию)
+        /// </summary>
+        public bool IsLadderCrossed { get; set; } = false;
+
+        /// <summary>
+        /// Есть ли пересечения по конусам безопасности
+        /// </summary>
+        public bool IsMarkerConeCrossed { get; set; } = false;
 
         /// <summary>
         /// Начало техобслуживания по графику
@@ -99,6 +119,28 @@ namespace DegreePrjWinForm.Classes
             StartTGO = date.Add(time.TimeOfDay);
 
             return StartTGO;
+        }
+
+        /// <summary>
+        /// Есть ли пересечения в операциях по определённому типу сно
+        /// </summary>
+        /// <param name="gseType"></param>
+        /// <returns></returns>
+        public bool IsCrossedGseByType(GseType gseType)
+        {
+            switch (gseType)
+            {
+                case GseType.block:
+                    return IsBlockCrossed;
+                case GseType.ladder:
+                    return IsLadderCrossed;
+                case GseType.towBar:
+                    return IsTowBarCrossed;
+                case GseType.markerCone:
+                    return IsMarkerConeCrossed;
+                default:
+                    throw new ArgumentException("Gse type is undefined!");
+            }
         }
     }
 }

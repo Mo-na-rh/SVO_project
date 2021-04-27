@@ -23,6 +23,11 @@
         /// <summary>
         /// Буксировочное водило
         /// </summary>
-        towhead
+        towBar,
+
+        /// <summary>
+        /// Трап, 1 для УФ, 2 для ШФ
+        /// </summary>
+        stepway
     }
 }

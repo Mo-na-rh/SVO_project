@@ -132,14 +132,14 @@ namespace DegreePrjWinForm.Services
                     tw.WriteLine($" Требуемое количество СНО на блок по типам: стремянки {pb.GetGseCountByType(GseType.ladder)}, " +
                                  $"упорные колодки {pb.GetGseCountByType(GseType.block)}, " +
                                  $"конуса безопасности {pb.GetGseCountByType(GseType.markerCone)}, " +
-                                 $"буксировочные водила {pb.GetGseCountByType(GseType.towhead)}.");
+                                 $"буксировочные водила {pb.GetGseCountByType(GseType.towBar)}.");
                 }
 
                 tw.WriteLine($"Итоговое количество блоков: {oM.ParkingBlocks.Count()}");
                 tw.WriteLine($"Общее потребное количество СНО по типам: стремянки {oM.GetGseCountByType(GseType.ladder)}, " +
                              $"упорные колодки {oM.GetGseCountByType(GseType.block)}, " +
                              $"конуса безопасности {oM.GetGseCountByType(GseType.markerCone)}, " +
-                             $"буксировочные водила {oM.GetGseCountByType(GseType.towhead)}.");
+                             $"буксировочные водила {oM.GetGseCountByType(GseType.towBar)}.");
             }
         }
 

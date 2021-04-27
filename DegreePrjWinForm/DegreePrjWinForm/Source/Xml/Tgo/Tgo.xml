@@ -10,13 +10,25 @@
 			<name>Установка колодок</name>
 			<gseType>Колодки</gseType>
 			<startTime>00:00</startTime>
-			<endTime>00:05</endTime>
+			<endTime>05:00</endTime>
 		</operation>
 		<operation>
 			<name>Установка конусов безопасности</name>
 			<gseType>Конуса безопасности</gseType>
-			<startTime>00:05</startTime>
-			<endTime>00:10</endTime>
+			<startTime>00:00</startTime>
+			<endTime>05:00</endTime>
+		</operation>
+		<operation>
+			<name>Открытие грузовых люков</name>
+			<gseType>Стремянки</gseType>
+			<startTime>08:00</startTime>
+			<endTime>10:00</endTime>
+		</operation>
+		<operation>
+			<name>Закрытие грузовых люков</name>
+			<gseType>Стремянки</gseType>
+			<startTime>35:00</startTime>
+			<endTime>40:00</endTime>
 		</operation>
 		<operation>
 			<name>Уборка колодок</name>
@@ -51,6 +63,18 @@
 			<endTime>00:10</endTime>
 		</operation>
 		<operation>
+			<name>Открытие грузовых люков</name>
+			<gseType>Стремянки</gseType>
+			<startTime>08:00</startTime>
+			<endTime>10:00</endTime>
+		</operation>
+		<operation>
+			<name>Закрытие грузовых люков</name>
+			<gseType>Стремянки</gseType>
+			<startTime>50:00</startTime>
+			<endTime>55:00</endTime>
+		</operation>
+		<operation>
 			<name>Уборка колодок</name>
 			<gseType>Колодки</gseType>
 			<startTime>50:00</startTime>
@@ -83,11 +107,42 @@
 			<endTime>00:10</endTime>
 		</operation>
 		<operation>
+			<name>Подгон первого трапа</name>
+			<gseType>Трапы</gseType>
+			<startTime>00:00</startTime>
+			<endTime>00:00</endTime>
+		</operation>
+		<operation>
+			<name>Подкл. источника эл. питания </name>
+			<gseType>Стремянки</gseType>
+			<startTime>00:00</startTime>
+			<endTime>00:00</endTime>
+		</operation>
+		<operation>
+			<name>Открытие грузовых люков</name>
+			<gseType>Стремянки</gseType>
+			<startTime>08:00</startTime>
+			<endTime>10:00</endTime>
+		</operation>
+		<operation>
+			<name>Закрытие грузовых люков</name>
+			<gseType>Стремянки</gseType>
+			<startTime>45:00</startTime>
+			<endTime>50:00</endTime>
+		</operation>
+		<operation>
+			<name>Отгон первого трапа</name>
+			<gseType>Трапы</gseType>
+			<startTime>00:00</startTime>
+			<endTime>00:00</endTime>
+		</operation>
+		<operation>
 			<name>Уборка колодок</name>
 			<gseType>Колодки</gseType>
 			<startTime>40:00</startTime>
 			<endTime>45:00</endTime>
 		</operation>
+		
 		<operation>
 			<name>Уборка конусов безопасности</name>
 			<gseType>Конуса безопасности</gseType>
@@ -113,6 +168,18 @@
 			<gseType>Конуса безопасности</gseType>
 			<startTime>00:05</startTime>
 			<endTime>00:10</endTime>
+		</operation>
+		<operation>
+			<name>Открытие грузовых люков</name>
+			<gseType>Стремянки</gseType>
+			<startTime>08:00</startTime>
+			<endTime>10:00</endTime>
+		</operation>
+		<operation>
+			<name>Закрытие грузовых люков</name>
+			<gseType>Стремянки</gseType>
+			<startTime>30:00</startTime>
+			<endTime>35:00</endTime>
 		</operation>
 		<operation>
 			<name>Уборка колодок</name>

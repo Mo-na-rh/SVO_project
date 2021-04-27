@@ -37,7 +37,7 @@ namespace DegreePrjWinForm
 
         private void ComputeButton_Click(object sender, EventArgs e)
         {
-        //    // load 
+        //    //load 
         //    ExcelService.LoadData(textBoxWorkPath.Text, _objectManager);
         //    XmlService.LoadParkingCoordinates(_objectManager);
         //    XmlService.LoadTgoObjects(_objectManager);

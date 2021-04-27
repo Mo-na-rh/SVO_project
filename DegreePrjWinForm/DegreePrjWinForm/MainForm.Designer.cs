@@ -47,7 +47,7 @@
             // buttonSelectShedule
             // 
             this.buttonSelectShedule.Location = new System.Drawing.Point(31, 59);
-            this.buttonSelectShedule.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonSelectShedule.Margin = new System.Windows.Forms.Padding(4);
             this.buttonSelectShedule.Name = "buttonSelectShedule";
             this.buttonSelectShedule.Size = new System.Drawing.Size(245, 28);
             this.buttonSelectShedule.TabIndex = 0;
@@ -58,7 +58,7 @@
             // textBoxWorkPath
             // 
             this.textBoxWorkPath.Location = new System.Drawing.Point(31, 27);
-            this.textBoxWorkPath.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxWorkPath.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxWorkPath.Name = "textBoxWorkPath";
             this.textBoxWorkPath.Size = new System.Drawing.Size(585, 22);
             this.textBoxWorkPath.TabIndex = 1;
@@ -72,7 +72,7 @@
             // checkButton
             // 
             this.checkButton.Location = new System.Drawing.Point(31, 236);
-            this.checkButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkButton.Margin = new System.Windows.Forms.Padding(4);
             this.checkButton.Name = "checkButton";
             this.checkButton.Size = new System.Drawing.Size(100, 28);
             this.checkButton.TabIndex = 2;
@@ -83,7 +83,7 @@
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(543, 234);
-            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 31);
             this.button1.TabIndex = 3;
@@ -94,11 +94,12 @@
             // textBoxResFilePath
             // 
             this.textBoxResFilePath.Location = new System.Drawing.Point(31, 191);
-            this.textBoxResFilePath.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxResFilePath.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxResFilePath.Name = "textBoxResFilePath";
             this.textBoxResFilePath.Size = new System.Drawing.Size(585, 22);
             this.textBoxResFilePath.TabIndex = 4;
-            this.textBoxResFilePath.Text = "D:\\chetv_va\\Диплом 2021\\Данные для работы\\Results.txt";
+            this.textBoxResFilePath.Text = "C:\\Users\\chetv_va\\Desktop\\Education\\Diploma\\Git\\Degree-project\\DegreePrjWinForm\\D" +
+    "egreePrjWinForm\\Source\\report.xlsx";
             // 
             // label1
             // 
@@ -113,7 +114,7 @@
             // textBoxParkingsCount
             // 
             this.textBoxParkingsCount.Location = new System.Drawing.Point(223, 107);
-            this.textBoxParkingsCount.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxParkingsCount.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxParkingsCount.Name = "textBoxParkingsCount";
             this.textBoxParkingsCount.Size = new System.Drawing.Size(52, 22);
             this.textBoxParkingsCount.TabIndex = 6;
@@ -132,7 +133,7 @@
             // dateTimePicker1
             // 
             this.dateTimePicker1.Location = new System.Drawing.Point(147, 148);
-            this.dateTimePicker1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dateTimePicker1.Margin = new System.Windows.Forms.Padding(4);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(185, 22);
             this.dateTimePicker1.TabIndex = 8;
@@ -141,7 +142,7 @@
             // dateTimePicker2
             // 
             this.dateTimePicker2.Location = new System.Drawing.Point(440, 148);
-            this.dateTimePicker2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dateTimePicker2.Margin = new System.Windows.Forms.Padding(4);
             this.dateTimePicker2.Name = "dateTimePicker2";
             this.dateTimePicker2.Size = new System.Drawing.Size(185, 22);
             this.dateTimePicker2.TabIndex = 9;
@@ -185,7 +186,7 @@
             this.Controls.Add(this.textBoxWorkPath);
             this.Controls.Add(this.buttonSelectShedule);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Модуль для расчёта оптимального количества СНО";
