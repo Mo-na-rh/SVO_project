@@ -253,6 +253,18 @@ namespace DegreePrjWinForm.Services
             workSheet.Column(2).AutoFit();
             workSheet.Column(3).AutoFit();
 
+            SaveInExcel(excel);
+
+            //Close Excel package
+            excel.Dispose();
+        }
+
+        /// <summary>
+        /// Сохранение объекта в excel файл
+        /// </summary>
+        /// <param name="excel"></param>
+        private static void SaveInExcel(ExcelPackage excel)
+        {
             // file name with .xlsx extension 
             string p_strPath = GetPathToExcel() + "report.xlsx";
 
@@ -265,8 +277,6 @@ namespace DegreePrjWinForm.Services
 
             // Write content to excel file 
             File.WriteAllBytes(p_strPath, excel.GetAsByteArray());
-            //Close Excel package
-            excel.Dispose();
         }
 
         /// <summary>

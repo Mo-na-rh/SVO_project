@@ -40,7 +40,7 @@ namespace DegreePrjWinForm.Classes
         /// <summary>
         /// Количество СНО типа буксировочное водило на блок 
         /// </summary>
-        public int TowHeadGseCount { get; set; }
+        public int TowBarGseCount { get; set; }
 
         /// <summary>
         /// Получение количества СНО на блок по типу
@@ -60,7 +60,7 @@ namespace DegreePrjWinForm.Classes
             {
                 foreach (var row in parking.LinkedScheduleRows)
                 {
-                    if (row.IsCrossedGseByType(type))
+                    if (row.IsUsedGseByType(type))
                     {
                         gseCount++;
                     }
@@ -137,8 +137,17 @@ namespace DegreePrjWinForm.Classes
         /// <returns></returns>
         private bool IsExistTowBar()
         {
-            // буксировка с прилёта на вылет
-            return true;
+            foreach (var parking in Parkings)
+            {
+                foreach (var row in parking.LinkedScheduleRows)
+                {
+                    foreach (var operation in row.LinkedTGO.Operations)
+                    {
+                        if (string.Equals(operation.Name, "Прибытие ВС")) return true;
+                    }
+                }
+            }
+            return false;
         }
 
         /// <summary>

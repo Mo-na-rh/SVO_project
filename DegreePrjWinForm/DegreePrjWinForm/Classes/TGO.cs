@@ -42,7 +42,7 @@ namespace DegreePrjWinForm.Classes
         public DateTime GetTotalTime()
         {
             var splittedTime = TotalTime.Split(':'); //default format mm:ss
-            var time = TimeSpan.FromMinutes(int.Parse(splittedTime[0]));
+            var time = TimeSpan.FromMinutes(int.Parse(splittedTime[1]));
             return DateTime.MinValue + time; 
         }
     }

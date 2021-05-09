@@ -44,5 +44,13 @@ namespace UnitTestProject1
 
             Assert.AreEqual(date3, resultDate);
         }
+
+        [TestMethod]
+        public void TryCleeDateAndTIme()
+        {
+            var a = DateTime.Now;
+            var minutes = "00:08";
+           var b = a + GetTimeSpanFromMinutes(minutes);
+        }
     }
 }

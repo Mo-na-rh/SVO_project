@@ -130,7 +130,10 @@ namespace DegreePrjWinForm.Extensions
                 foreach (var colName in colnames)
                 {
                     var prop = tprops.First(p => p.Name == colName.Name);
-                    prop.SetValue(resRow, row[colName.index].ToString());
+                    if (row[colName.index]!=null)
+                    {
+                        prop.SetValue(resRow, row[colName.index].ToString());
+                    }                 
                 }
 
                 resList.Add(resRow);

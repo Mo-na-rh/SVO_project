@@ -66,22 +66,22 @@ namespace DegreePrjWinForm.Classes
         /// <summary>
         /// Есть ли пересечения с другими ТГО внутри блока (false по умолчанию)
         /// </summary>
-        public bool IsBlockCrossed { get; set; } = false;
+        public bool IsBlockUsed { get; set; } = false;
 
         /// <summary>
         /// Есть ли пересечения с другими ТГО внутри блока (false по умолчанию)
         /// </summary>
-        public bool IsTowBarCrossed { get; set; } = false;
+        public bool IsTowBarUsed { get; set; } = false;
 
         /// <summary>
         /// Есть ли пересечения с другими ТГО внутри блока (false по умолчанию)
         /// </summary>
-        public bool IsLadderCrossed { get; set; } = false;
+        public bool IsLadderUsed { get; set; } = false;
 
         /// <summary>
         /// Есть ли пересечения по конусам безопасности
         /// </summary>
-        public bool IsMarkerConeCrossed { get; set; } = false;
+        public bool IsMarkerConeUsed { get; set; } = false;
 
         /// <summary>
         /// Начало техобслуживания по графику
@@ -126,18 +126,18 @@ namespace DegreePrjWinForm.Classes
         /// </summary>
         /// <param name="gseType"></param>
         /// <returns></returns>
-        public bool IsCrossedGseByType(GseType gseType)
+        public bool IsUsedGseByType(GseType gseType)
         {
             switch (gseType)
             {
                 case GseType.block:
-                    return IsBlockCrossed;
+                    return IsBlockUsed;
                 case GseType.ladder:
-                    return IsLadderCrossed;
+                    return IsLadderUsed;
                 case GseType.towBar:
-                    return IsTowBarCrossed;
+                    return IsTowBarUsed;
                 case GseType.markerCone:
-                    return IsMarkerConeCrossed;
+                    return IsMarkerConeUsed;
                 default:
                     throw new ArgumentException("Gse type is undefined!");
             }

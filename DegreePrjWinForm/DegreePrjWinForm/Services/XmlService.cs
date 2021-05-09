@@ -1,4 +1,6 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
@@ -13,6 +15,138 @@ namespace DegreePrjWinForm.Services
     /// </summary>
     public static class XmlService
     {
+        /// <summary>
+        /// Хочу сгенерить 100 объектов ТГО в xml формате
+        /// </summary>
+        public static void GenerateTgoObjectsToXml()
+        {
+
+            var path = "D:\\Chetverikov\\TGOs.xml";
+
+            XDocument xdoc = new XDocument();
+
+            // создаем корневой элемент
+            XElement TGOs = new XElement("TGOs");
+
+            var acDict = GetAcDict();
+
+            for (int i = 1; i < 165; i++)
+            {
+                var type = "";
+                var typePlane = "";
+                var airCompany = "";
+
+                if (i < 83)
+                {
+                    type = "Вылет";
+
+                    if (i < 42)
+                    {
+                        typePlane = "ШФ";
+                        airCompany = acDict[i];
+                    }
+                    else
+                    {
+                        typePlane = "УФ";
+                        airCompany = acDict[i-41];
+                    }
+                }
+                else
+                {
+                    type = "Прилет";
+
+                    if (i < 124)
+                    {
+                        typePlane = "ШФ";
+                        airCompany = acDict[i - 82];
+                    }
+                    else
+                    {
+                        typePlane = "УФ";
+                        airCompany = acDict[i - 123];
+                    }
+
+                }
+
+                XElement tgo = new XElement("TGO");
+             
+                XAttribute id = new XAttribute("id", i);
+                XElement airCompanyTGO = new XElement("airCompany", airCompany);
+                XElement totalTimeTGO = new XElement("totalTime", "00:60");
+                XElement typePlaneTGO = new XElement("typePlane", typePlane);
+                XElement typeTGO = new XElement("type", type);
+
+                XElement operations = new XElement("operations");
+                FillOperations(operations, type);
+
+                // Добавление аттрибута id
+                tgo.Add(id);
+
+                tgo.Add(airCompanyTGO);
+                tgo.Add(totalTimeTGO);
+                tgo.Add(typePlaneTGO);
+                tgo.Add(typeTGO);
+
+                tgo.Add(operations);
+
+                TGOs.Add(tgo);
+            }
+
+            // добавляем корневой элемент в документ
+            xdoc.Add(TGOs);
+            //сохраняем документ
+            xdoc.Save(path);
+        }
+
+        /// <summary>
+        /// Сделать потом отдельно для отправлений, прибытий шф/уф
+        /// </summary>
+        /// <param name="operations"></param>
+        private static void FillOperations(XElement operations, string type)
+        {
+            var operationArrival = GetOperation("Прибытие ВС", "Водила", "00:00", "00:00");
+            var operation1 = GetOperation("Установка колодок", "Колодки", "00:00", "00:05");
+            var operation2 = GetOperation("Установка конусов безопасности", "Конуса безопасности", "00:05", "00:10");
+            var operation3 = GetOperation("Подгон первого трапа", "Трапы", "00:04", "00:06");
+            var operation4 = GetOperation("Открытие грузовых люков", "Стремянки", "00:08", "00:10");
+            var operation5 = GetOperation("Закрытие грузовых люков", "Стремянки", "00:42", "00:45");
+            var operation6 = GetOperation("Отгон первого трапа", "Трапы", "00:45", "00:48");
+            var operation7 = GetOperation("Уборка колодок", "Колодки", "00:40", "00:45");
+            var operation8 = GetOperation("Уборка конусов безопасности", "Конуса безопасности", "00:45", "00:50");       
+            var operationDeparture = GetOperation("Отправление ВС", "Водила", "00:00", "00:00");
+
+
+
+
+            operations.Add(operationArrival);
+            operations.Add(operation1);
+            operations.Add(operation2);
+            operations.Add(operation3);
+            operations.Add(operation4);
+            operations.Add(operation5);
+            operations.Add(operation6);
+            operations.Add(operation7);
+            operations.Add(operation8);
+            if (type == "Вылет")
+                operations.Add(operationDeparture);
+        }
+
+        private static XElement GetOperation(string name, string gseType, string start, string end)
+        {
+            var operation = new XElement("operation");
+            var nameEl = new XElement("name", name);
+            var gseTypeEl = new XElement("gseType", gseType);
+            var startTimeEl = new XElement("startTime", start);
+            var endTimeEl = new XElement("endTime", end);
+
+            operation.Add(nameEl);
+            operation.Add(gseTypeEl);
+            operation.Add(startTimeEl);
+            operation.Add(endTimeEl);
+
+            return operation;
+        }
+
         /// <summary>
         /// Получение пути к текущей папке с Xml
         /// </summary>
@@ -136,6 +270,54 @@ namespace DegreePrjWinForm.Services
                 return AircraftBodyType.wide;
 
             return AircraftBodyType.narrow;
+        }
+
+        private static Dictionary<int, string> GetAcDict()
+        {
+            return new Dictionary<int, string>
+            {
+                {1,"N4"},
+                {2,"SU"},
+                {3,"EO"},
+                {4,"FV"},
+                {5,"BT"},
+                {6,"OK"},
+                {7,"KC"},
+                {8,"O"},
+                {9,"AY"},
+                {10,"CZ"},
+                {11,"U6"},
+                {12,"KE"},
+                {13,"CA"},
+                {14,"K"},
+                {15,"MU"},
+                {16,"AZ"},
+                {17,"BA"},
+                {18,"D2"},
+                {19,"AF"},
+                {20,"AH"},
+                {21,"8"},
+                {22,"JU"},
+                {23,"KM"},
+                {24,"R"},
+                {25,"HU"},
+                {26,"3U"},
+                {27,"QS"},
+                {28,"FB"},
+                {29,"OM"},
+                {30,"JD"},
+                {31,"6Q"},
+                {32,"L"},
+                {33,"FG"},
+                {34,"YC"},
+                {35,"B2"},
+                {36,"GS"},
+                {37,"ZF"},
+                {38,"E9"},
+                {39,"OS"},
+                {40,"E"},
+                {41,"8Q"}
+            };
         }
     }
 }

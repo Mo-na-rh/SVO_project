@@ -37,21 +37,29 @@ namespace DegreePrjWinForm
 
         private void ComputeButton_Click(object sender, EventArgs e)
         {
-        //    //load 
-        //    ExcelService.LoadData(textBoxWorkPath.Text, _objectManager);
-        //    XmlService.LoadParkingCoordinates(_objectManager);
-        //    XmlService.LoadTgoObjects(_objectManager);
+            //load 
+            ExcelService.LoadData(textBoxWorkPath.Text, _objectManager);
+            XmlService.LoadParkingCoordinates(_objectManager);
+            XmlService.LoadTgoObjects(_objectManager);
 
-        //    // linking
-        //    LinkingService.LinkScheduleRowsToParkings(_objectManager);
-        //    LinkingService.LinkTgoToScheduleRows(_objectManager);
+            //    // linking
+            LinkingService.LinkScheduleRowsToParkings(_objectManager);
+            LinkingService.LinkTgoToScheduleRows(_objectManager);
 
-        //    // processing 
-        //    // first step generate blocks
-        //    ParkingBlockService.FillParkingBlocks(_objectManager);
+            // processing 
+            // first step generate blocks
+            ParkingBlockService.FillParkingBlocks(_objectManager);
 
-        //    // second handle blocks return gse count by types
-        //    ProcessingService.HandleBlocks(_objectManager);
+            //    // second handle blocks return gse count by types
+            try
+            {
+                ProcessingService.HandleBlocks(_objectManager);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Exception" + ex.Message);
+            }
+            
 
             // Check blocks without scheduleRows rudimentary method
             // ParkingBlockService.CheckParkingBlocks(_objectManager);
@@ -74,6 +82,7 @@ namespace DegreePrjWinForm
         private void buttonExit_Click(object sender, EventArgs e)
         {
             this.Close();
+            XmlService.GenerateTgoObjectsToXml();
         }
 
         /// <summary>
