@@ -68,6 +68,9 @@ namespace DegreePrjWinForm.Classes
                 }
             }
 
+            if (gseCount > Parkings.Count)
+                gseCount = Parkings.Count;
+
             return gseCount;
         }
 

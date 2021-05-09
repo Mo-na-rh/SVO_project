@@ -62,13 +62,35 @@ namespace DegreePrjWinForm.Services
 
         private static void InitializeIntersectionsByGseTypes(ScheduleRow row, ScheduleRow row2)
         {
-            InitializeBlockIntersection(row, row2);
-            InitializeLadderIntersection(row, row2);
-            InitializeMarkerconeIntersection(row, row2);
-            InitializeTowBarIntersection(row, row2);
+            CheckBlockIntersection(row, row2);
+            CheckLadderIntersection(row, row2);
+            CheckMarkerconeIntersection(row, row2);
+            CheckTowBarIntersection(row, row2);
         }
 
-        private static void InitializeTowBarIntersection(ScheduleRow row, ScheduleRow row2)
+        private static void CheckBlockIntersection(ScheduleRow row, ScheduleRow row2)
+        {
+            // получаем операции
+            var operationStart1 = row.LinkedTGO.Operations.Where(t => t.Name == "Установка колодок").FirstOrDefault();
+            var operationEnd1 = row.LinkedTGO.Operations.Where(t => t.Name == "Уборка колодок").FirstOrDefault();
+
+            var operationStart2 = row2.LinkedTGO.Operations.Where(t => t.Name == "Установка колодок").FirstOrDefault();
+            var operationEnd2 = row2.LinkedTGO.Operations.Where(t => t.Name == "Уборка колодок").FirstOrDefault();
+
+            // получаем время
+            var startDate1 = row.StartTGO + GetTimeSpanFromMinutes(operationStart1.StartTime);
+            var endDate1 = row.StartTGO + GetTimeSpanFromMinutes(operationEnd1.EndTime);
+
+            var startDate2 = row2.StartTGO + GetTimeSpanFromMinutes(operationStart2.StartTime);
+            var endDate2 = row2.StartTGO + GetTimeSpanFromMinutes(operationEnd2.EndTime);
+
+            if (IsDatesCrossed(startDate1, endDate1, startDate2, endDate2) && !row.IsBlockUsed)
+            {
+                row2.IsBlockUsed = true;
+            }
+        }
+
+        private static void CheckTowBarIntersection(ScheduleRow row, ScheduleRow row2)
         {
             // для прилета - 10 мин от прибытия ВС, для вылета + 10 мин к отправлению(прибытие,отправление операции в тго )
             // получаем операции
@@ -124,7 +146,7 @@ namespace DegreePrjWinForm.Services
         /// </summary>
         /// <param name="row"></param>
         /// <param name="row2"></param>
-        private static void InitializeMarkerconeIntersection(ScheduleRow row, ScheduleRow row2)
+        private static void CheckMarkerconeIntersection(ScheduleRow row, ScheduleRow row2)
         {
             // получаем операции
             var operationStart1 = row.LinkedTGO.Operations.Where(t => t.Name == "Установка конусов безопасности").FirstOrDefault();
@@ -146,7 +168,7 @@ namespace DegreePrjWinForm.Services
             }
         }
 
-        private static void InitializeLadderIntersection(ScheduleRow row, ScheduleRow row2)
+        private static void CheckLadderIntersection(ScheduleRow row, ScheduleRow row2)
         {
             // получаем операции
             var operationStart1 = row.LinkedTGO.Operations.Where(t => t.Name == "Открытие грузовых люков").FirstOrDefault();
@@ -165,28 +187,6 @@ namespace DegreePrjWinForm.Services
             if (IsDatesCrossed(startDate1, endDate1, startDate2, endDate2) && !row.IsLadderUsed)
             {
                 row2.IsLadderUsed = true;
-            }
-        }
-
-        private static void InitializeBlockIntersection(ScheduleRow row, ScheduleRow row2)
-        {
-            // получаем операции
-            var operationStart1 = row.LinkedTGO.Operations.Where(t => t.Name == "Установка колодок").FirstOrDefault();
-            var operationEnd1 = row.LinkedTGO.Operations.Where(t => t.Name == "Уборка колодок").FirstOrDefault();
-
-            var operationStart2 = row2.LinkedTGO.Operations.Where(t => t.Name == "Установка колодок").FirstOrDefault();
-            var operationEnd2 = row2.LinkedTGO.Operations.Where(t => t.Name == "Уборка колодок").FirstOrDefault();
-
-            // получаем время
-            var startDate1 = row.StartTGO + GetTimeSpanFromMinutes(operationStart1.StartTime);
-            var endDate1 = row.StartTGO + GetTimeSpanFromMinutes(operationEnd1.EndTime);
-
-            var startDate2 = row2.StartTGO + GetTimeSpanFromMinutes(operationStart2.StartTime);
-            var endDate2 = row2.StartTGO + GetTimeSpanFromMinutes(operationEnd2.EndTime);
-
-            if (IsDatesCrossed(startDate1, endDate1, startDate2, endDate2)&&!row.IsBlockUsed)
-            {
-                row2.IsBlockUsed = true;
             }
         }
 

@@ -51,7 +51,7 @@ namespace DegreePrjWinForm
 
             // processing 
             // first step generate blocks
-            ParkingBlockService.FillParkingBlocks(_objectManager);
+            ParkingBlockService.FillParkingBlocks(_objectManager, Convert.ToInt32(textBoxParkingsCount.Text));
 
             // second handle blocks return gse count by types
             try
