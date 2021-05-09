@@ -208,7 +208,7 @@ namespace DegreePrjWinForm.Services
                 foreach (var element in rootElement.Elements("TGO"))
                 {
                     var tgo = new TGO();
-                    tgo.ACCode = element.Element("airCompany")?.Value;
+                    tgo.AircompanyCode = element.Element("airCompany")?.Value;
                     tgo.TotalTime = element.Element("totalTime")?.Value;
                     var tp = element.Element("type")?.Value;
                     if (!string.IsNullOrEmpty(tp))

@@ -112,7 +112,7 @@ namespace DegreePrjWinForm.Services
         /// </summary>
         /// <param name="time"></param>
         /// <returns></returns>
-        private static TimeSpan GetTimeSpanFromMinutes(string time)
+        public static TimeSpan GetTimeSpanFromMinutes(string time)
         {
             // default format hh:mm
             var splittedTime = time.Split(':');

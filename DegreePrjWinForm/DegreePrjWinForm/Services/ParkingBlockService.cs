@@ -33,6 +33,7 @@ namespace DegreePrjWinForm.Services
         public static void FillParkingBlocks(ObjectManager objMgr)
         {
             var i = 1;
+            var j = 1;
             var block = new ParkingBlock();
             block.Id = i;
             block.Parkings = new List<Parking>();
@@ -45,7 +46,8 @@ namespace DegreePrjWinForm.Services
                 }
                 else
                 {
-                    block = new ParkingBlock { Parkings = new List<Parking>(), Id = i };
+                    block = new ParkingBlock { Parkings = new List<Parking>(), Id = j };
+                    j++;
                     block.Parkings.Add(parkingObject);
                     objMgr.ParkingBlocks.Add(block);
                 }

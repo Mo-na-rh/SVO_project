@@ -1,5 +1,6 @@
 ﻿using System;
 using DegreePrjWinForm.Classes;
+using DegreePrjWinForm.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTestProject1
@@ -48,9 +49,9 @@ namespace UnitTestProject1
         [TestMethod]
         public void TryCleeDateAndTIme()
         {
-            var a = DateTime.Now;
-            var minutes = "00:08";
-           var b = a + GetTimeSpanFromMinutes(minutes);
+           // var a = DateTime.Now;
+           // var minutes = "00:08";
+           //var b = a + ProcessingService.GetTimeSpanFromMinutes(minutes);
         }
     }
 }

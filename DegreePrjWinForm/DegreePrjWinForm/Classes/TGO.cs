@@ -17,7 +17,7 @@ namespace DegreePrjWinForm.Classes
         /// <summary>
         /// Код авиакомпании
         /// </summary>
-        public string ACCode { get; set; }
+        public string AircompanyCode { get; set; }
 
         /// <summary>
         /// Тип самолёта ШФ/УФ
@@ -39,6 +39,10 @@ namespace DegreePrjWinForm.Classes
         /// </summary>
         public List<Operation> Operations = new List<Operation>();
 
+        /// <summary>
+        /// Общее время
+        /// </summary>
+        /// <returns></returns>
         public DateTime GetTotalTime()
         {
             var splittedTime = TotalTime.Split(':'); //default format mm:ss

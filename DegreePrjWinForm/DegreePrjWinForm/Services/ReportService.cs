@@ -14,6 +14,234 @@ namespace DegreePrjWinForm.Services
     /// </summary>
     public static class ReportService
     {
+        #region Excel
+
+        /// <summary>
+        /// Вывод отчёта в файл Excel
+        /// </summary>
+        /// <param name="objectManager"></param>
+        public static void WriteReportInExcel(ObjectManager objectManager)
+        {
+            // If you use EPPlus in a noncommercial context
+            // according to the Polyform Noncommercial license:
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+            // Creating an instance of ExcelPackage
+            var package = new ExcelPackage();
+
+            // add sheet
+            var sheet = package.Workbook.Worksheets.Add("Отчёт");
+
+            AddReportHeader(sheet, objectManager.FromDate, objectManager.ToDate);
+
+            AddTableHeader(sheet);
+
+            var row = 5;
+
+            row = AddReportBode(objectManager, sheet, row);
+
+            row++;
+
+            AddReportSummary(objectManager, sheet, row);
+
+            SetStyles(sheet, row);
+
+            SaveInExcel(package);
+
+            //Close Excel package
+            package.Dispose();
+        }
+
+        /// <summary>
+        /// Форматирование и настройка параметров листа Excel
+        /// </summary>
+        /// <param name="sheet">Рабочая страница</param>
+        /// <param name="row">Индекс строки</param>
+        private static void SetStyles(ExcelWorksheet sheet, int row)
+        {
+            // Setting the properties of the header table row
+            sheet.Row(4).Height = 20;
+            sheet.Row(4).Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            sheet.Row(4).Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+            // покраска шапки
+            sheet.Cells[4, 1, 4, 4].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells[4, 1, 4, 4].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.LightGray);
+
+            sheet.Cells[4, 1, 4, 4].Style.Border.BorderAround(ExcelBorderStyle.Thin);
+            sheet.Column(2).Width = 15;
+            sheet.Column(3).AutoFit();
+            sheet.Column(4).AutoFit();
+        }
+
+        /// <summary>
+        /// Заголовок отчёта
+        /// </summary>
+        /// <param name="sheet"></param>
+        /// <param name="fromDate"></param>
+        /// <param name="toDate"></param>
+        private static void AddReportHeader(ExcelWorksheet sheet, DateTime fromDate, DateTime toDate)
+        {
+            sheet.Cells[2, 1].Value = $"Прогноз потребности в СНО на период с 00:00 {fromDate.ToShortDateString()} по 23:59 {toDate.ToShortDateString()}";
+        }
+
+        /// <summary>
+        /// Шапка таблицы отчёта
+        /// </summary>
+        /// <param name="sheet"></param>
+        private static void AddTableHeader(ExcelWorksheet sheet)
+        {
+            // Header of the Excel sheet
+            sheet.Cells[4, 1].Value = "Блок";
+            sheet.Cells[4, 2].Value = "МС";
+            sheet.Cells[4, 3].Value = "Тип СНО";
+            sheet.Cells[4, 4].Value = "Количество(шт)";
+        }
+
+        /// <summary>
+        /// Отрисовка тела отчёта
+        /// </summary>
+        /// <param name="objectManager"></param>
+        /// <param name="sheet"></param>
+        /// <param name="row"></param>
+        /// <returns></returns>
+        private static int AddReportBode(ObjectManager objectManager, ExcelWorksheet sheet, int row)
+        {
+            var startRow = row;
+
+            foreach (var block in objectManager.ParkingBlocks)
+            {
+                sheet.Cells[row, 1].Value = block.Id;
+                sheet.Cells[row, 2].Value = block.GetParkingsByComma();
+
+                sheet.Cells[row, 1, row + 3, 1].Merge = true;
+                sheet.Cells[row, 2, row + 3, 2].Merge = true;
+
+                // Выравнивание
+                sheet.Cells[row, 1, row + 3, 2].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                sheet.Cells[row, 1, row + 3, 2].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+                sheet.Cells[row, 1, row + 3, 2].AutoFitColumns();
+
+                for (int i = 1; i < 5; i++)
+                {
+                    var typeGse = "";
+                    var countGse = 0;
+                    if (i == 1)
+                    {
+                        typeGse = "стремянки";
+                        countGse = block.LadderGseCount;
+                    }
+                    if (i == 2)
+                    {
+                        typeGse = "упорные колодки";
+                        countGse = block.BlockGseCount;
+                    }
+                    if (i == 3)
+                    {
+                        typeGse = "конуса безопасности";
+                        countGse = block.MarkerConeGseCount;
+                    }
+                    if (i == 4)
+                    {
+                        typeGse = "буксировочные водила";
+                        countGse = block.TowBarGseCount;
+                    }
+
+                    sheet.Cells[row, 3].Value = typeGse;
+                    sheet.Cells[row, 4].Value = countGse;
+                    row++;
+                }
+            }
+
+            sheet.Cells[startRow, 1, row - 1, 4].Style.Border.BorderAround(ExcelBorderStyle.Thin);
+
+            return row;
+        }
+
+        /// <summary>
+        /// Вывод результатов отчёта
+        /// </summary>
+        /// <param name="objectManager"></param>
+        /// <param name="sheet"></param>
+        /// <param name="row"></param>
+        private static void AddReportSummary(ObjectManager objectManager, ExcelWorksheet sheet, int row)
+        {
+            var startIndex = row;
+            sheet.Cells[row, 1].Value = "Суммарно по блокам";
+            sheet.Cells[row, 1, row, 2].Merge = true;
+            sheet.Cells[row, 1, row, 2].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells[row, 1, row, 2].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Yellow);
+
+            for (int i = 1; i < 5; i++)
+            {
+                var typeGse = "";
+                var countGse = 0;
+                if (i == 1)
+                {
+                    typeGse = "стремянки";
+                    countGse = objectManager.GetGseCountByType(GseType.ladder);
+                }
+                if (i == 2)
+                {
+                    typeGse = "упорные колодки";
+                    countGse = objectManager.GetGseCountByType(GseType.block);
+                }
+                if (i == 3)
+                {
+                    typeGse = "конуса безопасности";
+                    countGse = objectManager.GetGseCountByType(GseType.markerCone);
+                }
+                if (i == 4)
+                {
+                    typeGse = "буксировочные водила";
+                    countGse = objectManager.GetGseCountByType(GseType.towBar);
+                }
+
+                sheet.Cells[row, 3].Value = typeGse;
+                sheet.Cells[row, 4].Value = countGse;
+                row++;
+            }
+
+            var usedRange = sheet.Cells[startIndex, 1, row - 1, 4];
+            usedRange.Style.Border.BorderAround(ExcelBorderStyle.Thick);
+        }
+
+        /// <summary>
+        /// Сохранение объекта в excel файл
+        /// </summary>
+        /// <param name="excel"></param>
+        private static void SaveInExcel(ExcelPackage excel)
+        {
+            // file name with .xlsx extension 
+            var fileReportPath = GetPathToExcel() + "report.xlsx";
+
+            if (File.Exists(fileReportPath))
+                File.Delete(fileReportPath);
+
+            // Create excel file on physical disk 
+            var objFileStream = File.Create(fileReportPath);
+            objFileStream.Close();
+
+            // Write content to excel file 
+            File.WriteAllBytes(fileReportPath, excel.GetAsByteArray());
+        }
+
+        /// <summary>
+        /// Получение пути к расположению отчёта
+        /// </summary>
+        /// <returns></returns>
+        public static string GetPathToExcel()
+        {
+            var path = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            path = path.Substring(0, path.IndexOf("bin"));
+            return path + @"Source\";
+        }
+        
+        #endregion
+
+        #region Txt
+
         /// <summary>
         /// Компоновка и запись в файл результирующего отчёта
         /// </summary>
@@ -143,152 +371,7 @@ namespace DegreePrjWinForm.Services
             }
         }
 
-        /// <summary>
-        /// Компоновка и запись в файл результирующего отчёта
-        /// </summary>
-        /// <param name="pathToResultReportFile"></param>
-        /// <param name="objectManager"></param>
-        public static void WriteResultReportExcel(string pathToResultReportFile, ObjectManager oM)
-        {
-            //var fi = new FileInfo(pathToResultReportFile);
-            //using (TextWriter tw = new StreamWriter(fi.Open(FileMode.Truncate)))
-            //{
-            //    tw.WriteLine("Отчёт по расчету минимального количества СНО.");
-            //    tw.WriteLine(string.Empty);
-            //    tw.WriteLine($"На даты с {oM.FromDate} по {oM.ToDate}");
-            //    tw.WriteLine(string.Empty);
-            //    tw.WriteLine("Сформирована следующая разбивка по блокам: ");
-            //    tw.WriteLine(string.Empty);
-            //    foreach (var pb in oM.ParkingBlocks)
-            //    {
-            //        tw.WriteLine($" Блок {pb.Id}");
-            //        foreach (var parking in pb.AircraftParkings)
-            //        {
-            //            tw.WriteLine($"     - Место стоянки {parking.Number}");
-            //        }
-            //        tw.WriteLine($" Требуемое количество СНО на блок по типам: стремянки {pb.GetGseCountByType(GseType.ladder)}, " +
-            //                     $"упорные колодки {pb.GetGseCountByType(GseType.block)}, " +
-            //                     $"конуса безопасности {pb.GetGseCountByType(GseType.markerCone)}, " +
-            //                     $"буксировочные водила {pb.GetGseCountByType(GseType.towhead)}.");
-            //    }
-
-            //    tw.WriteLine($"Итоговое количество блоков: {oM.ParkingBlocks.Count()}");
-            //    tw.WriteLine($"Общее потребное количество СНО по типам: стремянки {oM.GetGseCountByType(GseType.ladder)}, " +
-            //                 $"упорные колодки {oM.GetGseCountByType(GseType.block)}, " +
-            //                 $"конуса безопасности {oM.GetGseCountByType(GseType.markerCone)}, " +
-            //                 $"буксировочные водила {oM.GetGseCountByType(GseType.towhead)}.");
-            //}
-        }
-
-        public static void TestWritingInExcel()
-        {
-            // If you use EPPlus in a noncommercial context
-            // according to the Polyform Noncommercial license:
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-
-            var Articles = new[]
-            {
-                new {
-                    Id = "101", Name = "C++"
-                },
-                new {
-                    Id = "102", Name = "Python"
-                },
-                new {
-                    Id = "103", Name = "Java Script"
-                },
-                new {
-                    Id = "104", Name = "GO"
-                },
-                new {
-                    Id = "105", Name = "Java"
-                },
-                new {
-                    Id = "106", Name = "C#"
-                }
-            };
-
-            // Creating an instance
-            // of ExcelPackage
-            ExcelPackage excel = new ExcelPackage();
-
-            // name of the sheet
-            var workSheet = excel.Workbook.Worksheets.Add("Sheet1");
-
-            // setting the properties
-            // of the work sheet 
-            workSheet.TabColor = System.Drawing.Color.Black;
-            workSheet.DefaultRowHeight = 12;
-
-            // Setting the properties
-            // of the first row
-            workSheet.Row(1).Height = 20;
-            workSheet.Row(1).Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-            workSheet.Row(1).Style.Font.Bold = true;
-
-            // Header of the Excel sheet
-            workSheet.Cells[1, 1].Value = "S.No";
-            workSheet.Cells[1, 2].Value = "Id";
-            workSheet.Cells[1, 3].Value = "Name";
-
-            // Inserting the article data into excel
-            // sheet by using the for each loop
-            // As we have values to the first row 
-            // we will start with second row
-            int recordIndex = 2;
-
-            foreach (var article in Articles)
-            {
-                workSheet.Cells[recordIndex, 1].Value = (recordIndex - 1).ToString();
-                workSheet.Cells[recordIndex, 2].Value = article.Id;
-                workSheet.Cells[recordIndex, 3].Value = article.Name;
-                recordIndex++;
-            }
-
-            // By default, the column width is not 
-            // set to auto fit for the content
-            // of the range, so we are using
-            // AutoFit() method here. 
-            workSheet.Column(1).AutoFit();
-            workSheet.Column(2).AutoFit();
-            workSheet.Column(3).AutoFit();
-
-            SaveInExcel(excel);
-
-            //Close Excel package
-            excel.Dispose();
-        }
-
-        /// <summary>
-        /// Сохранение объекта в excel файл
-        /// </summary>
-        /// <param name="excel"></param>
-        private static void SaveInExcel(ExcelPackage excel)
-        {
-            // file name with .xlsx extension 
-            string p_strPath = GetPathToExcel() + "report.xlsx";
-
-            if (File.Exists(p_strPath))
-                File.Delete(p_strPath);
-
-            // Create excel file on physical disk 
-            FileStream objFileStrm = File.Create(p_strPath);
-            objFileStrm.Close();
-
-            // Write content to excel file 
-            File.WriteAllBytes(p_strPath, excel.GetAsByteArray());
-        }
-
-        /// <summary>
-        /// Получение пути к текущей папке с Xml
-        /// </summary>
-        /// <returns></returns>
-        public static string GetPathToExcel()
-        {
-            var path = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            path = path.Substring(0, path.IndexOf("bin"));
-            return path + @"Source\";
-        }
+        #endregion
 
     }
 }

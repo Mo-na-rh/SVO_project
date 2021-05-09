@@ -38,8 +38,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.textBoxParkingsCount = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
+            this.dateTimePickerFrom = new System.Windows.Forms.DateTimePicker();
+            this.dateTimePickerTo = new System.Windows.Forms.DateTimePicker();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
@@ -132,21 +132,21 @@
             // 
             // dateTimePicker1
             // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(147, 148);
-            this.dateTimePicker1.Margin = new System.Windows.Forms.Padding(4);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(185, 22);
-            this.dateTimePicker1.TabIndex = 8;
-            this.dateTimePicker1.Value = new System.DateTime(2020, 5, 1, 9, 24, 0, 0);
+            this.dateTimePickerFrom.Location = new System.Drawing.Point(147, 148);
+            this.dateTimePickerFrom.Margin = new System.Windows.Forms.Padding(4);
+            this.dateTimePickerFrom.Name = "dateTimePicker1";
+            this.dateTimePickerFrom.Size = new System.Drawing.Size(185, 22);
+            this.dateTimePickerFrom.TabIndex = 8;
+            this.dateTimePickerFrom.Value = new System.DateTime(2020, 5, 1, 9, 24, 0, 0);
             // 
             // dateTimePicker2
             // 
-            this.dateTimePicker2.Location = new System.Drawing.Point(440, 148);
-            this.dateTimePicker2.Margin = new System.Windows.Forms.Padding(4);
-            this.dateTimePicker2.Name = "dateTimePicker2";
-            this.dateTimePicker2.Size = new System.Drawing.Size(185, 22);
-            this.dateTimePicker2.TabIndex = 9;
-            this.dateTimePicker2.Value = new System.DateTime(2020, 5, 3, 9, 46, 0, 0);
+            this.dateTimePickerTo.Location = new System.Drawing.Point(440, 148);
+            this.dateTimePickerTo.Margin = new System.Windows.Forms.Padding(4);
+            this.dateTimePickerTo.Name = "dateTimePicker2";
+            this.dateTimePickerTo.Size = new System.Drawing.Size(185, 22);
+            this.dateTimePickerTo.TabIndex = 9;
+            this.dateTimePickerTo.Value = new System.DateTime(2020, 5, 3, 9, 46, 0, 0);
             // 
             // label3
             // 
@@ -175,8 +175,8 @@
             this.ClientSize = new System.Drawing.Size(645, 276);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.dateTimePicker2);
-            this.Controls.Add(this.dateTimePicker1);
+            this.Controls.Add(this.dateTimePickerTo);
+            this.Controls.Add(this.dateTimePickerFrom);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.textBoxParkingsCount);
             this.Controls.Add(this.label1);
@@ -206,8 +206,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBoxParkingsCount;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
-        private System.Windows.Forms.DateTimePicker dateTimePicker2;
+        private System.Windows.Forms.DateTimePicker dateTimePickerFrom;
+        private System.Windows.Forms.DateTimePicker dateTimePickerTo;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
     }

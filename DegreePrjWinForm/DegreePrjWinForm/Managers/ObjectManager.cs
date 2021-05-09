@@ -9,8 +9,14 @@ namespace DegreePrjWinForm.Managers
     /// </summary>
     public class ObjectManager
     {
+        /// <summary>
+        /// Начало диапазона моделирования
+        /// </summary>
         public DateTime FromDate;
 
+        /// <summary>
+        /// Окончание диапазона моделирования
+        /// </summary>
         public DateTime ToDate;
 
         /// <summary>
@@ -33,6 +39,9 @@ namespace DegreePrjWinForm.Managers
         /// </summary>
         public List<ParkingBlock> ParkingBlocks;
 
+        /// <summary>
+        /// Все ТГО
+        /// </summary>
         public List<TGO> TgoObjects;
 
         /// <summary>
@@ -47,16 +56,17 @@ namespace DegreePrjWinForm.Managers
             TgoObjects = new List<TGO>();
         }
 
+        /// <summary>
+        /// Расчёт суммы всего СНО в зависимости от типа
+        /// </summary>
+        /// <param name="type">Тип СНО</param>
+        /// <returns>Количество СНО заданного типа</returns>
         public int GetGseCountByType(GseType type)
         {
-            //TODO now plug will add logic
             var count = 0;
-            foreach (var pb in ParkingBlocks)
+            foreach (var block in ParkingBlocks)
             {
-                foreach (var p in pb.Parkings)
-                {
-                    count++;
-                }
+                count += block.GetGseCountByType(type);
             }
 
             return count;

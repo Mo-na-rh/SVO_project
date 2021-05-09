@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace DegreePrjWinForm.Classes
 {
@@ -167,6 +168,16 @@ namespace DegreePrjWinForm.Classes
                 }
             }
             return false;
+        }
+
+        internal string GetParkingsByComma()
+        {
+            var str = "";
+            foreach (var parking in Parkings)
+            {
+                str += parking.Number + ",";
+            }
+            return str.TrimEnd(',');
         }
     }
 }

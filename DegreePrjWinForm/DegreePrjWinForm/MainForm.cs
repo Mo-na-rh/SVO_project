@@ -37,12 +37,15 @@ namespace DegreePrjWinForm
 
         private void ComputeButton_Click(object sender, EventArgs e)
         {
+            _objectManager.FromDate = dateTimePickerFrom.Value;
+            _objectManager.ToDate = dateTimePickerTo.Value;
+
             //load 
             ExcelService.LoadData(textBoxWorkPath.Text, _objectManager);
             XmlService.LoadParkingCoordinates(_objectManager);
             XmlService.LoadTgoObjects(_objectManager);
 
-            //    // linking
+            // linking
             LinkingService.LinkScheduleRowsToParkings(_objectManager);
             LinkingService.LinkTgoToScheduleRows(_objectManager);
 
@@ -50,24 +53,19 @@ namespace DegreePrjWinForm
             // first step generate blocks
             ParkingBlockService.FillParkingBlocks(_objectManager);
 
-            //    // second handle blocks return gse count by types
+            // second handle blocks return gse count by types
             try
             {
+                // Compute
                 ProcessingService.HandleBlocks(_objectManager);
+
+                // Write report
+                ReportService.WriteReportInExcel(_objectManager);
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Exception" + ex.Message);
             }
-            
-
-            // Check blocks without scheduleRows rudimentary method
-            // ParkingBlockService.CheckParkingBlocks(_objectManager);
-
-            // Write report
-            //ReportService.WriteTestResultReport(@"D:\chetv_va\Диплом 2021\Данные для работы\Results.txt", _objectManager);
-            //ReportService.WriteResultReportExcel(textBoxResFilePath.Text, _objectManager);
-            ReportService.TestWritingInExcel();
 
             MessageBox.Show("Отчёт успешно записан!");
         }
@@ -82,7 +80,7 @@ namespace DegreePrjWinForm
         private void buttonExit_Click(object sender, EventArgs e)
         {
             this.Close();
-            XmlService.GenerateTgoObjectsToXml();
+            //XmlService.GenerateTgoObjectsToXml();
         }
 
         /// <summary>
