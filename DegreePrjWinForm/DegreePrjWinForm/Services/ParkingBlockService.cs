@@ -32,6 +32,7 @@ namespace DegreePrjWinForm.Services
         /// <param name="objMgr"></param>
         public static void FillParkingBlocks(ObjectManager objMgr, int parkingCount)
         {
+            objMgr.ParkingBlocks.Clear();
             var i = 1;
             var j = 1;
             var block = new ParkingBlock();
@@ -47,7 +48,7 @@ namespace DegreePrjWinForm.Services
                 }
                 else
                 {
-                    block = new ParkingBlock { Parkings = new List<Parking>(), Id = j };
+                    block = new ParkingBlock { Parkings = new List<Parking>(), Id = j+1 };
                     j++;
                     block.Parkings.Add(parking);
                     objMgr.ParkingBlocks.Add(block);

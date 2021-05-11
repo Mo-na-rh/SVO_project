@@ -39,11 +39,6 @@ namespace UnitTestProject1
             }
         }
 
-        [TestMethod]
-        public void TestInExcel()
-        {
-            ReportService.TestWritingInExcel();
-        }
 
         [TestMethod]
         public void ReadXml()

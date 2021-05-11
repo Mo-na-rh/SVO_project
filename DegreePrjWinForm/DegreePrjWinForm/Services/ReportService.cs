@@ -38,7 +38,7 @@ namespace DegreePrjWinForm.Services
 
             var row = 5;
 
-            row = AddReportBode(objectManager, sheet, row);
+            row = AddReportBody(objectManager, sheet, row);
 
             row++;
 
@@ -46,7 +46,9 @@ namespace DegreePrjWinForm.Services
 
             SetStyles(sheet, row);
 
-            SaveInExcel(package);
+            var fileName = objectManager.GetReportFileName();
+
+            SaveInExcel(package, fileName);
 
             //Close Excel package
             package.Dispose();
@@ -105,10 +107,10 @@ namespace DegreePrjWinForm.Services
         /// <param name="sheet"></param>
         /// <param name="row"></param>
         /// <returns></returns>
-        private static int AddReportBode(ObjectManager objectManager, ExcelWorksheet sheet, int row)
+        private static int AddReportBody(ObjectManager objectManager, ExcelWorksheet sheet, int row)
         {
             var startRow = row;
-
+            // TODO КАждый блок тонким контуром
             foreach (var block in objectManager.ParkingBlocks)
             {
                 sheet.Cells[row, 1].Value = block.Id;
@@ -168,7 +170,7 @@ namespace DegreePrjWinForm.Services
         private static void AddReportSummary(ObjectManager objectManager, ExcelWorksheet sheet, int row)
         {
             var startIndex = row;
-            sheet.Cells[row, 1].Value = "Суммарно по блокам";
+            sheet.Cells[row, 1].Value = "Всего  на период";
             sheet.Cells[row, 1, row, 2].Merge = true;
             sheet.Cells[row, 1, row, 2].Style.Fill.PatternType = ExcelFillStyle.Solid;
             sheet.Cells[row, 1, row, 2].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Yellow);
@@ -211,10 +213,10 @@ namespace DegreePrjWinForm.Services
         /// Сохранение объекта в excel файл
         /// </summary>
         /// <param name="excel"></param>
-        private static void SaveInExcel(ExcelPackage excel)
+        private static void SaveInExcel(ExcelPackage excel, string fileName)
         {
             // file name with .xlsx extension 
-            var fileReportPath = GetPathToExcel() + "report.xlsx";
+            var fileReportPath = GetPathToExcel() + fileName +".xlsx";
 
             if (File.Exists(fileReportPath))
                 File.Delete(fileReportPath);

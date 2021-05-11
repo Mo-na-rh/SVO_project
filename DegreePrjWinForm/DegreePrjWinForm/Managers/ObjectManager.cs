@@ -1,6 +1,7 @@
 ﻿using System;
 using DegreePrjWinForm.Classes;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DegreePrjWinForm.Managers
 {
@@ -18,6 +19,11 @@ namespace DegreePrjWinForm.Managers
         /// Окончание диапазона моделирования
         /// </summary>
         public DateTime ToDate;
+
+        /// <summary>
+        /// Количество стоянок в блоке
+        /// </summary>
+        public int CountParkingInBlock { get; set; }
 
         /// <summary>
         /// Строки расписания
@@ -47,13 +53,47 @@ namespace DegreePrjWinForm.Managers
         /// <summary>
         /// Конструктор класса
         /// </summary>
-        public ObjectManager()
+        public ObjectManager(DateTime from, DateTime to, int countParking)
         {
+            FromDate = from;
+            ToDate = to;
+            CountParkingInBlock = countParking;
+
             ScheduleRows = new List<ScheduleRow>();
             Parkings = new List<Parking>();
             Aircrafts = new List<Aircraft>();
             ParkingBlocks = new List<ParkingBlock>();
             TgoObjects = new List<TGO>();
+        }
+
+        internal string GetReportFileName()
+        {
+            // input
+            //var startDateTime = new DateTime(2015, 5, 01);
+            //var endDateTime = new DateTime(2015, 5, 3);
+            //var countPB = 3;
+
+            // processing
+
+            var year = DateTime.Now.ToString("yy");
+            var month = DateTime.Now.ToString("MM");
+            var day = DateTime.Now.ToString("dd");
+
+            var sDay = FromDate.ToString("dd");
+            var sMonth = FromDate.ToString("MM");
+
+            var endDay = ToDate.ToString("dd");
+            var endMonth = ToDate.ToString("MM");
+
+            var fileName = year + month + day + " ШХ - Прогноз потребности в СНО на " +
+                sDay + sMonth + " - " + endDay + endMonth + " - " + CountParkingInBlock.ToString() + "МС";
+
+            return fileName;
+        }
+
+        internal List<ScheduleRow> GetScheduleRows()
+        {
+            return ScheduleRows.Where(t => (FromDate <= Convert.ToDateTime(t.FlightDate))&& (ToDate >= Convert.ToDateTime(t.FlightDate))).ToList();
         }
 
         /// <summary>

@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
+using DegreePrjWinForm.Classes;
 using DegreePrjWinForm.Managers;
 using DegreePrjWinForm.Services;
 using NLog;
@@ -27,23 +30,24 @@ namespace DegreePrjWinForm
         public MainForm()
         {
             InitializeComponent();
-            
+
             _logger = LogManager.GetCurrentClassLogger();
-            _objectManager = new ObjectManager();
-            
+
             openFileDialog.Filter = "Все файлы Excel (*.xlsx)|*.xlsx";
             openFileDialog.Title = "Выбрать";
         }
 
         private void ComputeButton_Click(object sender, EventArgs e)
         {
-            _objectManager.FromDate = dateTimePickerFrom.Value;
-            _objectManager.ToDate = dateTimePickerTo.Value;
+            // initialize
+            _objectManager = new ObjectManager(dateTimePickerFrom.Value, dateTimePickerTo.Value, Convert.ToInt32(textBoxParkingsCount.Text));
 
             //load 
             ExcelService.LoadData(textBoxWorkPath.Text, _objectManager);
             XmlService.LoadParkingCoordinates(_objectManager);
             XmlService.LoadTgoObjects(_objectManager);
+
+            //_objectManager.ScheduleRows = _objectManager.GetScheduleRows();
 
             // linking
             LinkingService.LinkScheduleRowsToParkings(_objectManager);
@@ -69,6 +73,8 @@ namespace DegreePrjWinForm
 
             MessageBox.Show("Отчёт успешно записан!");
         }
+
+        
 
         #region Form Events
 
