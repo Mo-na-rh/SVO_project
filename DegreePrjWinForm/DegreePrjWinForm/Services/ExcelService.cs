@@ -30,7 +30,6 @@ namespace DegreePrjWinForm.Services
                 var worksheet = workbook.Worksheets["Schedule"];
                 objMgr.ScheduleRows = worksheet.Tables.First().ConvertTableToObjects<ScheduleRow>().ToList();
                 package.Save();
-
             }
 
             using (var package = new ExcelPackage(fi))
@@ -49,6 +48,5 @@ namespace DegreePrjWinForm.Services
                 package.Save();
             }
         }
-
     }
 }

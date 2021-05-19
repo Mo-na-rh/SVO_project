@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Forms;
-using DegreePrjWinForm.Classes;
 using DegreePrjWinForm.Managers;
 using DegreePrjWinForm.Services;
 using NLog;
@@ -71,7 +68,7 @@ namespace DegreePrjWinForm
                 MessageBox.Show("Exception" + ex.Message);
             }
 
-            MessageBox.Show("Отчёт успешно записан!");
+            MessageBox.Show("Отчёт успешно сформирован!");
         }
 
         

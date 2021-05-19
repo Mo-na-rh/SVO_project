@@ -173,6 +173,10 @@ namespace DegreePrjWinForm.Classes
             return false;
         }
 
+        /// <summary>
+        /// Возвращает номера МС в блоке через запятую
+        /// </summary>
+        /// <returns></returns>
         internal string GetParkingsByComma()
         {
             var str = "";

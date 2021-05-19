@@ -68,13 +68,7 @@ namespace DegreePrjWinForm.Managers
 
         internal string GetReportFileName()
         {
-            // input
-            //var startDateTime = new DateTime(2015, 5, 01);
-            //var endDateTime = new DateTime(2015, 5, 3);
-            //var countPB = 3;
-
             // processing
-
             var year = DateTime.Now.ToString("yy");
             var month = DateTime.Now.ToString("MM");
             var day = DateTime.Now.ToString("dd");
@@ -91,6 +85,10 @@ namespace DegreePrjWinForm.Managers
             return fileName;
         }
 
+        /// <summary>
+        /// Получить строки расписания в заданном диапазоне
+        /// </summary>
+        /// <returns></returns>
         internal List<ScheduleRow> GetScheduleRows()
         {
             return ScheduleRows.Where(t => (FromDate <= Convert.ToDateTime(t.FlightDate))&& (ToDate >= Convert.ToDateTime(t.FlightDate))).ToList();

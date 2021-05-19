@@ -63,6 +63,10 @@ namespace DegreePrjWinForm.Classes
             return sum / Coordinates.Count;
         }
 
+        /// <summary>
+        /// Является ли МС контактным
+        /// </summary>
+        /// <returns></returns>
         public bool IsContact()
         {
             var utk = new string[] {
