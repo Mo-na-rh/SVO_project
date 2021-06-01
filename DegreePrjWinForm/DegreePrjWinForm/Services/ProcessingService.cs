@@ -26,33 +26,45 @@ namespace DegreePrjWinForm.Services
             }
         }
 
+        /// <summary>
+        /// Основной метод здесь расчитывается количество СНО на 1 блок МС
+        /// </summary>
+        /// <param name="block"></param>
         private static void HandleBlock(ParkingBlock block)
         {
             CheckAndInitializeIntersections(block);
-            block.BlockGseCount = block.GetGseCountByType(GseType.block);
-            block.LadderGseCount = block.GetGseCountByType(GseType.ladder);
-            block.MarkerConeGseCount = block.GetGseCountByType(GseType.markerCone);
-            block.TowBarGseCount = block.GetGseCountByType(GseType.towBar);
+
+            //block.BlockGseCount = block.GetGseCountByType(GseType.block);
+            //block.LadderGseCount = block.GetGseCountByType(GseType.ladder);
+            //block.MarkerConeGseCount = block.GetGseCountByType(GseType.markerCone);
+            //block.TowBarGseCount = block.GetGseCountByType(GseType.towBar);
         }
 
+        /// <summary>
+        /// Проверка пересечений
+        /// </summary>
+        /// <param name="block"></param>
         private static void CheckAndInitializeIntersections(ParkingBlock block)
         {
+            // цикл по всем МС внутри блока
             foreach(var parking in block.Parkings)
             {
+                // цикл по всем рейсам внутри МС
                 foreach (var row in parking.LinkedScheduleRows)
                 {
-                    foreach(var park in block.Parkings)
+                    // надо каждый рейс сравнить с со всеми остальными рейсами внутри блока на данный период времени
+                    foreach (var park in block.Parkings)
                     {
                         if (park == parking) continue;
 
                         foreach (var row2 in park.LinkedScheduleRows)
                         {
-                            if( IsDatesCrossed(row.StartTGO, row.EndTGO, row2.StartTGO, row2.EndTGO))
+                            if (IsDatesCrossed(row.StartTGO, row.EndTGO, row2.StartTGO, row2.EndTGO))
                             {
                                 row2.IsCrossed = true;
 
                                 InitializeIntersectionsByGseTypes(row, row2);
-                                
+
                             }
                         }
                     }
@@ -62,10 +74,10 @@ namespace DegreePrjWinForm.Services
 
         private static void InitializeIntersectionsByGseTypes(ScheduleRow row, ScheduleRow row2)
         {
-            CheckBlockIntersection(row, row2);
-            CheckLadderIntersection(row, row2);
+            //CheckBlockIntersection(row, row2);
+            //CheckLadderIntersection(row, row2);
             CheckMarkerconeIntersection(row, row2);
-            CheckTowBarIntersection(row, row2);
+            //CheckTowBarIntersection(row, row2);
         }
 
         private static void CheckBlockIntersection(ScheduleRow row, ScheduleRow row2)
@@ -86,7 +98,7 @@ namespace DegreePrjWinForm.Services
 
             if (IsDatesCrossed(startDate1, endDate1, startDate2, endDate2) && !row.IsBlockUsed)
             {
-                row2.IsBlockUsed = true;
+                //row2.IsBlockUsed = true;
             }
         }
 

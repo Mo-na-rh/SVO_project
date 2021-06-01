@@ -114,7 +114,7 @@ namespace DegreePrjWinForm.Services
             foreach (var block in objectManager.ParkingBlocks)
             {
                 sheet.Cells[row, 1].Value = block.Id;
-                sheet.Cells[row, 2].Value = block.GetParkingsByComma();
+                sheet.Cells[row, 2].Value = GetParkingsByComma(block);
 
                 sheet.Cells[row, 1, row + 3, 1].Merge = true;
                 sheet.Cells[row, 2, row + 3, 2].Merge = true;
@@ -336,44 +336,58 @@ namespace DegreePrjWinForm.Services
             }
         }
 
-        /// <summary>
-        /// Компоновка и запись в файл результирующего отчёта
-        /// </summary>
-        /// <param name="pathToResultReportFile"></param>
-        /// <param name="objectManager"></param>
-        public static void WriteResultReportTxt(string pathToResultReportFile, ObjectManager oM)
-        {
-            var fi = new FileInfo(pathToResultReportFile);
-            using (TextWriter tw = new StreamWriter(fi.Open(FileMode.Truncate)))
-            {
-                tw.WriteLine("Отчёт по расчету минимального количества СНО.");
-                tw.WriteLine(string.Empty);
-                tw.WriteLine($"На даты с {oM.FromDate} по {oM.ToDate}");
-                tw.WriteLine(string.Empty);
-                tw.WriteLine("Сформирована следующая разбивка по блокам: ");
-                tw.WriteLine(string.Empty);
-                foreach (var pb in oM.ParkingBlocks)
-                {
-                    tw.WriteLine($" Блок {pb.Id}");
-                    foreach (var parking in pb.Parkings)
-                    {
-                        tw.WriteLine($"     - Место стоянки {parking.Number}");
-                    }
-                    tw.WriteLine($" Требуемое количество СНО на блок по типам: стремянки {pb.GetGseCountByType(GseType.ladder)}, " +
-                                 $"упорные колодки {pb.GetGseCountByType(GseType.block)}, " +
-                                 $"конуса безопасности {pb.GetGseCountByType(GseType.markerCone)}, " +
-                                 $"буксировочные водила {pb.GetGseCountByType(GseType.towBar)}.");
-                }
+        ///// <summary>
+        ///// Компоновка и запись в файл результирующего отчёта
+        ///// </summary>
+        ///// <param name="pathToResultReportFile"></param>
+        ///// <param name="objectManager"></param>
+        //public static void WriteResultReportTxt(string pathToResultReportFile, ObjectManager oM)
+        //{
+        //    var fi = new FileInfo(pathToResultReportFile);
+        //    using (TextWriter tw = new StreamWriter(fi.Open(FileMode.Truncate)))
+        //    {
+        //        tw.WriteLine("Отчёт по расчету минимального количества СНО.");
+        //        tw.WriteLine(string.Empty);
+        //        tw.WriteLine($"На даты с {oM.FromDate} по {oM.ToDate}");
+        //        tw.WriteLine(string.Empty);
+        //        tw.WriteLine("Сформирована следующая разбивка по блокам: ");
+        //        tw.WriteLine(string.Empty);
+        //        foreach (var pb in oM.ParkingBlocks)
+        //        {
+        //            tw.WriteLine($" Блок {pb.Id}");
+        //            foreach (var parking in pb.Parkings)
+        //            {
+        //                tw.WriteLine($"     - Место стоянки {parking.Number}");
+        //            }
+        //            tw.WriteLine($" Требуемое количество СНО на блок по типам: стремянки {pb.GetGseCountByType(GseType.ladder)}, " +
+        //                         $"упорные колодки {pb.GetGseCountByType(GseType.block)}, " +
+        //                         $"конуса безопасности {pb.GetGseCountByType(GseType.markerCone)}, " +
+        //                         $"буксировочные водила {pb.GetGseCountByType(GseType.towBar)}.");
+        //        }
 
-                tw.WriteLine($"Итоговое количество блоков: {oM.ParkingBlocks.Count()}");
-                tw.WriteLine($"Общее потребное количество СНО по типам: стремянки {oM.GetGseCountByType(GseType.ladder)}, " +
-                             $"упорные колодки {oM.GetGseCountByType(GseType.block)}, " +
-                             $"конуса безопасности {oM.GetGseCountByType(GseType.markerCone)}, " +
-                             $"буксировочные водила {oM.GetGseCountByType(GseType.towBar)}.");
-            }
-        }
+        //        tw.WriteLine($"Итоговое количество блоков: {oM.ParkingBlocks.Count()}");
+        //        tw.WriteLine($"Общее потребное количество СНО по типам: стремянки {oM.GetGseCountByType(GseType.ladder)}, " +
+        //                     $"упорные колодки {oM.GetGseCountByType(GseType.block)}, " +
+        //                     $"конуса безопасности {oM.GetGseCountByType(GseType.markerCone)}, " +
+        //                     $"буксировочные водила {oM.GetGseCountByType(GseType.towBar)}.");
+        //    }
+        //}
 
         #endregion
 
+
+        /// <summary>
+        /// Возвращает номера МС в блоке через запятую
+        /// </summary>
+        /// <returns></returns>
+        internal static string GetParkingsByComma(ParkingBlock block)
+        {
+            var str = "";
+            foreach (var parking in block.Parkings)
+            {
+                str += parking.Number + ",";
+            }
+            return str.TrimEnd(',');
+        }
     }
 }

@@ -71,7 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Aircraft.cs" />
-    <Compile Include="Classes\GSE.cs" />
+    <Compile Include="Classes\GseKit.cs" />
     <Compile Include="Classes\Operation.cs" />
     <Compile Include="Classes\ParkingBlock.cs" />
     <Compile Include="Classes\Parking.cs" />
@@ -96,6 +96,7 @@
     <Compile Include="Services\ReportService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\UtilityService.cs" />
     <Compile Include="Services\XmlService.cs" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
