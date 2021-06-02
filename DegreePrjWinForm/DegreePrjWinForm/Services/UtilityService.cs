@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace DegreePrjWinForm.Services
 {
+    /// <summary>
+    /// Служебные методы
+    /// </summary>
     public static class UtilityService
     {
         /// <summary>

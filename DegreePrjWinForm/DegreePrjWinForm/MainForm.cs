@@ -44,8 +44,6 @@ namespace DegreePrjWinForm
             XmlService.LoadParkingCoordinates(_objectManager);
             XmlService.LoadTgoObjects(_objectManager);
 
-            //_objectManager.ScheduleRows = _objectManager.GetScheduleRows();
-
             // linking
             LinkingService.LinkScheduleRowsToParkings(_objectManager);
             LinkingService.LinkTgoToScheduleRows(_objectManager);
