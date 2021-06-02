@@ -21,7 +21,14 @@ namespace DegreePrjWinForm.Classes
         /// <summary>
         /// Места стоянки входящие в блок.
         /// </summary>
-        public List<Parking> Parkings { get; set; }
+        public List<Parking> Parkings { get; set; } = new List<Parking>();
+
+
+        /// <summary>
+        /// Комплекты СНО входящие в блок.
+        /// </summary>
+        public List<GseKit> GseKits { get; set; } = new List<GseKit>();
+
 
         /// <summary>
         /// Количество СНО типа упорные колодки на блок
@@ -52,139 +59,125 @@ namespace DegreePrjWinForm.Classes
         {
             var gseCount = 0;
 
-            // Если ни одной нет операции с этим GSE то возвращаем 0 
-            if (!IsExistSingleByType(type)) return 0;
+            //// Если ни одной нет операции с этим GSE то возвращаем 0 
+            //if (!IsExistSingleByType(type)) return 0;
 
-            gseCount++;
+            //gseCount++;
 
-            foreach (var parking in Parkings)
-            {
-                foreach (var row in parking.LinkedScheduleRows)
-                {
-                    if (row.IsUsedGseByType(type))
-                    {
-                        gseCount++;
-                    }
-                }
-            }
+            //foreach (var parking in Parkings)
+            //{
+            //    foreach (var row in parking.LinkedScheduleRows)
+            //    {
+            //        if (row.IsUsedGseByType(type))
+            //        {
+            //            gseCount++;
+            //        }
+            //    }
+            //}
 
-            if (gseCount > Parkings.Count)
-                gseCount = Parkings.Count;
+            //if (gseCount > Parkings.Count)
+            //    gseCount = Parkings.Count;
 
             return gseCount;
         }
 
-        /// <summary>
-        /// Существует ли хоть одно использование СНО данного типа в  этом блоке
-        /// </summary>
-        /// <param name="gseType"></param>
-        /// <returns></returns>
-        private bool IsExistSingleByType(GseType gseType)
-        {
-            switch (gseType)
-            {
-                case GseType.block:
-                    return IsExistBlock();
-                case GseType.ladder:
-                    return IsExistLadder();
-                case GseType.towBar:
-                    return IsExistTowBar();
-                case GseType.markerCone:
-                    return IsExistMarkerCone();
-                default:
-                    return false;
-            }    
-        }
+        ///// <summary>
+        ///// Существует ли хоть одно использование СНО данного типа в  этом блоке
+        ///// </summary>
+        ///// <param name="gseType"></param>
+        ///// <returns></returns>
+        //private bool IsExistSingleByType(GseType gseType)
+        //{
+        //    switch (gseType)
+        //    {
+        //        case GseType.block:
+        //            return IsExistBlock();
+        //        case GseType.ladder:
+        //            return IsExistLadder();
+        //        case GseType.towBar:
+        //            return IsExistTowBar();
+        //        case GseType.markerCone:
+        //            return IsExistMarkerCone();
+        //        default:
+        //            return false;
+        //    }    
+        //}
 
-        /// <summary>
-        /// Существуют ли хоть одни колодки на блок
-        /// </summary>
-        /// <returns></returns>
-        private bool IsExistBlock()
-        {
-            foreach (var parking in Parkings)
-            {
-                foreach (var row in parking.LinkedScheduleRows)
-                {
-                    foreach (var operation in row.LinkedTGO.Operations)
-                    {
-                        if (string.Equals(operation.Name, "Установка колодок")) return true;
-                    }
-                }
-            }
+        ///// <summary>
+        ///// Существуют ли хоть одни колодки на блок
+        ///// </summary>
+        ///// <returns></returns>
+        //private bool IsExistBlock()
+        //{
+        //    foreach (var parking in Parkings)
+        //    {
+        //        foreach (var row in parking.LinkedScheduleRows)
+        //        {
+        //            foreach (var operation in row.LinkedTGO.Operations)
+        //            {
+        //                if (string.Equals(operation.Name, "Установка колодок")) return true;
+        //            }
+        //        }
+        //    }
 
-            return false;
-        }
+        //    return false;
+        //}
 
-        /// <summary>
-        /// Существует ли хоть одна стремянка на блок
-        /// </summary>
-        /// <returns></returns>
-        private bool IsExistLadder()
-        {
-            foreach (var parking in Parkings)
-            {
-                foreach (var row in parking.LinkedScheduleRows)
-                {
-                    foreach (var operation in row.LinkedTGO.Operations)
-                    {
-                        if (string.Equals(operation.Name, "Открытие грузовых люков")) return true;
-                    }
-                }
-            }
-            return false;
-        }
+        ///// <summary>
+        ///// Существует ли хоть одна стремянка на блок
+        ///// </summary>
+        ///// <returns></returns>
+        //private bool IsExistLadder()
+        //{
+        //    foreach (var parking in Parkings)
+        //    {
+        //        foreach (var row in parking.LinkedScheduleRows)
+        //        {
+        //            foreach (var operation in row.LinkedTGO.Operations)
+        //            {
+        //                if (string.Equals(operation.Name, "Открытие грузовых люков")) return true;
+        //            }
+        //        }
+        //    }
+        //    return false;
+        //}
 
-        /// <summary>
-        /// Существует ли хоть одно буксировочное водило на блок
-        /// </summary>
-        /// <returns></returns>
-        private bool IsExistTowBar()
-        {
-            foreach (var parking in Parkings)
-            {
-                foreach (var row in parking.LinkedScheduleRows)
-                {
-                    foreach (var operation in row.LinkedTGO.Operations)
-                    {
-                        if (string.Equals(operation.Name, "Прибытие ВС")) return true;
-                    }
-                }
-            }
-            return false;
-        }
+        ///// <summary>
+        ///// Существует ли хоть одно буксировочное водило на блок
+        ///// </summary>
+        ///// <returns></returns>
+        //private bool IsExistTowBar()
+        //{
+        //    foreach (var parking in Parkings)
+        //    {
+        //        foreach (var row in parking.LinkedScheduleRows)
+        //        {
+        //            foreach (var operation in row.LinkedTGO.Operations)
+        //            {
+        //                if (string.Equals(operation.Name, "Прибытие ВС")) return true;
+        //            }
+        //        }
+        //    }
+        //    return false;
+        //}
 
-        /// <summary>
-        /// существует ли хоть один комплект конусов безопасности на блок
-        /// </summary>
-        /// <returns></returns>
-        private bool IsExistMarkerCone()
-        {
-            foreach (var parking in Parkings)
-            {
-                foreach (var row in parking.LinkedScheduleRows)
-                {
-                    foreach (var operation in row.LinkedTGO.Operations)
-                    {
-                        if (string.Equals(operation.Name, "Установка конусов безопасности")) return true;
-                    }
-                }
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// Возвращает номера МС в блоке через запятую
-        /// </summary>
-        /// <returns></returns>
-        internal string GetParkingsByComma()
-        {
-            var str = "";
-            foreach (var parking in Parkings)
-            {
-                str += parking.Number + ",";
-            }
-            return str.TrimEnd(',');
-        }
+        ///// <summary>
+        ///// существует ли хоть один комплект конусов безопасности на блок
+        ///// </summary>
+        ///// <returns></returns>
+        //private bool IsExistMarkerCone()
+        //{
+        //    foreach (var parking in Parkings)
+        //    {
+        //        foreach (var row in parking.LinkedScheduleRows)
+        //        {
+        //            foreach (var operation in row.LinkedTGO.Operations)
+        //            {
+        //                if (string.Equals(operation.Name, "Установка конусов безопасности")) return true;
+        //            }
+        //        }
+        //    }
+        //    return false;
+        //}
     }
 }

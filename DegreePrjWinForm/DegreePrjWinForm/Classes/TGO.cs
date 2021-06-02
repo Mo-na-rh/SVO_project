@@ -32,7 +32,7 @@ namespace DegreePrjWinForm.Classes
         /// <summary>
         /// Список СНО используемых в данном ТГО
         /// </summary>
-        public List<GSE> GseList  = new List<GSE>();
+        public List<GseKit> GseList  = new List<GseKit>();
 
         /// <summary>
         /// Список операций производимых в данном ТГО

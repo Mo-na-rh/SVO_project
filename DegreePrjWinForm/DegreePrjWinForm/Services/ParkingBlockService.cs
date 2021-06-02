@@ -37,7 +37,6 @@ namespace DegreePrjWinForm.Services
             var j = 1;
             var block = new ParkingBlock();
             block.Id = i;
-            block.Parkings = new List<Parking>();
             objMgr.ParkingBlocks.Add(block);
 
             foreach (var parking in objMgr.Parkings)
