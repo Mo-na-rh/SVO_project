@@ -27,12 +27,12 @@ namespace DegreePrjWinForm.Services
         }
 
         /// <summary>
-        /// Основной метод здесь расчитывается количество СНО на 1 блок МС
+        /// Основной метод здесь расчитывается количество СНО на 1 блок МС на заданный период времени
         /// </summary>
         /// <param name="block"></param>
         private static void HandleBlock(ParkingBlock block)
         {
-            CheckAndInitializeIntersections(block);
+            block.CheckAndInitializeIntersections();
 
             //block.BlockGseCount = block.GetGseCountByType(GseType.block);
             //block.LadderGseCount = block.GetGseCountByType(GseType.ladder);
@@ -40,43 +40,13 @@ namespace DegreePrjWinForm.Services
             //block.TowBarGseCount = block.GetGseCountByType(GseType.towBar);
         }
 
-        /// <summary>
-        /// Проверка пересечений
-        /// </summary>
-        /// <param name="block"></param>
-        private static void CheckAndInitializeIntersections(ParkingBlock block)
-        {
-            // цикл по всем МС внутри блока
-            foreach(var parking in block.Parkings)
-            {
-                // цикл по всем рейсам внутри МС
-                foreach (var row in parking.LinkedScheduleRows)
-                {
-                    // надо каждый рейс сравнить с со всеми остальными рейсами внутри блока на данный период времени
-                    foreach (var park in block.Parkings)
-                    {
-                        if (park == parking) continue;
-
-                        foreach (var row2 in park.LinkedScheduleRows)
-                        {
-                            if (IsDatesCrossed(row.StartTGO, row.EndTGO, row2.StartTGO, row2.EndTGO))
-                            {
-                                row2.IsCrossed = true;
-
-                                InitializeIntersectionsByGseTypes(row, row2);
-
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        
 
         private static void InitializeIntersectionsByGseTypes(ScheduleRow row, ScheduleRow row2)
         {
             //CheckBlockIntersection(row, row2);
             //CheckLadderIntersection(row, row2);
-            CheckMarkerconeIntersection(row, row2);
+            //CheckMarkerconeIntersection(row, row2);
             //CheckTowBarIntersection(row, row2);
         }
 
@@ -90,15 +60,15 @@ namespace DegreePrjWinForm.Services
             var operationEnd2 = row2.LinkedTGO.Operations.Where(t => t.Name == "Уборка колодок").FirstOrDefault();
 
             // получаем время
-            var startDate1 = row.StartTGO + GetTimeSpanFromMinutes(operationStart1.StartTime);
-            var endDate1 = row.StartTGO + GetTimeSpanFromMinutes(operationEnd1.EndTime);
+            var startDate1 = row.StartTGO + UtilityService.GetTimeSpanFromMinutes(operationStart1.StartTime);
+            var endDate1 = row.StartTGO + UtilityService.GetTimeSpanFromMinutes(operationEnd1.EndTime);
 
-            var startDate2 = row2.StartTGO + GetTimeSpanFromMinutes(operationStart2.StartTime);
-            var endDate2 = row2.StartTGO + GetTimeSpanFromMinutes(operationEnd2.EndTime);
+            var startDate2 = row2.StartTGO + UtilityService.GetTimeSpanFromMinutes(operationStart2.StartTime);
+            var endDate2 = row2.StartTGO + UtilityService.GetTimeSpanFromMinutes(operationEnd2.EndTime);
 
-            if (IsDatesCrossed(startDate1, endDate1, startDate2, endDate2) && !row.IsBlockUsed)
+            if (UtilityService.IsDatesCrossed(startDate1, endDate1, startDate2, endDate2) && !row.IsBlockUsed)
             {
-                //row2.IsBlockUsed = true;
+                row2.IsBlockUsed = true;
             }
         }
 
@@ -115,70 +85,32 @@ namespace DegreePrjWinForm.Services
             if (row.Type == "D") //вылет
             {
                 startDate1 = row.EndTGO;
-                endDate1 = row.EndTGO + GetTimeSpanFromMinutes("00:10");
+                endDate1 = row.EndTGO + UtilityService.GetTimeSpanFromMinutes("00:10");
             }
             else
             {
-                startDate1 = row.StartTGO - GetTimeSpanFromMinutes("00:10");
+                startDate1 = row.StartTGO - UtilityService.GetTimeSpanFromMinutes("00:10");
                 endDate1 = row.StartTGO;
             }
 
             if (row2.Type == "D") //вылет
             {
                 startDate2 = row2.EndTGO;
-                endDate2 = row2.EndTGO + GetTimeSpanFromMinutes("00:10");
+                endDate2 = row2.EndTGO + UtilityService.GetTimeSpanFromMinutes("00:10");
             }
             else
             {
-                startDate2 = row2.StartTGO - GetTimeSpanFromMinutes("00:10");
+                startDate2 = row2.StartTGO - UtilityService.GetTimeSpanFromMinutes("00:10");
                 endDate2 = row2.StartTGO;
             }
 
 
-            if (IsDatesCrossed(startDate1, endDate1, startDate2, endDate2) && !row.IsTowBarUsed)
+            if (UtilityService.IsDatesCrossed(startDate1, endDate1, startDate2, endDate2) && !row.IsTowBarUsed)
             {
                 row2.IsTowBarUsed = true;
             }
         }
 
-        /// <summary>
-        /// string вида "mm:ss" на выход минуты
-        /// </summary>
-        /// <param name="time"></param>
-        /// <returns></returns>
-        public static TimeSpan GetTimeSpanFromMinutes(string time)
-        {
-            // default format hh:mm
-            var splittedTime = time.Split(':');
-            return TimeSpan.FromMinutes(int.Parse(splittedTime[1]));
-        }
-
-        /// <summary>
-        /// Инициализация пересечения операций по типу СНО конус безопасности
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="row2"></param>
-        private static void CheckMarkerconeIntersection(ScheduleRow row, ScheduleRow row2)
-        {
-            // получаем операции
-            var operationStart1 = row.LinkedTGO.Operations.Where(t => t.Name == "Установка конусов безопасности").FirstOrDefault();
-            var operationEnd1 = row.LinkedTGO.Operations.Where(t => t.Name == "Уборка конусов безопасности").FirstOrDefault();
-
-            var operationStart2 = row2.LinkedTGO.Operations.Where(t => t.Name == "Установка конусов безопасности").FirstOrDefault();
-            var operationEnd2 = row2.LinkedTGO.Operations.Where(t => t.Name == "Уборка конусов безопасности").FirstOrDefault();
-
-            // получаем время
-            var startDate1 = row.StartTGO + GetTimeSpanFromMinutes(operationStart1.StartTime);
-            var endDate1 = row.StartTGO + GetTimeSpanFromMinutes(operationEnd1.EndTime);
-
-            var startDate2 = row2.StartTGO + GetTimeSpanFromMinutes(operationStart2.StartTime);
-            var endDate2 = row2.StartTGO + GetTimeSpanFromMinutes(operationEnd2.EndTime);
-
-            if (IsDatesCrossed(startDate1, endDate1, startDate2, endDate2) && !row.IsLadderUsed)
-            {
-                row2.IsMarkerConeUsed = true;
-            }
-        }
 
         private static void CheckLadderIntersection(ScheduleRow row, ScheduleRow row2)
         {
@@ -190,29 +122,16 @@ namespace DegreePrjWinForm.Services
             var operationEnd2 = row2.LinkedTGO.Operations.Where(t => t.Name == "Закрытие грузовых люков").FirstOrDefault();
 
             // получаем время
-            var startDate1 = row.StartTGO + GetTimeSpanFromMinutes(operationStart1.StartTime);
-            var endDate1 = row.StartTGO + GetTimeSpanFromMinutes(operationEnd1.EndTime);
+            var startDate1 = row.StartTGO + UtilityService.GetTimeSpanFromMinutes(operationStart1.StartTime);
+            var endDate1 = row.StartTGO + UtilityService.GetTimeSpanFromMinutes(operationEnd1.EndTime);
 
-            var startDate2 = row2.StartTGO + GetTimeSpanFromMinutes(operationStart2.StartTime);
-            var endDate2 = row2.StartTGO + GetTimeSpanFromMinutes(operationEnd2.EndTime);
+            var startDate2 = row2.StartTGO + UtilityService.GetTimeSpanFromMinutes(operationStart2.StartTime);
+            var endDate2 = row2.StartTGO + UtilityService.GetTimeSpanFromMinutes(operationEnd2.EndTime);
 
-            if (IsDatesCrossed(startDate1, endDate1, startDate2, endDate2) && !row.IsLadderUsed)
+            if (UtilityService.IsDatesCrossed(startDate1, endDate1, startDate2, endDate2) && !row.IsLadderUsed)
             {
                 row2.IsLadderUsed = true;
             }
-        }
-
-        /// <summary>
-        /// Проверка пересекаются ли два диапазона дат 
-        /// </summary>
-        /// <param name="sd1"></param>
-        /// <param name="ed1"></param>
-        /// <param name="sd2"></param>
-        /// <param name="ed2"></param>
-        /// <returns></returns>
-        public static bool IsDatesCrossed(DateTime sd1, DateTime ed1, DateTime sd2, DateTime ed2)
-        {
-            return !((sd2>ed1)||(ed2<sd1));
         }
 
         /// <summary>
