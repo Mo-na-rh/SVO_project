@@ -55,7 +55,7 @@ namespace UnitTestProject1
             DateTime date2 = new DateTime(1989, 1, 1, 10, 35, 0);
             row.FlightScheduleTime = date2.ToString();
 
-            var resultDate = row.GetStartDate();
+            var resultDate = row.GetStartTGODate();
 
             DateTime date3 = new DateTime(2020, 5, 1, 10, 35, 0);
             Assert.AreEqual(date3, resultDate);

@@ -59,31 +59,6 @@ namespace DegreePrjWinForm.Classes
         public TGO LinkedTGO { get; set; }
 
         /// <summary>
-        /// Есть ли пересечения с другими ТГО внутри блока (false по умолчанию)
-        /// </summary>
-        public bool IsCrossed { get; set; } = false;
-
-        /// <summary>
-        /// Есть ли пересечения с другими ТГО внутри блока (false по умолчанию)
-        /// </summary>
-        public bool IsBlockUsed { get; set; } = false;
-
-        /// <summary>
-        /// Есть ли пересечения с другими ТГО внутри блока (false по умолчанию)
-        /// </summary>
-        public bool IsTowBarUsed { get; set; } = false;
-
-        /// <summary>
-        /// Есть ли пересечения с другими ТГО внутри блока (false по умолчанию)
-        /// </summary>
-        public bool IsLadderUsed { get; set; } = false;
-
-        /// <summary>
-        /// Есть ли пересечения по конусам безопасности
-        /// </summary>
-        public bool IsMarkerConeUsed { get; set; } = false;
-
-        /// <summary>
         /// Начало техобслуживания по графику
         /// </summary>
         public DateTime StartTGO { get; set; }
@@ -109,38 +84,16 @@ namespace DegreePrjWinForm.Classes
         }
 
         /// <summary>
-        /// Получение времени начала ТГО
+        /// Получение времени начала работ в рамках ТГО
         /// </summary>
         /// <returns></returns>
-        public DateTime GetStartDate()
+        public DateTime GetStartTGODate()
         {
             var date = Convert.ToDateTime(FlightDate);
             var time = Convert.ToDateTime(FlightScheduleTime);
             StartTGO = date.Add(time.TimeOfDay);
 
             return StartTGO;
-        }
-
-        /// <summary>
-        /// Есть ли пересечения в операциях по определённому типу сно
-        /// </summary>
-        /// <param name="gseType"></param>
-        /// <returns></returns>
-        public bool IsUsedGseByType(GseType gseType)
-        {
-            switch (gseType)
-            {
-                case GseType.block:
-                    return IsBlockUsed;
-                case GseType.ladder:
-                    return IsLadderUsed;
-                case GseType.towBar:
-                    return IsTowBarUsed;
-                case GseType.markerCone:
-                    return IsMarkerConeUsed;
-                default:
-                    throw new ArgumentException("Gse type is undefined!");
-            }
         }
     }
 }
