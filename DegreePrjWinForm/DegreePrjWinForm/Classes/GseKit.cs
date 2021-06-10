@@ -19,10 +19,6 @@ namespace DegreePrjWinForm.Classes
         /// </summary>
         public bool IsBusy { get; set; } = false;
 
-        /// <summary>
-        /// Если сейчас занят на рейсе то на каком
-        /// </summary>
-        public ScheduleRow FlightOnProcessing { get; set; }
 
         /// <summary>
         /// Количество СНО входящее в комплект
@@ -60,9 +56,18 @@ namespace DegreePrjWinForm.Classes
             return false;
         }
 
+        /// <summary>
+        /// Добавление времени занятости
+        /// </summary>
+        /// <param name="startDateTime"></param>
+        /// <param name="endDateTime"></param>
         public void AddInUse(DateTime startDateTime, DateTime endDateTime)
         {
-
+            var busyRange = new  GseBusyRange();
+            busyRange.StartDate = startDateTime;
+            busyRange.EndDate = endDateTime;
+            busyRange.GseTypeInBusy = GseType;
+            BusyRanges.Add(busyRange);
         }
     }
 
@@ -72,12 +77,12 @@ namespace DegreePrjWinForm.Classes
     public class GseBusyRange
     {
         /// <summary>
-        /// Количество СНО входящее в комплект
+        /// Начальное время
         /// </summary>
         public DateTime StartDate { get; set; }
 
         /// <summary>
-        /// Окончание загрузки
+        /// Конечное время
         /// </summary>
         public DateTime EndDate { get; set; }
 
